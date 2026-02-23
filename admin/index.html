@@ -173,19 +173,47 @@
     .nav-link-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
     .nav-link-row:last-child{border-bottom:none}
     input[type=range]{width:100%;accent-color:var(--accent)}
+    /* ── Login screen ── */
+    .login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:500}
+    .login-screen.hidden{display:none}
+    .login-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:36px 32px;width:360px;box-shadow:var(--shadow-lg)}
+    .login-logo{font-size:15px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;margin-bottom:24px}
+    .login-title{font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
+    .login-sub{font-size:13px;color:var(--muted);margin-bottom:22px}
+    .login-err{font-size:13px;color:var(--danger);margin-top:10px;display:none}
+    .login-btn{width:100%;padding:10px 14px;margin-top:18px;justify-content:center;font-size:14px}
+    .login-btn:disabled{opacity:.6;cursor:not-allowed}
   </style>
 </head>
 <body>
-<div class="app">
+
+<!-- ==================== LOGIN SCREEN ==================== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo"><div class="hdr__dot"></div>Portfolio CMS</div>
+    <div class="login-title">Sign in</div>
+    <div class="login-sub">Enter your credentials to access the admin panel.</div>
+    <div class="fg"><label class="fl">Username</label><input class="fi" id="login-user" type="text" autocomplete="username" placeholder="admin" /></div>
+    <div class="fg" style="margin-top:12px"><label class="fl">Password</label><input class="fi" id="login-pass" type="password" autocomplete="current-password" placeholder="••••••••" /></div>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn btn-primary login-btn" id="login-btn" onclick="submitLogin()">Sign in →</button>
+  </div>
+</div>
+
+<div class="app" style="display:none">
   <!-- HEADER -->
   <header class="hdr">
     <div class="hdr__logo"><div class="hdr__dot"></div>Portfolio CMS</div>
     <div class="hdr__page" id="hdrPage">Dashboard</div>
     <div class="hdr__links">
-      <a href="http://localhost:3456" target="_blank" class="hdr__link">
+      <a href="/" target="_blank" class="hdr__link">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4v4M14 2L8 8"/></svg>
         View site
       </a>
+      <button class="hdr__link" onclick="logout()" style="cursor:pointer">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6"/></svg>
+        Sign out
+      </button>
     </div>
   </header>
 
@@ -692,7 +720,8 @@
 
 <script>
 'use strict';
-const API = 'http://localhost:3457';
+// Use relative paths so the admin works on any host/port
+const API = '';
 let postSlug = null, projSlug = null, projTags = [], aboutSkills = [], aboutStats = [];
 let postMDE = null, projMDE = null;
 
@@ -761,6 +790,95 @@ function nav(v) {
   }
 }
 
+// ── Auth ──────────────────────────────────────────────────────
+const TOKEN_KEY = 'admin_session_token';
+
+function getToken()      { return sessionStorage.getItem(TOKEN_KEY); }
+function storeToken(t)   { sessionStorage.setItem(TOKEN_KEY, t); }
+function clearToken()    { sessionStorage.removeItem(TOKEN_KEY); }
+
+function showLogin() {
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.querySelector('.app').style.display = 'none';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-err').style.display = 'none';
+  setTimeout(() => document.getElementById('login-user').focus(), 60);
+}
+
+function hideLogin() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.querySelector('.app').style.display = '';
+}
+
+async function checkAuth() {
+  const token = getToken();
+  if (!token) { showLogin(); return; }
+  try {
+    const r = await fetch(API + '/api/auth/check', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (r.ok) { hideLogin(); loadDash(); }
+    else      { clearToken(); showLogin(); }
+  } catch (_) {
+    showLogin();
+  }
+}
+
+async function submitLogin() {
+  const username = document.getElementById('login-user').value.trim();
+  const password = document.getElementById('login-pass').value;
+  const errEl    = document.getElementById('login-err');
+  const btn      = document.getElementById('login-btn');
+
+  errEl.style.display = 'none';
+
+  if (!username || !password) {
+    errEl.textContent  = 'Please enter your username and password.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = 'Signing in…';
+
+  try {
+    const r    = await fetch(API + '/api/auth/login', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ username, password })
+    });
+    const data = await r.json();
+    if (data.ok) {
+      storeToken(data.token);
+      hideLogin();
+      loadDash();
+    } else {
+      errEl.textContent  = 'Incorrect username or password.';
+      errEl.style.display = 'block';
+      document.getElementById('login-pass').value = '';
+      document.getElementById('login-pass').focus();
+    }
+  } catch (_) {
+    errEl.textContent  = 'Could not connect to the server. Is it running?';
+    errEl.style.display = 'block';
+  }
+
+  btn.disabled    = false;
+  btn.textContent = 'Sign in →';
+}
+
+async function logout() {
+  const token = getToken();
+  if (token) {
+    await fetch(API + '/api/auth/logout', {
+      method:  'POST',
+      headers: { 'Authorization': 'Bearer ' + token }
+    }).catch(() => {});
+  }
+  clearToken();
+  showLogin();
+}
+
 // ── Toast ─────────────────────────────────────────────────────
 function toast(m, t = 'ok') {
   const el = document.getElementById('toast');
@@ -770,9 +888,22 @@ function toast(m, t = 'ok') {
 
 // ── API ───────────────────────────────────────────────────────
 async function req(method, path, body) {
-  const o = { method, headers: { 'Content-Type': 'application/json' } };
-  if (body !== undefined) o.body = JSON.stringify(body);
-  const r = await fetch(API + path, o);
+  const token = getToken();
+  const opts  = {
+    method,
+    headers: { 'Content-Type': 'application/json' }
+  };
+  if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+  if (body !== undefined) opts.body = JSON.stringify(body);
+
+  const r = await fetch(API + path, opts);
+
+  if (r.status === 401) {
+    clearToken();
+    showLogin();
+    throw new Error('Session expired — please sign in again.');
+  }
+
   return r.json();
 }
 
@@ -1239,8 +1370,17 @@ const g = id => document.getElementById(id).value;
 const slugify = s => s.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
 const today   = () => new Date().toISOString().split('T')[0];
 
+// ── Login keyboard support ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  ['login-user', 'login-pass'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitLogin();
+    });
+  });
+});
+
 // ── Init ──────────────────────────────────────────────────────
-loadDash();
+checkAuth();
 </script>
 </body>
 </html>

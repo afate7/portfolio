@@ -1,22 +1,27 @@
 /**
  * Portfolio Local Server
- * - Serves the static site on port 3456
- * - Runs the Admin API on port 3457
+ * - Serves the static site AND Admin API on a single port (3456)
+ * - Session-based authentication protects all /api/* routes
  * - No npm install needed — uses only Node.js built-ins
  *
  * Usage:  node server.js
+ *
+ * Default admin credentials (created on first run):
+ *   Username: admin
+ *   Password: admin1234
+ *   → Change the passwordHash in content/settings/admin.json
  */
 
 'use strict';
 
-const http = require('http');
-const fs   = require('fs');
-const path = require('path');
-const url  = require('url');
+const http   = require('http');
+const fs     = require('fs');
+const path   = require('path');
+const url    = require('url');
+const crypto = require('crypto');
 
-const ROOT       = __dirname;
-const SITE_PORT  = 3456;
-const ADMIN_PORT = 3457;
+const ROOT      = __dirname;
+const SITE_PORT = 3456;
 
 // ── MIME types ───────────────────────────────────────────────
 const MIME = {
@@ -34,31 +39,296 @@ const MIME = {
   '.woff': 'font/woff',
 };
 
-// ── SSE live-reload clients ───────────────────────────────
+// ── SSE live-reload clients ───────────────────────────────────
 const sseClients = new Set();
 
-// Watch content/ directory and broadcast change events
-const contentDir = path.join(ROOT, 'content');
-fs.watch(contentDir, { recursive: true }, (event, filename) => {
+fs.watch(path.join(ROOT, 'content'), { recursive: true }, (event, filename) => {
   if (!filename || filename.includes('.DS_Store')) return;
   const msg = `data: ${JSON.stringify({ event, file: filename })}\n\n`;
   sseClients.forEach(client => {
-    try { client.write(msg); } catch (e) { sseClients.delete(client); }
+    try { client.write(msg); } catch (_) { sseClients.delete(client); }
   });
 });
 
-// ── Static file server (port 3456) ──────────────────────────
-const staticServer = http.createServer((req, res) => {
+// ── Admin auth ───────────────────────────────────────────────
+const ADMIN_CREDS_FILE = path.join(ROOT, 'content', 'settings', 'admin.json');
+const sessions         = new Map(); // token → { username, expires }
+const SESSION_TTL      = 8 * 60 * 60 * 1000; // 8 hours
+
+function hashPassword(pw) {
+  return crypto.createHash('sha256').update(pw).digest('hex');
+}
+
+function generateToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+function getAdminCreds() {
+  if (!fs.existsSync(ADMIN_CREDS_FILE)) {
+    const defaultPassword = 'admin1234';
+    const creds = { username: 'admin', passwordHash: hashPassword(defaultPassword) };
+    fs.writeFileSync(ADMIN_CREDS_FILE, JSON.stringify(creds, null, 2), 'utf8');
+    console.log('\n⚠️  Default admin credentials created.');
+    console.log(`   Username : admin`);
+    console.log(`   Password : ${defaultPassword}`);
+    console.log('   → Change the passwordHash in content/settings/admin.json\n');
+    return creds;
+  }
+  return JSON.parse(fs.readFileSync(ADMIN_CREDS_FILE, 'utf8'));
+}
+
+function isValidToken(req) {
+  const auth = req.headers['authorization'] || '';
+  if (!auth.startsWith('Bearer ')) return false;
+  const token   = auth.slice(7);
+  const session = sessions.get(token);
+  if (!session) return false;
+  if (Date.now() > session.expires) { sessions.delete(token); return false; }
+  return true;
+}
+
+// Initialise credentials on startup
+getAdminCreds();
+
+// Purge expired sessions once per hour
+setInterval(() => {
+  const now = Date.now();
+  for (const [token, session] of sessions) {
+    if (now > session.expires) sessions.delete(token);
+  }
+}, 60 * 60 * 1000);
+
+// ── Combined server (port 3456) ───────────────────────────────
+const server = http.createServer((req, res) => {
   const pathname = url.parse(req.url).pathname;
+
+  // ════════════════════════════════════════════════════════════
+  // API routes
+  // ════════════════════════════════════════════════════════════
+  if (pathname.startsWith('/api/')) {
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+
+    // ── Auth endpoints (no token required) ───────────────────
+
+    // POST /api/auth/login
+    if (req.method === 'POST' && pathname === '/api/auth/login') {
+      readBody(req, (body) => {
+        try {
+          const { username, password } = JSON.parse(body);
+          const creds = getAdminCreds();
+          if (username === creds.username && hashPassword(password) === creds.passwordHash) {
+            const token = generateToken();
+            sessions.set(token, { username, expires: Date.now() + SESSION_TTL });
+            respond(res, 200, { ok: true, token });
+          } else {
+            // Constant-time-ish delay to blunt brute-force attempts
+            setTimeout(() => respond(res, 401, { ok: false, error: 'Invalid credentials' }), 400);
+          }
+        } catch (_) { respond(res, 400, { error: 'Bad request' }); }
+      });
+      return;
+    }
+
+    // POST /api/auth/logout
+    if (req.method === 'POST' && pathname === '/api/auth/logout') {
+      const auth = req.headers['authorization'] || '';
+      if (auth.startsWith('Bearer ')) sessions.delete(auth.slice(7));
+      respond(res, 200, { ok: true });
+      return;
+    }
+
+    // GET /api/auth/check
+    if (req.method === 'GET' && pathname === '/api/auth/check') {
+      const valid = isValidToken(req);
+      respond(res, valid ? 200 : 401, { ok: valid });
+      return;
+    }
+
+    // ── All other /api/* routes require a valid session token ─
+    if (!isValidToken(req)) {
+      respond(res, 401, { error: 'Unauthorized' });
+      return;
+    }
+
+    // ── GET /api/posts ── list all blog posts
+    if (req.method === 'GET' && pathname === '/api/posts') {
+      const dir   = path.join(ROOT, 'content', 'blog');
+      const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
+      const posts = files.map(f => {
+        const raw  = fs.readFileSync(path.join(dir, f), 'utf8');
+        const data = parseFrontmatter(raw);
+        return { slug: f.replace('.md', ''), ...data.meta, excerpt: data.meta.excerpt || '' };
+      });
+      posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      respond(res, 200, posts);
+      return;
+    }
+
+    // ── GET /api/posts/:slug ── single post
+    if (req.method === 'GET' && pathname.startsWith('/api/posts/')) {
+      const slug = pathname.split('/api/posts/')[1];
+      const file = path.join(ROOT, 'content', 'blog', `${slug}.md`);
+      if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
+      const data = parseFrontmatter(fs.readFileSync(file, 'utf8'));
+      respond(res, 200, { slug, ...data.meta, body: data.body });
+      return;
+    }
+
+    // ── PUT /api/posts/:slug ── update post
+    if (req.method === 'PUT' && pathname.startsWith('/api/posts/')) {
+      const slug = pathname.split('/api/posts/')[1];
+      readBody(req, (body) => {
+        try {
+          const data = JSON.parse(body);
+          fs.writeFileSync(path.join(ROOT, 'content', 'blog', `${slug}.md`), toMarkdown(data), 'utf8');
+          respond(res, 200, { ok: true, slug });
+        } catch (e) { respond(res, 400, { error: e.message }); }
+      });
+      return;
+    }
+
+    // ── POST /api/posts ── create post
+    if (req.method === 'POST' && pathname === '/api/posts') {
+      readBody(req, (body) => {
+        try {
+          const data = JSON.parse(body);
+          const slug = slugify(data.title || 'untitled');
+          fs.writeFileSync(path.join(ROOT, 'content', 'blog', `${slug}.md`), toMarkdown(data), 'utf8');
+          respond(res, 201, { ok: true, slug });
+        } catch (e) { respond(res, 400, { error: e.message }); }
+      });
+      return;
+    }
+
+    // ── DELETE /api/posts/:slug ── delete post
+    if (req.method === 'DELETE' && pathname.startsWith('/api/posts/')) {
+      const slug = pathname.split('/api/posts/')[1];
+      const file = path.join(ROOT, 'content', 'blog', `${slug}.md`);
+      if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
+      fs.unlinkSync(file);
+      respond(res, 200, { ok: true });
+      return;
+    }
+
+    // ── GET /api/projects ── list all projects
+    if (req.method === 'GET' && pathname === '/api/projects') {
+      const dir   = path.join(ROOT, 'content', 'projects');
+      const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
+      const items = files.map(f => {
+        const raw  = fs.readFileSync(path.join(dir, f), 'utf8');
+        const data = parseFrontmatter(raw);
+        return { slug: f.replace('.md', ''), ...data.meta };
+      });
+      items.sort((a, b) => (b.year || 0) - (a.year || 0));
+      respond(res, 200, items);
+      return;
+    }
+
+    // ── GET /api/projects/:slug ── single project
+    if (req.method === 'GET' && pathname.startsWith('/api/projects/')) {
+      const slug = pathname.split('/api/projects/')[1];
+      const file = path.join(ROOT, 'content', 'projects', `${slug}.md`);
+      if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
+      const data = parseFrontmatter(fs.readFileSync(file, 'utf8'));
+      respond(res, 200, { slug, ...data.meta, body: data.body });
+      return;
+    }
+
+    // ── PUT /api/projects/:slug ── update project
+    if (req.method === 'PUT' && pathname.startsWith('/api/projects/')) {
+      const slug = pathname.split('/api/projects/')[1];
+      readBody(req, (body) => {
+        try {
+          const data = JSON.parse(body);
+          fs.writeFileSync(path.join(ROOT, 'content', 'projects', `${slug}.md`), toMarkdown(data), 'utf8');
+          respond(res, 200, { ok: true, slug });
+        } catch (e) { respond(res, 400, { error: e.message }); }
+      });
+      return;
+    }
+
+    // ── POST /api/projects ── create project
+    if (req.method === 'POST' && pathname === '/api/projects') {
+      readBody(req, (body) => {
+        try {
+          const data = JSON.parse(body);
+          const slug = slugify(data.title || 'untitled');
+          fs.writeFileSync(path.join(ROOT, 'content', 'projects', `${slug}.md`), toMarkdown(data), 'utf8');
+          respond(res, 201, { ok: true, slug });
+        } catch (e) { respond(res, 400, { error: e.message }); }
+      });
+      return;
+    }
+
+    // ── DELETE /api/projects/:slug ── delete project
+    if (req.method === 'DELETE' && pathname.startsWith('/api/projects/')) {
+      const slug = pathname.split('/api/projects/')[1];
+      const file = path.join(ROOT, 'content', 'projects', `${slug}.md`);
+      if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
+      fs.unlinkSync(file);
+      respond(res, 200, { ok: true });
+      return;
+    }
+
+    // ── GET /api/settings/:name ── read settings file
+    if (req.method === 'GET' && pathname.startsWith('/api/settings/')) {
+      const name = pathname.split('/api/settings/')[1];
+      // Never expose admin credentials through the settings API
+      if (name === 'admin') { respond(res, 403, { error: 'Forbidden' }); return; }
+      const file = path.join(ROOT, 'content', 'settings', `${name}.json`);
+      if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
+      respond(res, 200, JSON.parse(fs.readFileSync(file, 'utf8')));
+      return;
+    }
+
+    // ── PUT /api/settings/:name ── write settings file
+    if (req.method === 'PUT' && pathname.startsWith('/api/settings/')) {
+      const name = pathname.split('/api/settings/')[1];
+      if (name === 'admin') { respond(res, 403, { error: 'Forbidden' }); return; }
+      readBody(req, (body) => {
+        try {
+          const data = JSON.parse(body);
+          const file = path.join(ROOT, 'content', 'settings', `${name}.json`);
+          fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+          respond(res, 200, { ok: true });
+        } catch (e) { respond(res, 400, { error: e.message }); }
+      });
+      return;
+    }
+
+    // ── GET /api/uploads ── list uploaded media
+    if (req.method === 'GET' && pathname === '/api/uploads') {
+      const dir = path.join(ROOT, 'assets', 'uploads');
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      const files = fs.readdirSync(dir).filter(f => /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(f));
+      respond(res, 200, files.map(f => ({ name: f, url: `/assets/uploads/${f}` })));
+      return;
+    }
+
+    respond(res, 404, { error: 'Unknown endpoint' });
+    return;
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // Static file serving
+  // ════════════════════════════════════════════════════════════
+
+  // Block direct HTTP access to the admin credentials file
+  if (pathname.endsWith('/settings/admin.json')) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('403 Forbidden');
+    return;
+  }
 
   // ── GET /css/theme.css ── dynamic theme stylesheet from theme.json
   if (req.method === 'GET' && pathname === '/css/theme.css') {
     try {
-      const themeFile = path.join(ROOT, 'content', 'settings', 'theme.json');
-      const theme = JSON.parse(fs.readFileSync(themeFile, 'utf8'));
-      const r = parseInt(theme.borderRadius) || 12;
+      const theme = JSON.parse(fs.readFileSync(path.join(ROOT, 'content', 'settings', 'theme.json'), 'utf8'));
+      const r     = parseInt(theme.borderRadius) || 12;
 
-      // Font family mapping
       const fontMap = {
         'Inter':             "'Inter', system-ui, -apple-system, sans-serif",
         'DM Sans':           "'DM Sans', system-ui, sans-serif",
@@ -71,12 +341,10 @@ const staticServer = http.createServer((req, res) => {
       };
       const fontStack = fontMap[theme.fontFamily] || fontMap['Inter'];
 
-      // Button border-radius based on style
-      const btnRadius = theme.buttonStyle === 'pill' ? '9999px'
+      const btnRadius = theme.buttonStyle === 'pill'   ? '9999px'
                       : theme.buttonStyle === 'square' ? '4px'
-                      : Math.round(r * 0.67) + 'px'; // default rounded
+                      : Math.round(r * 0.67) + 'px';
 
-      // Google Fonts import for non-default fonts
       const googleFontImports = {
         'DM Sans':           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap',
         'Plus Jakarta Sans': 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap',
@@ -115,14 +383,14 @@ const staticServer = http.createServer((req, res) => {
 `;
       res.writeHead(200, { 'Content-Type': 'text/css; charset=utf-8', 'Cache-Control': 'no-cache' });
       res.end(css);
-    } catch (e) {
+    } catch (_) {
       res.writeHead(200, { 'Content-Type': 'text/css' });
       res.end('/* theme error */');
     }
     return;
   }
 
-  // ── GET /__reload ── SSE live-reload stream (same-origin, no CORS needed)
+  // ── GET /__reload ── SSE live-reload stream
   if (req.method === 'GET' && pathname === '/__reload') {
     res.writeHead(200, {
       'Content-Type':  'text/event-stream',
@@ -135,7 +403,7 @@ const staticServer = http.createServer((req, res) => {
     return;
   }
 
-  // Serve static files
+  // Resolve file path
   let filePath = path.join(ROOT, pathname === '/' || pathname === '' ? '/index.html' : pathname);
 
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
@@ -149,196 +417,14 @@ const staticServer = http.createServer((req, res) => {
     }
   }
 
-  const ext  = path.extname(filePath).toLowerCase();
-  const mime = MIME[ext] || 'application/octet-stream';
-
+  const mime = MIME[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
   try {
-    const data = fs.readFileSync(filePath);
     res.writeHead(200, { 'Content-Type': mime });
-    res.end(data);
-  } catch (e) {
+    res.end(fs.readFileSync(filePath));
+  } catch (_) {
     res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('500 Server Error');
   }
-});
-
-// ── Admin API server (port 3457) ────────────────────────────
-const adminServer = http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') {
-    res.writeHead(204); res.end(); return;
-  }
-
-  const parsed   = url.parse(req.url, true);
-  const pathname = parsed.pathname;
-
-  // ── GET /api/posts ── list all blog posts
-  if (req.method === 'GET' && pathname === '/api/posts') {
-    const dir = path.join(ROOT, 'content', 'blog');
-    const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
-    const posts = files.map(f => {
-      const raw  = fs.readFileSync(path.join(dir, f), 'utf8');
-      const data = parseFrontmatter(raw);
-      return { slug: f.replace('.md', ''), ...data.meta, excerpt: data.meta.excerpt || '' };
-    });
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    respond(res, 200, posts);
-    return;
-  }
-
-  // ── GET /api/posts/:slug ── single post
-  if (req.method === 'GET' && pathname.startsWith('/api/posts/')) {
-    const slug = pathname.split('/api/posts/')[1];
-    const file = path.join(ROOT, 'content', 'blog', `${slug}.md`);
-    if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
-    const raw  = fs.readFileSync(file, 'utf8');
-    const data = parseFrontmatter(raw);
-    respond(res, 200, { slug, ...data.meta, body: data.body });
-    return;
-  }
-
-  // ── PUT /api/posts/:slug ── save post
-  if (req.method === 'PUT' && pathname.startsWith('/api/posts/')) {
-    const slug = pathname.split('/api/posts/')[1];
-    readBody(req, (body) => {
-      try {
-        const data = JSON.parse(body);
-        const md   = toMarkdown(data);
-        const file = path.join(ROOT, 'content', 'blog', `${slug}.md`);
-        fs.writeFileSync(file, md, 'utf8');
-        respond(res, 200, { ok: true, slug });
-      } catch (e) { respond(res, 400, { error: e.message }); }
-    });
-    return;
-  }
-
-  // ── POST /api/posts ── create post
-  if (req.method === 'POST' && pathname === '/api/posts') {
-    readBody(req, (body) => {
-      try {
-        const data = JSON.parse(body);
-        const slug = slugify(data.title || 'untitled');
-        const md   = toMarkdown(data);
-        const file = path.join(ROOT, 'content', 'blog', `${slug}.md`);
-        fs.writeFileSync(file, md, 'utf8');
-        respond(res, 201, { ok: true, slug });
-      } catch (e) { respond(res, 400, { error: e.message }); }
-    });
-    return;
-  }
-
-  // ── DELETE /api/posts/:slug ── delete post
-  if (req.method === 'DELETE' && pathname.startsWith('/api/posts/')) {
-    const slug = pathname.split('/api/posts/')[1];
-    const file = path.join(ROOT, 'content', 'blog', `${slug}.md`);
-    if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
-    fs.unlinkSync(file);
-    respond(res, 200, { ok: true });
-    return;
-  }
-
-  // ── GET /api/projects ── list projects
-  if (req.method === 'GET' && pathname === '/api/projects') {
-    const dir   = path.join(ROOT, 'content', 'projects');
-    const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
-    const items = files.map(f => {
-      const raw  = fs.readFileSync(path.join(dir, f), 'utf8');
-      const data = parseFrontmatter(raw);
-      return { slug: f.replace('.md', ''), ...data.meta };
-    });
-    items.sort((a, b) => (b.year || 0) - (a.year || 0));
-    respond(res, 200, items);
-    return;
-  }
-
-  // ── GET /api/projects/:slug ── single project
-  if (req.method === 'GET' && pathname.startsWith('/api/projects/')) {
-    const slug = pathname.split('/api/projects/')[1];
-    const file = path.join(ROOT, 'content', 'projects', `${slug}.md`);
-    if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
-    const raw  = fs.readFileSync(file, 'utf8');
-    const data = parseFrontmatter(raw);
-    respond(res, 200, { slug, ...data.meta, body: data.body });
-    return;
-  }
-
-  // ── PUT /api/projects/:slug ── save project
-  if (req.method === 'PUT' && pathname.startsWith('/api/projects/')) {
-    const slug = pathname.split('/api/projects/')[1];
-    readBody(req, (body) => {
-      try {
-        const data = JSON.parse(body);
-        const md   = toMarkdown(data);
-        const file = path.join(ROOT, 'content', 'projects', `${slug}.md`);
-        fs.writeFileSync(file, md, 'utf8');
-        respond(res, 200, { ok: true, slug });
-      } catch (e) { respond(res, 400, { error: e.message }); }
-    });
-    return;
-  }
-
-  // ── POST /api/projects ── create project
-  if (req.method === 'POST' && pathname === '/api/projects') {
-    readBody(req, (body) => {
-      try {
-        const data = JSON.parse(body);
-        const slug = slugify(data.title || 'untitled');
-        const md   = toMarkdown(data);
-        const file = path.join(ROOT, 'content', 'projects', `${slug}.md`);
-        fs.writeFileSync(file, md, 'utf8');
-        respond(res, 201, { ok: true, slug });
-      } catch (e) { respond(res, 400, { error: e.message }); }
-    });
-    return;
-  }
-
-  // ── DELETE /api/projects/:slug ── delete project
-  if (req.method === 'DELETE' && pathname.startsWith('/api/projects/')) {
-    const slug = pathname.split('/api/projects/')[1];
-    const file = path.join(ROOT, 'content', 'projects', `${slug}.md`);
-    if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
-    fs.unlinkSync(file);
-    respond(res, 200, { ok: true });
-    return;
-  }
-
-  // ── GET /api/settings/:name ── get settings file
-  if (req.method === 'GET' && pathname.startsWith('/api/settings/')) {
-    const name = pathname.split('/api/settings/')[1];
-    const file = path.join(ROOT, 'content', 'settings', `${name}.json`);
-    if (!fs.existsSync(file)) { respond(res, 404, { error: 'Not found' }); return; }
-    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
-    respond(res, 200, data);
-    return;
-  }
-
-  // ── PUT /api/settings/:name ── save settings file
-  if (req.method === 'PUT' && pathname.startsWith('/api/settings/')) {
-    const name = pathname.split('/api/settings/')[1];
-    readBody(req, (body) => {
-      try {
-        const data = JSON.parse(body);
-        const file = path.join(ROOT, 'content', 'settings', `${name}.json`);
-        fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
-        respond(res, 200, { ok: true });
-      } catch (e) { respond(res, 400, { error: e.message }); }
-    });
-    return;
-  }
-
-  // ── GET /api/upload (list uploads) ──
-  if (req.method === 'GET' && pathname === '/api/uploads') {
-    const dir = path.join(ROOT, 'assets', 'uploads');
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    const files = fs.readdirSync(dir).filter(f => /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(f));
-    respond(res, 200, files.map(f => ({ name: f, url: `/assets/uploads/${f}` })));
-    return;
-  }
-
-  respond(res, 404, { error: 'Unknown endpoint' });
 });
 
 // ── Helpers ──────────────────────────────────────────────────
@@ -350,7 +436,7 @@ function respond(res, status, data) {
 function readBody(req, cb) {
   let body = '';
   req.on('data', chunk => { body += chunk; });
-  req.on('end', () => cb(body));
+  req.on('end',  () => cb(body));
 }
 
 function parseFrontmatter(raw) {
@@ -370,11 +456,11 @@ function parseFrontmatter(raw) {
     if (kv) {
       currentKey = kv[1];
       let val = (kv[2] || '').trim().replace(/^["']|["']$/g, '');
-      if (val === '')       { meta[currentKey] = []; }
-      else if (val === 'true')  { meta[currentKey] = true; }
-      else if (val === 'false') { meta[currentKey] = false; }
-      else if (/^\d+$/.test(val)) { meta[currentKey] = parseInt(val, 10); }
-      else { meta[currentKey] = val; }
+      if (val === '')            { meta[currentKey] = []; }
+      else if (val === 'true')   { meta[currentKey] = true; }
+      else if (val === 'false')  { meta[currentKey] = false; }
+      else if (/^\d+$/.test(val)){ meta[currentKey] = parseInt(val, 10); }
+      else                       { meta[currentKey] = val; }
     }
   });
 
@@ -406,12 +492,8 @@ function slugify(str) {
     .trim();
 }
 
-// ── Start servers ────────────────────────────────────────────
-staticServer.listen(SITE_PORT, () => {
-  console.log(`\n✅ Site:  http://localhost:${SITE_PORT}`);
-});
-
-adminServer.listen(ADMIN_PORT, () => {
-  console.log(`✅ Admin: http://localhost:${ADMIN_PORT}  (API)`);
-  console.log(`\n📝 Open your admin panel: http://localhost:${SITE_PORT}/admin/\n`);
+// ── Start server ─────────────────────────────────────────────
+server.listen(SITE_PORT, () => {
+  console.log(`\n✅  Site + Admin API: http://localhost:${SITE_PORT}`);
+  console.log(`    Admin panel:      http://localhost:${SITE_PORT}/admin/\n`);
 });
