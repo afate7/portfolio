@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Portfolio CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- EasyMDE (rich markdown editor) -->
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css" />
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f5f5f3;--surface:#fff;--border:#e5e5e1;--text:#111110;--muted:#6b6b67;--faint:#a8a8a4;--accent:#2563eb;--accent-s:#eff6ff;--danger:#ef4444;--success:#22c55e;--sidebar-w:228px;--header-h:52px;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-lg:0 8px 30px rgba(0,0,0,.12)}
+    html,body{height:100%;font-family:'Inter',system-ui,sans-serif;font-size:14px;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+    button{cursor:pointer;font:inherit;border:none;background:none}
+    input,textarea,select{font:inherit}
+    a{color:inherit;text-decoration:none}
+    .app{display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:var(--header-h) 1fr;height:100vh;overflow:hidden}
+    /* Header */
+    .hdr{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--border);gap:12px}
+    .hdr__logo{font-size:15px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .hdr__dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .hdr__page{font-size:13px;color:var(--muted);flex:1}
+    .hdr__links{display:flex;align-items:center;gap:8px}
+    .hdr__link{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;transition:all .15s;white-space:nowrap}
+    .hdr__link:hover{color:var(--text);border-color:var(--text)}
+    /* Sidebar */
+    .sidebar{background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:12px 8px;display:flex;flex-direction:column;gap:2px}
+    .sb-label{font-size:10px;font-weight:600;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;padding:8px 8px 4px}
+    .sb-btn{display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;border-radius:6px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;cursor:pointer;border:none;background:none;text-align:left}
+    .sb-btn:hover{background:var(--bg);color:var(--text)}
+    .sb-btn.active{background:var(--accent-s);color:var(--accent);font-weight:600}
+    .sb-btn svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
+    .sb-btn.active svg{opacity:1}
+    .sb-divider{height:1px;background:var(--border);margin:6px 0}
+    /* Main */
+    .main{overflow-y:auto;background:var(--bg)}
+    /* Page */
+    .pg-hdr{padding:24px 28px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .pg-title{font-size:20px;font-weight:700;letter-spacing:-.02em}
+    .pg-sub{font-size:13px;color:var(--muted);margin-top:2px}
+    .content{padding:20px 28px 48px}
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;transition:all .15s;border:none;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-primary:hover{background:#1d4ed8}
+    .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+    .btn-outline:hover{border-color:var(--text)}
+    .btn-danger{background:transparent;color:var(--danger);border:1px solid #fecaca}
+    .btn-danger:hover{background:#fef2f2}
+    .btn-sm{padding:4px 10px;font-size:12px}
+    .btn svg{width:14px;height:14px}
+    /* List */
+    .list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:16px}
+    .row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:14px 16px;background:var(--surface);transition:background .12s;cursor:pointer}
+    .row:hover{background:#fafaf8}
+    .row-title{font-size:14px;font-weight:600;color:var(--text)}
+    .row-meta{font-size:12px;color:var(--muted);margin-top:3px;display:flex;gap:8px;align-items:center}
+    .row-actions{opacity:0;transition:opacity .15s;display:flex;gap:6px}
+    .row:hover .row-actions{opacity:1}
+    /* Badge */
+    .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px}
+    .badge-blue{background:var(--accent-s);color:var(--accent)}
+    .badge-green{background:#f0fdf4;color:#16a34a}
+    .badge-yellow{background:#fefce8;color:#854d0e}
+    .badge-gray{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+    /* View */
+    .view{display:none;height:100%;flex-direction:column}
+    .view.active{display:flex}
+    /* Dashboard */
+    .dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .dash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .dash-val{font-size:32px;font-weight:700;letter-spacing:-.03em}
+    .dash-lbl{font-size:12px;color:var(--muted);margin-top:2px}
+    .dash-activity{margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .dash-hdr{padding:14px 16px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600}
+    .dash-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;font-size:13px;cursor:pointer;transition:background .12s}
+    .dash-item:last-child{border-bottom:none}
+    .dash-item:hover{background:var(--bg)}
+    .dash-icon{width:32px;height:32px;border-radius:6px;background:var(--accent-s);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .dash-text{flex:1}
+    .dash-name{font-weight:500}
+    .dash-info{font-size:11px;color:var(--muted);margin-top:1px}
+    /* Editor */
+    .editor{display:none;flex-direction:column;height:100%}
+    .editor.active{display:flex}
+    .ed-hdr{padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .ed-title{flex:1;min-width:200px;font-size:18px;font-weight:700;letter-spacing:-.02em;border:none;outline:none;background:transparent;color:var(--text)}
+    .ed-title::placeholder{color:var(--faint)}
+    .ed-body{flex:1;display:grid;grid-template-columns:1fr 300px;overflow:hidden}
+    .ed-write{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
+    .ed-side{overflow-y:auto;background:var(--surface)}
+    .ed-fg{padding:12px 14px;border-bottom:1px solid var(--border)}
+    .ed-fg:last-child{border-bottom:none}
+    .ed-lbl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:block}
+    .ed-input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);background:var(--bg);transition:border-color .15s}
+    .ed-input:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+    .ed-select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);background:var(--bg)}
+    .ed-row{display:flex;align-items:center;justify-content:space-between}
+    /* EasyMDE overrides */
+    .ed-write .EasyMDEContainer{display:flex;flex-direction:column;flex:1;overflow:hidden}
+    .ed-write .EasyMDEContainer .CodeMirror{flex:1;font-size:13px;line-height:1.85;border:none;border-radius:0;background:#fafaf8;height:auto}
+    .ed-write .EasyMDEContainer .editor-toolbar{border:none;border-bottom:1px solid var(--border);background:var(--surface);padding:6px 10px}
+    .ed-write .EasyMDEContainer .editor-toolbar button{color:var(--muted)}
+    .ed-write .EasyMDEContainer .editor-toolbar button:hover,.ed-write .EasyMDEContainer .editor-toolbar button.active{background:var(--bg);color:var(--accent);border-color:var(--border)}
+    .ed-write .EasyMDEContainer .editor-preview{padding:20px 24px;font-size:14px;line-height:1.8;background:var(--surface)}
+    .ed-write .EasyMDEContainer .editor-preview h2,.ed-write .EasyMDEContainer .editor-preview h3{margin:1.4em 0 .6em;font-weight:700}
+    .ed-write .EasyMDEContainer .editor-preview p{margin:.6em 0}
+    .ed-write .EasyMDEContainer .editor-preview blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted);margin:1em 0}
+    .ed-write .EasyMDEContainer .editor-statusbar{display:none}
+    /* Toggle */
+    .toggle{position:relative;width:36px;height:20px;flex-shrink:0}
+    .toggle input{opacity:0;width:0;height:0}
+    .tgl{position:absolute;inset:0;background:var(--border);border-radius:99px;transition:background .2s;cursor:pointer}
+    .toggle input:checked+.tgl{background:var(--accent)}
+    .tgl::after{content:'';position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s}
+    .toggle input:checked+.tgl::after{transform:translateX(16px)}
+    /* Tags / chips */
+    .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+    .chip{display:flex;align-items:center;gap:4px;background:var(--accent-s);color:var(--accent);font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px}
+    .chip button{color:var(--accent);opacity:.7;font-size:14px;line-height:1;border:none;background:none;cursor:pointer}
+    .chip-input{border:1px dashed var(--border);background:transparent;border-radius:99px;font-size:11px;padding:2px 8px;width:90px;color:var(--text)}
+    .chip-input:focus{outline:none;border-color:var(--accent)}
+    /* Settings forms */
+    .sf{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:16px}
+    .ss{padding:20px;border-bottom:1px solid var(--border)}
+    .ss:last-child{border-bottom:none}
+    .ss-title{font-size:13px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .ss-desc{font-size:12px;color:var(--muted);margin-top:-8px;margin-bottom:14px}
+    .sg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .sg-full{grid-template-columns:1fr}
+    .sg3{grid-template-columns:1fr 1fr 1fr}
+    .fg{display:flex;flex-direction:column;gap:4px}
+    .fl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .fi{padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);background:var(--bg);width:100%;transition:border-color .15s}
+    .fi:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+    .fi-ta{resize:vertical;min-height:72px;line-height:1.6}
+    /* Color picker row */
+    .color-row{display:flex;align-items:center;gap:10px}
+    .color-swatch{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);cursor:pointer;flex-shrink:0;position:relative;overflow:hidden}
+    .color-swatch input[type=color]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:none;padding:0}
+    .color-val{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:monospace;color:var(--text);background:var(--bg);width:100%}
+    .color-val:focus{outline:none;border-color:var(--accent)}
+    /* Font preview */
+    .font-preview{padding:6px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--border);font-size:14px;color:var(--text);margin-top:4px}
+    /* Radius preview */
+    .radius-preview{display:flex;gap:10px;margin-top:10px;align-items:flex-end}
+    .radius-box{background:var(--accent-s);border:2px solid var(--accent);width:32px;height:32px;transition:border-radius .2s}
+    .radius-box.sm{width:24px;height:24px}
+    .radius-box.lg{width:44px;height:44px}
+    /* Button style preview */
+    .btn-preview-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .btn-preview{display:inline-flex;align-items:center;padding:7px 16px;font-size:13px;font-weight:500;background:var(--accent);color:#fff;border:none;cursor:pointer;transition:border-radius .2s}
+    /* Toast */
+    .toast{position:fixed;bottom:24px;right:24px;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-lg);z-index:9999;transform:translateY(calc(100% + 24px));transition:transform .3s cubic-bezier(.16,1,.3,1)}
+    .toast.show{transform:translateY(0)}
+    .toast-ok{background:#111;color:#fff}
+    .toast-err{background:#fef2f2;color:var(--danger);border:1px solid #fecaca}
+    /* Confirm */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100;display:none;align-items:center;justify-content:center}
+    .overlay.show{display:flex}
+    .dialog{background:var(--surface);border-radius:12px;padding:24px;width:340px;box-shadow:var(--shadow-lg)}
+    .dialog h3{font-size:16px;font-weight:700;margin-bottom:8px}
+    .dialog p{font-size:13px;color:var(--muted);margin-bottom:20px}
+    .dialog-actions{display:flex;gap:8px;justify-content:flex-end}
+    .empty{text-align:center;padding:60px 20px;color:var(--muted)}
+    .empty-icon{font-size:2.5rem;margin-bottom:12px}
+    .empty-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+    /* Divider */
+    hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+    /* Nav link editor rows */
+    .nav-link-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+    .nav-link-row:last-child{border-bottom:none}
+    input[type=range]{width:100%;accent-color:var(--accent)}
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr__logo"><div class="hdr__dot"></div>Portfolio CMS</div>
+    <div class="hdr__page" id="hdrPage">Dashboard</div>
+    <div class="hdr__links">
+      <a href="http://localhost:3456" target="_blank" class="hdr__link">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4v4M14 2L8 8"/></svg>
+        View site
+      </a>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-label">Overview</div>
+    <button class="sb-btn active" data-v="dashboard" onclick="nav('dashboard')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+      Dashboard
+    </button>
+    <div class="sb-divider"></div>
+    <div class="sb-label">Content</div>
+    <button class="sb-btn" data-v="posts" onclick="nav('posts')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5"/></svg>
+      Blog Posts
+    </button>
+    <button class="sb-btn" data-v="projects" onclick="nav('projects')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M5 3V1M11 3V1"/></svg>
+      Projects
+    </button>
+    <div class="sb-divider"></div>
+    <div class="sb-label">Site Settings</div>
+    <button class="sb-btn" data-v="profile" onclick="nav('profile')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M1 14c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg>
+      Profile
+    </button>
+    <button class="sb-btn" data-v="about" onclick="nav('about')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 7v4M8 5v.5"/></svg>
+      About Section
+    </button>
+    <button class="sb-btn" data-v="theme" onclick="nav('theme')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2M4.1 4.1l1.4 1.4M10.5 10.5l1.4 1.4M4.1 11.9l1.4-1.4M10.5 5.5l1.4-1.4"/></svg>
+      Theme & Colors
+    </button>
+    <button class="sb-btn" data-v="navigation" onclick="nav('navigation')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4h14M1 8h10M1 12h7"/></svg>
+      Navigation
+    </button>
+    <button class="sb-btn" data-v="pages" onclick="nav('pages')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2h7l3 3v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M10 2v4h4"/></svg>
+      Pages & SEO
+    </button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ==================== DASHBOARD ==================== -->
+    <div class="view active" id="view-dashboard">
+      <div class="pg-hdr"><div><div class="pg-title">Dashboard</div><div class="pg-sub">Your content at a glance</div></div></div>
+      <div class="content">
+        <div class="dash-grid">
+          <div class="dash-card"><div class="dash-val" id="st-posts">—</div><div class="dash-lbl">Blog Posts</div></div>
+          <div class="dash-card"><div class="dash-val" id="st-projects">—</div><div class="dash-lbl">Projects</div></div>
+          <div class="dash-card"><div class="dash-val" id="st-drafts">—</div><div class="dash-lbl">Drafts</div></div>
+        </div>
+        <div class="dash-activity">
+          <div class="dash-hdr">Recent Posts</div>
+          <div id="dash-recent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== POSTS LIST ==================== -->
+    <div class="view" id="view-posts">
+      <div class="pg-hdr">
+        <div><div class="pg-title">Blog Posts</div><div class="pg-sub">Write and manage your articles</div></div>
+        <button class="btn btn-primary" onclick="newPost()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>New Post
+        </button>
+      </div>
+      <div class="content"><div class="list" id="posts-list"></div></div>
+    </div>
+
+    <!-- ==================== POST EDITOR ==================== -->
+    <div class="view" id="view-post-editor">
+      <div class="editor active">
+        <div class="ed-hdr">
+          <button class="btn btn-outline btn-sm" onclick="nav('posts')">← Posts</button>
+          <input class="ed-title" id="post-title" placeholder="Post title…" />
+          <span id="post-status" style="font-size:12px;color:var(--muted);flex-shrink:0"></span>
+          <button class="btn btn-outline btn-sm" onclick="savePost(true)">Save Draft</button>
+          <button class="btn btn-primary btn-sm" onclick="savePost(false)">Publish →</button>
+        </div>
+        <div class="ed-body">
+          <div class="ed-write" id="post-editor-wrap">
+            <!-- EasyMDE will be mounted here -->
+            <textarea id="post-body" placeholder="Write in Markdown…"></textarea>
+          </div>
+          <div class="ed-side">
+            <div class="ed-fg">
+              <label class="ed-lbl">Category</label>
+              <select class="ed-select" id="post-cat">
+                <option value="Thinking">Thinking</option>
+                <option value="Product">Product</option>
+                <option value="Process">Process</option>
+                <option value="FinTech">FinTech</option>
+                <option value="Design Ethics">Design Ethics</option>
+                <option value="Life">Life</option>
+                <option value="Code">Code</option>
+              </select>
+            </div>
+            <div class="ed-fg"><label class="ed-lbl">Read time (min)</label><input class="ed-input" type="number" id="post-rt" value="5" min="1" /></div>
+            <div class="ed-fg"><label class="ed-lbl">Excerpt</label><textarea class="ed-input" id="post-exc" rows="3" style="resize:vertical;line-height:1.5" placeholder="Short summary…"></textarea></div>
+            <div class="ed-fg"><label class="ed-lbl">Cover Image URL</label><input class="ed-input" id="post-img" placeholder="https://images.unsplash.com/…" /></div>
+            <div class="ed-fg"><label class="ed-lbl">Cover Emoji (fallback)</label><input class="ed-input" id="post-emoji" value="✍️" style="font-size:20px;text-align:center" /></div>
+            <div class="ed-fg"><div class="ed-row"><label class="ed-lbl" style="margin:0">Featured post</label><label class="toggle"><input type="checkbox" id="post-feat"/><span class="tgl"></span></label></div></div>
+            <div class="ed-fg"><div class="ed-row"><label class="ed-lbl" style="margin:0">Draft (hidden)</label><label class="toggle"><input type="checkbox" id="post-draft"/><span class="tgl"></span></label></div></div>
+            <div class="ed-fg" style="border:none"><button class="btn btn-danger btn-sm" onclick="delPost()" style="width:100%">Delete Post</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PROJECTS LIST ==================== -->
+    <div class="view" id="view-projects">
+      <div class="pg-hdr">
+        <div><div class="pg-title">Projects</div><div class="pg-sub">Manage your portfolio work</div></div>
+        <button class="btn btn-primary" onclick="newProj()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>New Project
+        </button>
+      </div>
+      <div class="content"><div class="list" id="projects-list"></div></div>
+    </div>
+
+    <!-- ==================== PROJECT EDITOR ==================== -->
+    <div class="view" id="view-project-editor">
+      <div class="editor active">
+        <div class="ed-hdr">
+          <button class="btn btn-outline btn-sm" onclick="nav('projects')">← Projects</button>
+          <input class="ed-title" id="proj-title" placeholder="Project title…" />
+          <button class="btn btn-primary btn-sm" onclick="saveProj()">Save →</button>
+        </div>
+        <div class="ed-body">
+          <div class="ed-write" id="proj-editor-wrap">
+            <textarea id="proj-body" placeholder="Optional: write a full case study in Markdown…"></textarea>
+          </div>
+          <div class="ed-side">
+            <div class="ed-fg"><label class="ed-lbl">Year</label><input class="ed-input" type="number" id="proj-year" value="2025" /></div>
+            <div class="ed-fg">
+              <label class="ed-lbl">Category (slug)</label>
+              <select class="ed-select" id="proj-cat">
+                <option value="fintech">FinTech</option>
+                <option value="insurtech">InsurTech</option>
+                <option value="govtech">GovTech</option>
+                <option value="edtech">EdTech</option>
+                <option value="product">Product</option>
+                <option value="design">Design</option>
+                <option value="fullstack">Full Stack</option>
+              </select>
+            </div>
+            <div class="ed-fg"><label class="ed-lbl">Category Label</label><input class="ed-input" id="proj-catLabel" placeholder="e.g. FinTech" /></div>
+            <div class="ed-fg"><label class="ed-lbl">Short Description</label><textarea class="ed-input" id="proj-desc" rows="3" style="resize:vertical;line-height:1.5"></textarea></div>
+            <div class="ed-fg">
+              <label class="ed-lbl">Tags (Enter to add)</label>
+              <div class="tags" id="proj-tags"></div>
+              <input class="chip-input" id="proj-tag-in" placeholder="Add tag…" />
+            </div>
+            <div class="ed-fg"><label class="ed-lbl">Cover Image URL</label><input class="ed-input" id="proj-img" placeholder="https://images.unsplash.com/…" /></div>
+            <div class="ed-fg"><label class="ed-lbl">Cover Emoji (fallback)</label><input class="ed-input" id="proj-emoji" value="🚀" style="font-size:20px;text-align:center" /></div>
+            <div class="ed-fg"><label class="ed-lbl">Live URL</label><input class="ed-input" id="proj-live" placeholder="https://…" /></div>
+            <div class="ed-fg"><label class="ed-lbl">GitHub URL</label><input class="ed-input" id="proj-gh" placeholder="https://github.com/…" /></div>
+            <div class="ed-fg"><div class="ed-row"><label class="ed-lbl" style="margin:0">Featured project</label><label class="toggle"><input type="checkbox" id="proj-feat"/><span class="tgl"></span></label></div></div>
+            <div class="ed-fg" style="border:none"><button class="btn btn-danger btn-sm" onclick="delProj()" style="width:100%">Delete Project</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PROFILE ==================== -->
+    <div class="view" id="view-profile">
+      <div class="pg-hdr">
+        <div><div class="pg-title">Profile</div><div class="pg-sub">Name, bio, contact and social links</div></div>
+        <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+      </div>
+      <div class="content">
+        <div class="sf">
+          <div class="ss">
+            <div class="ss-title">Identity</div>
+            <div class="sg"><div class="fg"><label class="fl">Full Name</label><input class="fi" id="p-name"/></div><div class="fg"><label class="fl">Title / Role</label><input class="fi" id="p-role"/></div></div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">Hero Section</div>
+            <div class="sg sg-full">
+              <div class="fg"><label class="fl">Headline</label><input class="fi" id="p-headline"/></div>
+              <div class="fg"><label class="fl">Subtext</label><textarea class="fi fi-ta" id="p-subtext"></textarea></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">Contact & Social</div>
+            <div class="sg">
+              <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="p-email"/></div>
+              <div class="fg"><label class="fl">Twitter URL</label><input class="fi" id="p-twitter"/></div>
+              <div class="fg"><label class="fl">GitHub URL</label><input class="fi" id="p-github"/></div>
+              <div class="fg"><label class="fl">LinkedIn URL</label><input class="fi" id="p-linkedin"/></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">Availability Badge</div>
+            <div class="sg">
+              <div class="fg"><label class="fl">Status Label</label><input class="fi" id="p-avlabel"/></div>
+              <div class="fg" style="justify-content:flex-end;flex-direction:row;align-items:center;gap:10px;padding-top:18px">
+                <label class="fl" style="margin:0">Show "Available for work"</label>
+                <label class="toggle"><input type="checkbox" id="p-available"/><span class="tgl"></span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ABOUT ==================== -->
+    <div class="view" id="view-about">
+      <div class="pg-hdr">
+        <div><div class="pg-title">About Section</div><div class="pg-sub">The storytelling section on your homepage</div></div>
+        <button class="btn btn-primary" onclick="saveAbout()">Save Changes</button>
+      </div>
+      <div class="content">
+        <div class="sf">
+          <div class="ss">
+            <div class="ss-title">Content</div>
+            <div class="sg sg-full">
+              <div class="fg"><label class="fl">Section Heading</label><input class="fi" id="a-head"/></div>
+              <div class="fg"><label class="fl">Paragraph 1</label><textarea class="fi fi-ta" id="a-p1"></textarea></div>
+              <div class="fg"><label class="fl">Paragraph 2</label><textarea class="fi fi-ta" id="a-p2"></textarea></div>
+              <div class="fg"><label class="fl">Paragraph 3</label><textarea class="fi fi-ta" id="a-p3"></textarea></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">Stats</div>
+            <div id="about-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px"></div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">Skills (press Enter to add)</div>
+            <div class="tags" id="about-skills"></div>
+            <input class="chip-input" id="skill-in" placeholder="Add skill…" style="margin-top:8px;width:130px"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== THEME ==================== -->
+    <div class="view" id="view-theme">
+      <div class="pg-hdr">
+        <div><div class="pg-title">Theme & Colors</div><div class="pg-sub">Customize colors, fonts, and visual style</div></div>
+        <button class="btn btn-primary" onclick="saveTheme()">Save & Apply</button>
+      </div>
+      <div class="content">
+
+        <!-- Colors -->
+        <div class="sf">
+          <div class="ss">
+            <div class="ss-title">🎨 Brand Colors</div>
+            <div class="sg">
+              <div class="fg">
+                <label class="fl">Accent Color</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-accent"><input type="color" id="t-accent" oninput="syncColor('accent')"/></div>
+                  <input class="color-val" id="t-accent-val" value="#2563eb" oninput="syncColorFromText('accent')" placeholder="#2563eb"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Accent Hover</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-accentHover"><input type="color" id="t-accentHover" oninput="syncColor('accentHover')"/></div>
+                  <input class="color-val" id="t-accentHover-val" value="#1d4ed8" oninput="syncColorFromText('accentHover')" placeholder="#1d4ed8"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Accent Soft (bg tint)</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-accentSoft"><input type="color" id="t-accentSoft" oninput="syncColor('accentSoft')"/></div>
+                  <input class="color-val" id="t-accentSoft-val" value="#eff6ff" oninput="syncColorFromText('accentSoft')" placeholder="#eff6ff"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ss">
+            <div class="ss-title">🌗 Backgrounds</div>
+            <div class="sg">
+              <div class="fg">
+                <label class="fl">Page Background</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-bgColor"><input type="color" id="t-bgColor" oninput="syncColor('bgColor')"/></div>
+                  <input class="color-val" id="t-bgColor-val" value="#fafafa" oninput="syncColorFromText('bgColor')" placeholder="#fafafa"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Alt Background</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-bgAlt"><input type="color" id="t-bgAlt" oninput="syncColor('bgAlt')"/></div>
+                  <input class="color-val" id="t-bgAlt-val" value="#f4f4f0" oninput="syncColorFromText('bgAlt')" placeholder="#f4f4f0"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Surface (cards)</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-surfaceColor"><input type="color" id="t-surfaceColor" oninput="syncColor('surfaceColor')"/></div>
+                  <input class="color-val" id="t-surfaceColor-val" value="#ffffff" oninput="syncColorFromText('surfaceColor')" placeholder="#ffffff"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Border Color</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-borderColor"><input type="color" id="t-borderColor" oninput="syncColor('borderColor')"/></div>
+                  <input class="color-val" id="t-borderColor-val" value="#e8e8e4" oninput="syncColorFromText('borderColor')" placeholder="#e8e8e4"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ss">
+            <div class="ss-title">🔤 Text Colors</div>
+            <div class="sg">
+              <div class="fg">
+                <label class="fl">Primary Text</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-textColor"><input type="color" id="t-textColor" oninput="syncColor('textColor')"/></div>
+                  <input class="color-val" id="t-textColor-val" value="#111110" oninput="syncColorFromText('textColor')" placeholder="#111110"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Muted Text</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-textMuted"><input type="color" id="t-textMuted" oninput="syncColor('textMuted')"/></div>
+                  <input class="color-val" id="t-textMuted-val" value="#6b6b67" oninput="syncColorFromText('textMuted')" placeholder="#6b6b67"/>
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Faint Text</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="sw-textFaint"><input type="color" id="t-textFaint" oninput="syncColor('textFaint')"/></div>
+                  <input class="color-val" id="t-textFaint-val" value="#a8a8a4" oninput="syncColorFromText('textFaint')" placeholder="#a8a8a4"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="sf" style="margin-top:16px">
+          <div class="ss">
+            <div class="ss-title">✍️ Typography</div>
+            <div class="sg sg-full">
+              <div class="fg">
+                <label class="fl">Font Family</label>
+                <select class="fi" id="t-font" onchange="updateFontPreview()">
+                  <option value="Inter">Inter — Clean, modern sans-serif (default)</option>
+                  <option value="DM Sans">DM Sans — Friendly geometric</option>
+                  <option value="Plus Jakarta Sans">Plus Jakarta Sans — Professional, versatile</option>
+                  <option value="Manrope">Manrope — Geometric, techy</option>
+                  <option value="Space Grotesk">Space Grotesk — Distinctive, editorial</option>
+                  <option value="Lora">Lora — Elegant serif</option>
+                  <option value="Playfair Display">Playfair Display — High-contrast serif</option>
+                  <option value="Merriweather">Merriweather — Readable editorial serif</option>
+                </select>
+                <div class="font-preview" id="font-preview">The quick brown fox jumps over the lazy dog.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shape & Buttons -->
+        <div class="sf" style="margin-top:16px">
+          <div class="ss">
+            <div class="ss-title">⬜ Border Radius</div>
+            <div class="sg sg-full">
+              <div class="fg">
+                <label class="fl">Corner Rounding (px): <strong id="radius-val">12</strong></label>
+                <input type="range" id="t-radius" min="0" max="32" value="12" oninput="updateRadiusPreview()" />
+                <div class="radius-preview">
+                  <div class="radius-box sm" id="rp-sm"></div>
+                  <div class="radius-box" id="rp-md"></div>
+                  <div class="radius-box lg" id="rp-lg"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ss">
+            <div class="ss-title">🔘 Button Style</div>
+            <div class="sg">
+              <div class="fg">
+                <label class="fl">Style</label>
+                <select class="fi" id="t-btnStyle" onchange="updateBtnPreview()">
+                  <option value="rounded">Rounded (default)</option>
+                  <option value="pill">Pill (fully rounded)</option>
+                  <option value="square">Square (minimal radius)</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Preview</label>
+                <div class="btn-preview-row">
+                  <button class="btn-preview" id="btn-preview-el">View my work →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preset palettes -->
+        <div class="sf" style="margin-top:16px">
+          <div class="ss">
+            <div class="ss-title">⚡ Quick Palettes</div>
+            <div class="ss-desc">Click to apply a complete color preset</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <button class="btn btn-outline" onclick="applyPalette('blue')">🔵 Ocean Blue (default)</button>
+              <button class="btn btn-outline" onclick="applyPalette('violet')">🟣 Violet</button>
+              <button class="btn btn-outline" onclick="applyPalette('emerald')">🟢 Emerald</button>
+              <button class="btn btn-outline" onclick="applyPalette('rose')">🌸 Rose</button>
+              <button class="btn btn-outline" onclick="applyPalette('amber')">🟡 Amber</button>
+              <button class="btn btn-outline" onclick="applyPalette('slate')">🩶 Slate</button>
+              <button class="btn btn-outline" onclick="applyPalette('dark')">🌑 Dark Mode</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <div class="view" id="view-navigation">
+      <div class="pg-hdr">
+        <div><div class="pg-title">Navigation</div><div class="pg-sub">Edit nav links, logo text, and CTA button</div></div>
+        <button class="btn btn-primary" onclick="saveNavigation()">Save Changes</button>
+      </div>
+      <div class="content">
+        <div class="sf">
+          <div class="ss">
+            <div class="ss-title">Logo</div>
+            <div class="sg">
+              <div class="fg"><label class="fl">Logo Text</label><input class="fi" id="nav-logo" value="ahmed" /></div>
+              <div class="fg"><label class="fl">CTA Button Label</label><input class="fi" id="nav-cta" value="Let's Talk" /></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">Nav Links</div>
+            <div class="ss-desc">These appear in the navigation bar on every page.</div>
+            <div id="nav-links-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PAGES & SEO ==================== -->
+    <div class="view" id="view-pages">
+      <div class="pg-hdr">
+        <div><div class="pg-title">Pages & SEO</div><div class="pg-sub">Control titles, descriptions, and metadata for each page</div></div>
+        <button class="btn btn-primary" onclick="savePages()">Save Changes</button>
+      </div>
+      <div class="content">
+        <div class="sf">
+          <div class="ss">
+            <div class="ss-title">🏠 Home Page</div>
+            <div class="sg sg-full">
+              <div class="fg"><label class="fl">Page Title</label><input class="fi" id="pg-home-title" /></div>
+              <div class="fg"><label class="fl">Meta Description</label><textarea class="fi fi-ta" id="pg-home-desc" rows="2"></textarea></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">📁 Projects Page</div>
+            <div class="sg sg-full">
+              <div class="fg"><label class="fl">Page Title</label><input class="fi" id="pg-projects-title" /></div>
+              <div class="fg"><label class="fl">Meta Description</label><textarea class="fi fi-ta" id="pg-projects-desc" rows="2"></textarea></div>
+              <div class="fg"><label class="fl">Page Headline</label><input class="fi" id="pg-projects-headline" /></div>
+              <div class="fg"><label class="fl">Page Subtext</label><textarea class="fi fi-ta" id="pg-projects-subtext" rows="2"></textarea></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">✍️ Writing / Blog Page</div>
+            <div class="sg sg-full">
+              <div class="fg"><label class="fl">Page Title</label><input class="fi" id="pg-blog-title" /></div>
+              <div class="fg"><label class="fl">Meta Description</label><textarea class="fi fi-ta" id="pg-blog-desc" rows="2"></textarea></div>
+              <div class="fg"><label class="fl">Page Headline</label><input class="fi" id="pg-blog-headline" /></div>
+              <div class="fg"><label class="fl">Page Subtext</label><textarea class="fi fi-ta" id="pg-blog-subtext" rows="2"></textarea></div>
+            </div>
+          </div>
+          <div class="ss">
+            <div class="ss-title">🌐 Global SEO</div>
+            <div class="sg sg-full">
+              <div class="fg"><label class="fl">Site URL</label><input class="fi" id="pg-siteurl" placeholder="https://ahmedalfateh.com" /></div>
+              <div class="fg"><label class="fl">Copyright Text</label><input class="fi" id="pg-copyright" placeholder="© 2026 Ahmed Alfateh. Built with care." /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="dialog">
+    <h3 id="dlg-title">Delete?</h3>
+    <p id="dlg-body">This cannot be undone.</p>
+    <div class="dialog-actions">
+      <button class="btn btn-outline" onclick="closeOverlay()">Cancel</button>
+      <button class="btn btn-danger" id="dlg-ok">Delete</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const API = 'http://localhost:3457';
+let postSlug = null, projSlug = null, projTags = [], aboutSkills = [], aboutStats = [];
+let postMDE = null, projMDE = null;
+
+// ── EasyMDE instances ──────────────────────────────────────────
+function initEditors() {
+  if (!postMDE) {
+    postMDE = new EasyMDE({
+      element: document.getElementById('post-body'),
+      autofocus: false,
+      spellChecker: false,
+      status: false,
+      toolbar: [
+        'bold','italic','heading-2','heading-3','|',
+        'quote','unordered-list','ordered-list','|',
+        'link','image','horizontal-rule','|',
+        'preview','side-by-side','fullscreen','|','guide'
+      ],
+      placeholder: 'Write in Markdown…\n\n## Heading\n**Bold**, *italic*, `code`\n> Blockquote',
+      minHeight: '300px',
+    });
+  }
+  if (!projMDE) {
+    projMDE = new EasyMDE({
+      element: document.getElementById('proj-body'),
+      autofocus: false,
+      spellChecker: false,
+      status: false,
+      toolbar: [
+        'bold','italic','heading-2','heading-3','|',
+        'quote','unordered-list','ordered-list','|',
+        'link','image','horizontal-rule','|',
+        'preview','side-by-side','fullscreen','|','guide'
+      ],
+      placeholder: 'Optional: write a full case study in Markdown…',
+      minHeight: '300px',
+    });
+  }
+}
+
+// ── Nav ───────────────────────────────────────────────────────
+function nav(v) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('view-' + v);
+  if (el) el.classList.add('active');
+  const b = document.querySelector('[data-v="' + v + '"]');
+  if (b) b.classList.add('active');
+  const t = {
+    dashboard: 'Dashboard', posts: 'Blog Posts', 'post-editor': 'Edit Post',
+    projects: 'Projects', 'project-editor': 'Edit Project',
+    profile: 'Profile', about: 'About Section', theme: 'Theme & Colors',
+    navigation: 'Navigation', pages: 'Pages & SEO'
+  };
+  document.getElementById('hdrPage').textContent = t[v] || v;
+  if (v === 'dashboard')    loadDash();
+  if (v === 'posts')        loadPosts();
+  if (v === 'projects')     loadProjects();
+  if (v === 'profile')      loadProfile();
+  if (v === 'about')        loadAbout();
+  if (v === 'theme')        loadTheme();
+  if (v === 'navigation')   loadNavigation();
+  if (v === 'pages')        loadPages();
+  // Init editors when switching to editor views
+  if (v === 'post-editor' || v === 'project-editor') {
+    setTimeout(initEditors, 50);
+  }
+}
+
+// ── Toast ─────────────────────────────────────────────────────
+function toast(m, t = 'ok') {
+  const el = document.getElementById('toast');
+  el.textContent = m; el.className = 'toast toast-' + t + ' show';
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── API ───────────────────────────────────────────────────────
+async function req(method, path, body) {
+  const o = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body !== undefined) o.body = JSON.stringify(body);
+  const r = await fetch(API + path, o);
+  return r.json();
+}
+
+// ── Dashboard ─────────────────────────────────────────────────
+async function loadDash() {
+  const [posts, projects] = await Promise.all([req('GET', '/api/posts'), req('GET', '/api/projects')]);
+  document.getElementById('st-posts').textContent    = posts.length;
+  document.getElementById('st-projects').textContent = projects.length;
+  document.getElementById('st-drafts').textContent   = posts.filter(p => p.draft).length;
+  document.getElementById('dash-recent').innerHTML = posts.slice(0, 5).map(p => `
+    <div class="dash-item" onclick="editPost('${p.slug}')">
+      <div class="dash-icon">${p.emoji || '✍️'}</div>
+      <div class="dash-text"><div class="dash-name">${p.title}</div><div class="dash-info">${p.category || ''} · ${p.readTime || 5} min read</div></div>
+      <span class="badge ${p.draft ? 'badge-yellow' : 'badge-green'}">${p.draft ? 'Draft' : 'Published'}</span>
+    </div>`).join('') || '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">No posts yet — create your first one!</div>';
+}
+
+// ── Posts ─────────────────────────────────────────────────────
+async function loadPosts() {
+  const posts = await req('GET', '/api/posts');
+  const el = document.getElementById('posts-list');
+  if (!posts.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">✍️</div><div class="empty-title">No posts yet</div><p style="font-size:13px">Click "New Post" to write your first article.</p></div>'; return; }
+  el.innerHTML = posts.map(p => `
+    <div class="row" onclick="editPost('${p.slug}')">
+      <div>
+        <div class="row-title">${p.emoji || '✍️'} ${p.title}</div>
+        <div class="row-meta">
+          <span class="badge ${p.draft ? 'badge-yellow' : 'badge-green'}">${p.draft ? 'Draft' : 'Published'}</span>
+          <span>${p.category || ''}</span><span>${p.readTime || 5} min read</span>
+        </div>
+      </div>
+      <div class="row-actions"><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editPost('${p.slug}')">Edit</button></div>
+    </div>`).join('');
+}
+
+function newPost() {
+  postSlug = null;
+  document.getElementById('post-title').value = '';
+  document.getElementById('post-cat').value   = 'Thinking';
+  document.getElementById('post-rt').value    = '5';
+  document.getElementById('post-exc').value   = '';
+  document.getElementById('post-emoji').value = '✍️';
+  document.getElementById('post-img').value   = '';
+  document.getElementById('post-feat').checked  = false;
+  document.getElementById('post-draft').checked = true;
+  document.getElementById('post-status').textContent = 'New post';
+  nav('post-editor');
+  setTimeout(() => { initEditors(); postMDE.value(''); }, 100);
+}
+
+async function editPost(slug) {
+  const p = await req('GET', '/api/posts/' + slug);
+  postSlug = slug;
+  document.getElementById('post-title').value  = p.title || '';
+  document.getElementById('post-cat').value    = p.category || 'Thinking';
+  document.getElementById('post-rt').value     = p.readTime || 5;
+  document.getElementById('post-exc').value    = p.excerpt || '';
+  document.getElementById('post-emoji').value  = p.emoji || '✍️';
+  document.getElementById('post-img').value    = p.coverImage || '';
+  document.getElementById('post-feat').checked  = !!p.featured;
+  document.getElementById('post-draft').checked = !!p.draft;
+  document.getElementById('post-status').textContent = p.draft ? '· Draft' : '· Published';
+  nav('post-editor');
+  setTimeout(() => { initEditors(); postMDE.value(p.body || ''); }, 100);
+}
+
+async function savePost(asDraft) {
+  const title = document.getElementById('post-title').value.trim();
+  if (!title) { toast('Add a title first', 'err'); return; }
+  const slug = postSlug || slugify(title);
+  const data = {
+    title, date: today(),
+    category: document.getElementById('post-cat').value,
+    readTime: parseInt(document.getElementById('post-rt').value) || 5,
+    excerpt:  document.getElementById('post-exc').value,
+    emoji:    document.getElementById('post-emoji').value,
+    coverImage: document.getElementById('post-img').value,
+    featured: document.getElementById('post-feat').checked,
+    draft:    asDraft,
+    body:     postMDE ? postMDE.value() : document.getElementById('post-body').value
+  };
+  const r = await req(postSlug ? 'PUT' : 'POST', postSlug ? '/api/posts/' + slug : '/api/posts', data);
+  if (r.ok) { postSlug = r.slug || slug; document.getElementById('post-status').textContent = asDraft ? '· Saved as draft' : '· Published'; toast(asDraft ? 'Saved as draft ✓' : 'Published! ✓'); }
+  else toast('Save failed: ' + r.error, 'err');
+}
+
+function delPost() {
+  confirm2('Delete this post?', 'This cannot be undone.', async () => {
+    if (!postSlug) return;
+    await req('DELETE', '/api/posts/' + postSlug);
+    toast('Post deleted'); nav('posts');
+  });
+}
+
+// ── Projects ──────────────────────────────────────────────────
+async function loadProjects() {
+  const items = await req('GET', '/api/projects');
+  const el = document.getElementById('projects-list');
+  if (!items.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">🚀</div><div class="empty-title">No projects yet</div><p style="font-size:13px">Click "New Project" to add your work.</p></div>'; return; }
+  el.innerHTML = items.map(p => `
+    <div class="row" onclick="editProj('${p.slug}')">
+      <div>
+        <div class="row-title">${p.emoji || '🚀'} ${p.title}</div>
+        <div class="row-meta">
+          <span class="badge badge-blue">${p.categoryLabel || p.category}</span>
+          <span>${p.year || ''}</span>
+          ${p.featured ? '<span class="badge badge-green">Featured</span>' : ''}
+        </div>
+      </div>
+      <div class="row-actions"><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editProj('${p.slug}')">Edit</button></div>
+    </div>`).join('');
+}
+
+function newProj() {
+  projSlug = null; projTags = [];
+  ['proj-title', 'proj-catLabel', 'proj-desc', 'proj-live', 'proj-gh', 'proj-img'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('proj-year').value   = new Date().getFullYear();
+  document.getElementById('proj-cat').value    = 'product';
+  document.getElementById('proj-emoji').value  = '🚀';
+  document.getElementById('proj-feat').checked = false;
+  renderTags(); nav('project-editor');
+  setTimeout(() => { initEditors(); projMDE.value(''); }, 100);
+}
+
+async function editProj(slug) {
+  const p = await req('GET', '/api/projects/' + slug);
+  projSlug = slug; projTags = p.tags || [];
+  document.getElementById('proj-title').value    = p.title || '';
+  document.getElementById('proj-year').value     = p.year || 2025;
+  document.getElementById('proj-cat').value      = p.category || 'product';
+  document.getElementById('proj-catLabel').value = p.categoryLabel || '';
+  document.getElementById('proj-desc').value     = p.description || '';
+  document.getElementById('proj-emoji').value    = p.emoji || '🚀';
+  document.getElementById('proj-img').value      = p.coverImage || '';
+  document.getElementById('proj-live').value     = p.liveUrl || '';
+  document.getElementById('proj-gh').value       = p.githubUrl || '';
+  document.getElementById('proj-feat').checked   = !!p.featured;
+  renderTags(); nav('project-editor');
+  setTimeout(() => { initEditors(); projMDE.value(p.body || ''); }, 100);
+}
+
+async function saveProj() {
+  const title = document.getElementById('proj-title').value.trim();
+  if (!title) { toast('Add a title first', 'err'); return; }
+  const slug = projSlug || slugify(title);
+  const data = {
+    title,
+    year:          parseInt(document.getElementById('proj-year').value),
+    category:      document.getElementById('proj-cat').value,
+    categoryLabel: document.getElementById('proj-catLabel').value,
+    description:   document.getElementById('proj-desc').value,
+    emoji:         document.getElementById('proj-emoji').value,
+    coverImage:    document.getElementById('proj-img').value,
+    tags:          projTags,
+    liveUrl:       document.getElementById('proj-live').value,
+    githubUrl:     document.getElementById('proj-gh').value,
+    featured:      document.getElementById('proj-feat').checked,
+    body:          projMDE ? projMDE.value() : document.getElementById('proj-body').value
+  };
+  const r = await req(projSlug ? 'PUT' : 'POST', projSlug ? '/api/projects/' + slug : '/api/projects', data);
+  if (r.ok) { projSlug = r.slug || slug; toast('Project saved! ✓'); }
+  else toast('Save failed', 'err');
+}
+
+function delProj() {
+  confirm2('Delete this project?', 'This cannot be undone.', async () => {
+    if (!projSlug) return;
+    await req('DELETE', '/api/projects/' + projSlug);
+    toast('Project deleted'); nav('projects');
+  });
+}
+
+function renderTags() {
+  document.getElementById('proj-tags').innerHTML = projTags.map((t, i) =>
+    `<span class="chip">${t}<button onclick="projTags.splice(${i},1);renderTags()">×</button></span>`).join('');
+}
+document.getElementById('proj-tag-in').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { const v = e.target.value.trim(); if (v && !projTags.includes(v)) { projTags.push(v); renderTags(); } e.target.value = ''; }
+});
+
+// ── Profile ───────────────────────────────────────────────────
+async function loadProfile() {
+  const p = await req('GET', '/api/settings/profile');
+  document.getElementById('p-name').value      = p.name || '';
+  document.getElementById('p-role').value      = p.role || '';
+  document.getElementById('p-headline').value  = p.heroHeadline || '';
+  document.getElementById('p-subtext').value   = p.heroSubtext || '';
+  document.getElementById('p-email').value     = p.email || '';
+  document.getElementById('p-twitter').value   = p.twitter || '';
+  document.getElementById('p-github').value    = p.github || '';
+  document.getElementById('p-linkedin').value  = p.linkedin || '';
+  document.getElementById('p-avlabel').value   = p.availabilityLabel || '';
+  document.getElementById('p-available').checked = !!p.available;
+}
+
+async function saveProfile() {
+  const data = {
+    name: g('p-name'), role: g('p-role'), heroHeadline: g('p-headline'),
+    heroSubtext: g('p-subtext'), email: g('p-email'), twitter: g('p-twitter'),
+    github: g('p-github'), linkedin: g('p-linkedin'),
+    availabilityLabel: g('p-avlabel'), available: document.getElementById('p-available').checked
+  };
+  const r = await req('PUT', '/api/settings/profile', data);
+  r.ok ? toast('Profile saved! ✓') : toast('Save failed', 'err');
+}
+
+// ── About ─────────────────────────────────────────────────────
+async function loadAbout() {
+  const a = await req('GET', '/api/settings/about');
+  aboutSkills = a.skills || []; aboutStats = a.stats || [];
+  document.getElementById('a-head').value = a.heading || '';
+  document.getElementById('a-p1').value   = a.para1 || '';
+  document.getElementById('a-p2').value   = a.para2 || '';
+  document.getElementById('a-p3').value   = a.para3 || '';
+  renderSkills(); renderStats();
+}
+
+async function saveAbout() {
+  const data = {
+    heading: g('a-head'), para1: g('a-p1'), para2: g('a-p2'), para3: g('a-p3'),
+    stats:  aboutStats.map((_, i) => ({ value: g('sv' + i), label: g('sl' + i) })),
+    skills: aboutSkills
+  };
+  const r = await req('PUT', '/api/settings/about', data);
+  r.ok ? toast('About saved! ✓') : toast('Save failed', 'err');
+}
+
+function renderSkills() {
+  document.getElementById('about-skills').innerHTML = aboutSkills.map((s, i) =>
+    `<span class="chip">${s}<button onclick="aboutSkills.splice(${i},1);renderSkills()">×</button></span>`).join('');
+}
+
+function renderStats() {
+  document.getElementById('about-stats').innerHTML = aboutStats.map((s, i) => `
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="fg"><label class="fl">Value</label><input class="fi" id="sv${i}" value="${s.value}"/></div>
+      <div class="fg"><label class="fl">Label</label><input class="fi" id="sl${i}" value="${s.label}"/></div>
+    </div>`).join('');
+}
+
+document.getElementById('skill-in').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { const v = e.target.value.trim(); if (v && !aboutSkills.includes(v)) { aboutSkills.push(v); renderSkills(); } e.target.value = ''; }
+});
+
+// ── Theme ─────────────────────────────────────────────────────
+const COLOR_FIELDS = ['accent', 'accentHover', 'accentSoft', 'bgColor', 'bgAlt', 'surfaceColor', 'borderColor', 'textColor', 'textMuted', 'textFaint'];
+const PALETTES = {
+  blue:    { accentColor:'#2563eb', accentHover:'#1d4ed8', accentSoft:'#eff6ff', bgColor:'#fafafa', bgAlt:'#f4f4f0', surfaceColor:'#ffffff', borderColor:'#e8e8e4', textColor:'#111110', textMuted:'#6b6b67', textFaint:'#a8a8a4' },
+  violet:  { accentColor:'#7c3aed', accentHover:'#6d28d9', accentSoft:'#f5f3ff', bgColor:'#fafafa', bgAlt:'#f4f4f0', surfaceColor:'#ffffff', borderColor:'#e8e8e4', textColor:'#111110', textMuted:'#6b6b67', textFaint:'#a8a8a4' },
+  emerald: { accentColor:'#059669', accentHover:'#047857', accentSoft:'#ecfdf5', bgColor:'#fafafa', bgAlt:'#f0f4f2', surfaceColor:'#ffffff', borderColor:'#e4e8e4', textColor:'#0d1f17', textMuted:'#5a6b62', textFaint:'#9aaa9e' },
+  rose:    { accentColor:'#e11d48', accentHover:'#be123c', accentSoft:'#fff1f2', bgColor:'#fafafa', bgAlt:'#f8f4f4', surfaceColor:'#ffffff', borderColor:'#e8e0e2', textColor:'#1a0a0e', textMuted:'#6b5b5f', textFaint:'#a89e9e' },
+  amber:   { accentColor:'#d97706', accentHover:'#b45309', accentSoft:'#fffbeb', bgColor:'#fafafa', bgAlt:'#f8f5ef', surfaceColor:'#ffffff', borderColor:'#e8e4d8', textColor:'#1a1000', textMuted:'#6b5a30', textFaint:'#a89870' },
+  slate:   { accentColor:'#475569', accentHover:'#334155', accentSoft:'#f1f5f9', bgColor:'#f8fafc', bgAlt:'#f1f5f9', surfaceColor:'#ffffff', borderColor:'#e2e8f0', textColor:'#0f172a', textMuted:'#64748b', textFaint:'#94a3b8' },
+  dark:    { accentColor:'#60a5fa', accentHover:'#93c5fd', accentSoft:'#1e3a5f', bgColor:'#0f1117', bgAlt:'#1a1d26', surfaceColor:'#1e2130', borderColor:'#2d3148', textColor:'#e8eaf0', textMuted:'#9094a8', textFaint:'#5a5f7a' },
+};
+
+function applyPalette(name) {
+  const p = PALETTES[name];
+  if (!p) return;
+  setColorField('accent',      p.accentColor);
+  setColorField('accentHover', p.accentHover);
+  setColorField('accentSoft',  p.accentSoft);
+  setColorField('bgColor',     p.bgColor);
+  setColorField('bgAlt',       p.bgAlt);
+  setColorField('surfaceColor',p.surfaceColor);
+  setColorField('borderColor', p.borderColor);
+  setColorField('textColor',   p.textColor);
+  setColorField('textMuted',   p.textMuted);
+  setColorField('textFaint',   p.textFaint);
+  toast('Palette applied — click Save & Apply to save ✓');
+}
+
+function setColorField(field, hex) {
+  const picker = document.getElementById('t-' + field);
+  const val    = document.getElementById('t-' + field + '-val');
+  const swatch = document.getElementById('sw-' + field);
+  if (picker) picker.value = hex;
+  if (val)    val.value    = hex;
+  if (swatch) swatch.style.background = hex;
+}
+
+function syncColor(field) {
+  const hex = document.getElementById('t-' + field).value;
+  const val = document.getElementById('t-' + field + '-val');
+  const sw  = document.getElementById('sw-' + field);
+  if (val) val.value = hex;
+  if (sw)  sw.style.background = hex;
+}
+
+function syncColorFromText(field) {
+  const val = document.getElementById('t-' + field + '-val').value.trim();
+  if (/^#[0-9a-f]{6}$/i.test(val)) {
+    const picker = document.getElementById('t-' + field);
+    const sw     = document.getElementById('sw-' + field);
+    if (picker) picker.value = val;
+    if (sw)     sw.style.background = val;
+  }
+}
+
+function updateFontPreview() {
+  const font = document.getElementById('t-font').value;
+  const preview = document.getElementById('font-preview');
+  const googleFonts = {
+    'DM Sans': 'DM+Sans', 'Plus Jakarta Sans': 'Plus+Jakarta+Sans',
+    'Manrope': 'Manrope', 'Space Grotesk': 'Space+Grotesk',
+    'Lora': 'Lora', 'Playfair Display': 'Playfair+Display',
+    'Merriweather': 'Merriweather'
+  };
+  if (googleFonts[font]) {
+    const id = 'gf-' + font.replace(/\s/g, '-');
+    if (!document.getElementById(id)) {
+      const link = document.createElement('link');
+      link.id   = id; link.rel  = 'stylesheet';
+      link.href = `https://fonts.googleapis.com/css2?family=${googleFonts[font]}:wght@400;700&display=swap`;
+      document.head.appendChild(link);
+    }
+  }
+  preview.style.fontFamily = `'${font}', system-ui, serif`;
+  preview.textContent = `The quick brown fox — ${font}. ABCDEFG 0123456789`;
+}
+
+function updateRadiusPreview() {
+  const r = parseInt(document.getElementById('t-radius').value);
+  document.getElementById('radius-val').textContent = r;
+  document.getElementById('rp-sm').style.borderRadius = Math.max(2, Math.round(r * 0.33)) + 'px';
+  document.getElementById('rp-md').style.borderRadius = Math.max(4, Math.round(r * 0.67)) + 'px';
+  document.getElementById('rp-lg').style.borderRadius = r + 'px';
+  updateBtnPreview();
+}
+
+function updateBtnPreview() {
+  const style = document.getElementById('t-btnStyle').value;
+  const r = parseInt(document.getElementById('t-radius').value) || 12;
+  const br = style === 'pill' ? '9999px' : style === 'square' ? '4px' : Math.round(r * 0.67) + 'px';
+  document.getElementById('btn-preview-el').style.borderRadius = br;
+}
+
+async function loadTheme() {
+  const t = await req('GET', '/api/settings/theme');
+  setColorField('accent',       t.accentColor   || '#2563eb');
+  setColorField('accentHover',  t.accentHover   || '#1d4ed8');
+  setColorField('accentSoft',   t.accentSoft    || '#eff6ff');
+  setColorField('bgColor',      t.bgColor       || '#fafafa');
+  setColorField('bgAlt',        t.bgAlt         || '#f4f4f0');
+  setColorField('surfaceColor', t.surfaceColor  || '#ffffff');
+  setColorField('borderColor',  t.borderColor   || '#e8e8e4');
+  setColorField('textColor',    t.textColor     || '#111110');
+  setColorField('textMuted',    t.textMuted     || '#6b6b67');
+  setColorField('textFaint',    t.textFaint     || '#a8a8a4');
+  document.getElementById('t-font').value     = t.fontFamily   || 'Inter';
+  document.getElementById('t-radius').value   = t.borderRadius || 12;
+  document.getElementById('t-btnStyle').value = t.buttonStyle  || 'rounded';
+  updateFontPreview();
+  updateRadiusPreview();
+}
+
+async function saveTheme() {
+  const data = {
+    accentColor:  document.getElementById('t-accent-val').value,
+    accentHover:  document.getElementById('t-accentHover-val').value,
+    accentSoft:   document.getElementById('t-accentSoft-val').value,
+    bgColor:      document.getElementById('t-bgColor-val').value,
+    bgAlt:        document.getElementById('t-bgAlt-val').value,
+    surfaceColor: document.getElementById('t-surfaceColor-val').value,
+    borderColor:  document.getElementById('t-borderColor-val').value,
+    textColor:    document.getElementById('t-textColor-val').value,
+    textMuted:    document.getElementById('t-textMuted-val').value,
+    textFaint:    document.getElementById('t-textFaint-val').value,
+    fontFamily:   document.getElementById('t-font').value,
+    borderRadius: parseInt(document.getElementById('t-radius').value),
+    buttonStyle:  document.getElementById('t-btnStyle').value,
+  };
+  const r = await req('PUT', '/api/settings/theme', data);
+  r.ok ? toast('Theme saved! Reload the site to see changes ✓') : toast('Save failed', 'err');
+}
+
+// ── Navigation ────────────────────────────────────────────────
+let navLinks = [];
+
+async function loadNavigation() {
+  try {
+    const n = await req('GET', '/api/settings/navigation');
+    document.getElementById('nav-logo').value = n.logo || 'ahmed';
+    document.getElementById('nav-cta').value  = n.ctaLabel || "Let's Talk";
+    navLinks = n.links || [
+      { label: 'About',    href: '#about' },
+      { label: 'Projects', href: 'projects/index.html' },
+      { label: 'Writing',  href: 'blog/index.html' },
+      { label: 'Contact',  href: '#contact' },
+    ];
+  } catch(e) {
+    navLinks = [
+      { label: 'About',    href: '#about' },
+      { label: 'Projects', href: 'projects/index.html' },
+      { label: 'Writing',  href: 'blog/index.html' },
+      { label: 'Contact',  href: '#contact' },
+    ];
+  }
+  renderNavLinks();
+}
+
+function renderNavLinks() {
+  document.getElementById('nav-links-container').innerHTML = navLinks.map((link, i) => `
+    <div class="nav-link-row">
+      <input class="fi" value="${link.label}" oninput="navLinks[${i}].label=this.value" placeholder="Label" />
+      <input class="fi" value="${link.href}"  oninput="navLinks[${i}].href=this.value"  placeholder="URL / anchor" />
+      <button class="btn btn-danger btn-sm" onclick="navLinks.splice(${i},1);renderNavLinks()">✕</button>
+    </div>`).join('') +
+    `<button class="btn btn-outline" style="margin-top:10px" onclick="navLinks.push({label:'New Link',href:'#'});renderNavLinks()">+ Add Link</button>`;
+}
+
+async function saveNavigation() {
+  const data = {
+    logo:     document.getElementById('nav-logo').value,
+    ctaLabel: document.getElementById('nav-cta').value,
+    links:    navLinks
+  };
+  const r = await req('PUT', '/api/settings/navigation', data);
+  r.ok ? toast('Navigation saved! ✓') : toast('Save failed', 'err');
+}
+
+// ── Pages & SEO ───────────────────────────────────────────────
+async function loadPages() {
+  try {
+    const p = await req('GET', '/api/settings/pages');
+    document.getElementById('pg-home-title').value        = p.home?.title        || 'Ahmed Alfateh — Digital Product Lead';
+    document.getElementById('pg-home-desc').value         = p.home?.description  || '';
+    document.getElementById('pg-projects-title').value    = p.projects?.title    || 'Projects — Ahmed Alfateh';
+    document.getElementById('pg-projects-desc').value     = p.projects?.description || '';
+    document.getElementById('pg-projects-headline').value = p.projects?.headline || "Projects I've poured myself into.";
+    document.getElementById('pg-projects-subtext').value  = p.projects?.subtext  || '';
+    document.getElementById('pg-blog-title').value        = p.blog?.title        || 'Writing — Ahmed Alfateh';
+    document.getElementById('pg-blog-desc').value         = p.blog?.description  || '';
+    document.getElementById('pg-blog-headline').value     = p.blog?.headline     || "Thoughts I couldn't keep to myself.";
+    document.getElementById('pg-blog-subtext').value      = p.blog?.subtext      || '';
+    document.getElementById('pg-siteurl').value           = p.siteUrl            || 'https://ahmedalfateh.com';
+    document.getElementById('pg-copyright').value         = p.copyright          || '© 2026 Ahmed Alfateh. Built with care.';
+  } catch(e) { /* first load defaults are fine */ }
+}
+
+async function savePages() {
+  const data = {
+    siteUrl:   document.getElementById('pg-siteurl').value,
+    copyright: document.getElementById('pg-copyright').value,
+    home:     { title: g('pg-home-title'),     description: g('pg-home-desc') },
+    projects: { title: g('pg-projects-title'), description: g('pg-projects-desc'), headline: g('pg-projects-headline'), subtext: g('pg-projects-subtext') },
+    blog:     { title: g('pg-blog-title'),     description: g('pg-blog-desc'),     headline: g('pg-blog-headline'),     subtext: g('pg-blog-subtext') },
+  };
+  const r = await req('PUT', '/api/settings/pages', data);
+  r.ok ? toast('Pages saved! ✓') : toast('Save failed', 'err');
+}
+
+// ── Confirm dialog ────────────────────────────────────────────
+function confirm2(title, body, cb) {
+  document.getElementById('dlg-title').textContent = title;
+  document.getElementById('dlg-body').textContent  = body;
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('dlg-ok').onclick = () => { closeOverlay(); cb(); };
+}
+function closeOverlay() { document.getElementById('overlay').classList.remove('show'); }
+
+// ── Helpers ───────────────────────────────────────────────────
+const g = id => document.getElementById(id).value;
+const slugify = s => s.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+const today   = () => new Date().toISOString().split('T')[0];
+
+// ── Init ──────────────────────────────────────────────────────
+loadDash();
+</script>
+</body>
+</html>

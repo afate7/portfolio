@@ -1,0 +1,59 @@
+{
+  "name": "Ahmed Alfateh — Digital Product Lead",
+  "short_name": "Ahmed Alfateh",
+  "description": "Portfolio of Ahmed Alfateh, a Digital Product Lead with 13+ years shipping products in FinTech, GovTech, EdTech, and Insurance across MENA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#fafafa",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["portfolio", "productivity"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Projects",
+      "url": "/projects/index.html",
+      "description": "View selected projects"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog/index.html",
+      "description": "Read recent writing"
+    },
+    {
+      "name": "Contact",
+      "url": "/#contact",
+      "description": "Get in touch"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshot-desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Homepage on desktop"
+    },
+    {
+      "src": "assets/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Homepage on mobile"
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="We've built an internet that tricks people. It's time to talk about dark patterns — and what we can do instead." />
+  <meta name="theme-color" content="#fafafa" />
+  <title>The Case Against Dark Patterns — Ahmed Alfateh</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/theme.css" />
+</head>
+<body>
+
+<!-- Reading Progress Bar -->
+<div class="reading-progress" id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status">
+  <span class="offline-banner__dot"></span>
+  You're offline — browsing cached content
+</div>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="nav" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__logo">ahmed<span>.</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="../index.html#about"    class="nav__link">About</a></li>
+        <li><a href="../projects/index.html" class="nav__link">Projects</a></li>
+        <li><a href="index.html"             class="nav__link active">Writing</a></li>
+        <li><a href="../index.html#contact"  class="nav__link">Contact</a></li>
+      </ul>
+      <a href="../index.html#contact" class="nav__cta">Let's Talk</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <ul role="list">
+    <li><a href="../index.html#about"    class="nav__link" data-mobile-link>About</a></li>
+    <li><a href="../projects/index.html" class="nav__link" data-mobile-link>Projects</a></li>
+    <li><a href="index.html"             class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="../index.html#contact"  class="nav__link" data-mobile-link>Contact</a></li>
+  </ul>
+</div>
+
+<main>
+
+<!-- POST HEADER -->
+<header class="post-header" aria-label="Post header">
+  <a href="index.html" class="post-category">
+    ← Back to Writing
+  </a>
+
+  <h1 class="post-title reveal" style="animation: slideUp 0.8s var(--ease-out) 0.1s both;">
+    The Case Against<br/>Dark Patterns
+  </h1>
+
+  <div class="post-meta reveal reveal-delay-1">
+    <div class="post-author-avatar" aria-hidden="true">🧑‍💻</div>
+    <div>
+      <div style="font-weight: 500; color: var(--clr-text); font-size: var(--text-sm);">Ahmed Alfateh</div>
+      <div style="font-size: var(--text-xs); color: var(--clr-text-muted);">January 15, 2025</div>
+    </div>
+    <span class="post-divider" aria-hidden="true"></span>
+    <span>8 min read</span>
+    <span class="post-divider" aria-hidden="true"></span>
+    <span>Design Ethics</span>
+  </div>
+</header>
+
+<!-- HERO IMAGE -->
+<div style="max-width: var(--container-md); margin-inline: auto; padding-inline: var(--space-6); margin-bottom: var(--space-12);" class="reveal">
+  <div style="
+    aspect-ratio: 16/7;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--clr-border);
+  ">
+    <img
+      src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=80"
+      alt="Design ethics and dark patterns"
+      style="width:100%;height:100%;object-fit:cover;display:block;"
+      loading="eager"
+    />
+  </div>
+</div>
+
+<!-- POST CONTENT -->
+<div class="post-content container">
+  <article>
+
+    <p>
+      There's a UI pattern I see everywhere. You sign up for a service,
+      and somewhere in the flow — buried in a wall of text, or pre-checked in a form —
+      is a checkbox that opts you into something you didn't ask for.
+      <strong>You didn't notice. You didn't consent. But now you're subscribed.</strong>
+    </p>
+
+    <p>
+      This is a dark pattern. And we — designers, developers, product managers —
+      built it. We A/B tested our way to it. We shipped it on purpose.
+    </p>
+
+    <blockquote>
+      "Dark patterns are design decisions that benefit the business at the direct expense of the user."
+    </blockquote>
+
+    <p>
+      I've been thinking about this a lot lately. Not because dark patterns are new
+      (they've been documented since at least 2010), but because they've become so normalized
+      that many designers implement them without a second thought.
+      We optimize for conversion without asking: <em>conversion of what, for whom?</em>
+    </p>
+
+    <h2>The catalog of manipulation</h2>
+
+    <p>
+      Dark patterns come in flavors. Some are brazen — the classic "roach motel" where
+      signing up is frictionless but canceling requires calling a phone number during
+      business hours and speaking to a retention specialist trained to make you feel guilty.
+    </p>
+
+    <p>
+      Others are subtle. The <strong>"confirmshaming"</strong> dismiss button that reads
+      <em>"No thanks, I don't want to save money."</em> The countdown timer on a discount
+      that resets every time you reload the page. The interface that buries the
+      privacy settings six layers deep, in a font that's technically readable but
+      requires genuine effort.
+    </p>
+
+    <p>
+      Each of these is a design decision. Somebody wrote that button copy.
+      Somebody placed that checkbox. Somebody ran the test that said this version
+      converts better and shipped it.
+    </p>
+
+    <h2>The business case we keep making</h2>
+
+    <p>
+      "It works" is the defense I hear most. And it does work — in the short term.
+      Friction-less sign-ups increase free trial numbers. Pre-checked boxes increase
+      newsletter lists. Confusing cancellation flows reduce churn.
+    </p>
+
+    <p>
+      But here's what the A/B test doesn't measure: the user who tells three friends
+      about the experience. The chargeback dispute. The tweet thread that goes viral.
+      The erosion of brand trust that compounds slowly, invisibly, until it doesn't.
+    </p>
+
+    <p>
+      <strong>Trust is a long game. Dark patterns are a short one.</strong>
+    </p>
+
+    <h2>What we can do instead</h2>
+
+    <p>
+      The good news is that transparent design isn't just ethical — it's often more effective.
+      Users who genuinely understand what they're signing up for convert more durably.
+      They have lower churn. They refer friends. They complain less.
+    </p>
+
+    <p>Here's what I try to do in my own work:</p>
+
+    <ul>
+      <li>Write every CTA and label as if the user's lawyer is watching.</li>
+      <li>Default to the option that's best for the user, not the business.</li>
+      <li>Make the "no" as easy as the "yes."</li>
+      <li>When I feel tempted to hide something, ask why — and fix the underlying problem instead.</li>
+      <li>Measure long-term retention, not just conversion.</li>
+    </ul>
+
+    <p>
+      The web could be different. It's been different, in places. There are companies
+      building products that earn trust through transparency, and doing very well because of it.
+      They're not losing — they're winning, just on a longer time horizon.
+    </p>
+
+    <h2>A simple test</h2>
+
+    <p>
+      Before you ship a UI decision, ask yourself: <em>if my user fully understood
+      what this interaction was doing, would they feel good about it?</em>
+    </p>
+
+    <p>
+      If the answer is no — if your design relies on confusion, speed, or inattention
+      to work — it's a dark pattern. It doesn't matter if it A/B tested beautifully.
+      It doesn't matter if the PM signed off on it. It's still manipulation.
+    </p>
+
+    <p>
+      We built this thing. We can build it differently.
+    </p>
+
+  </article>
+
+  <!-- Post Footer -->
+  <div style="
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--clr-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  " class="reveal">
+    <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+      <span style="font-size: var(--text-xs); color: var(--clr-text-faint); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Written by</span>
+      <div style="display: flex; align-items: center; gap: var(--space-3);">
+        <div class="post-author-avatar" aria-hidden="true">🧑‍💻</div>
+        <div>
+          <div style="font-weight: 600; font-size: var(--text-sm); color: var(--clr-text);">Ahmed Alfateh</div>
+          <div style="font-size: var(--text-xs); color: var(--clr-text-muted);">Digital Product Lead</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: var(--space-3);">
+      <a href="index.html" class="btn btn--outline" style="font-size: var(--text-sm);">← More posts</a>
+      <a href="../index.html#contact" class="btn btn--primary" style="font-size: var(--text-sm);">Work with me</a>
+    </div>
+  </div>
+
+  <!-- Related Posts -->
+  <div style="margin-top: var(--space-20);" class="reveal">
+    <p class="section-label" style="margin-bottom: var(--space-8);">Keep reading</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+
+      <a href="post.html" class="blog-full-card" style="text-decoration:none;">
+        <div class="blog-full-card__image" style="font-size:0;padding:0;">
+          <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80" alt="How I approach every new project" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
+        </div>
+        <div class="blog-full-card__body">
+          <span class="blog-full-card__category">Process</span>
+          <h3 class="blog-full-card__title">How I Approach Every New Project</h3>
+          <div class="blog-full-card__footer"><span>December 2024</span><span>6 min</span></div>
+        </div>
+      </a>
+
+      <a href="post.html" class="blog-full-card" style="text-decoration:none;">
+        <div class="blog-full-card__image" style="font-size:0;padding:0;">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80" alt="The invisible work of good design" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
+        </div>
+        <div class="blog-full-card__body">
+          <span class="blog-full-card__category">Design</span>
+          <h3 class="blog-full-card__title">The Invisible Work of Good Design</h3>
+          <div class="blog-full-card__footer"><span>October 2024</span><span>10 min</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__inner">
+      <p class="footer__copy">© 2026 Ahmed Alfateh. Built with care.</p>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="../index.html"          class="footer__link">Home</a>
+        <a href="../projects/index.html" class="footer__link">Projects</a>
+        <a href="index.html"             class="footer__link">Blog</a>
+        <a href="../index.html#contact"  class="footer__link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js" defer></script>
+<script src="../js/live-reload.js" defer></script>
+<script>
+  // Reading progress bar
+  const progress = document.getElementById('readingProgress');
+  if (progress) {
+    window.addEventListener('scroll', () => {
+      const article = document.querySelector('.post-content article');
+      if (!article) return;
+      const rect = article.getBoundingClientRect();
+      const total = article.offsetHeight;
+      const scrolled = Math.max(0, -rect.top);
+      const pct = Math.min(100, (scrolled / total) * 100);
+      progress.style.width = pct + '%';
+      progress.setAttribute('aria-valuenow', Math.round(pct));
+    }, { passive: true });
+  }
+</script>
+</body>
+</html>

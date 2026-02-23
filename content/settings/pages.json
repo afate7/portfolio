@@ -1,0 +1,20 @@
+{
+  "siteUrl": "https://ahmedalfateh.com",
+  "copyright": "© 2026 Ahmed Alfateh. Built with care.",
+  "home": {
+    "title": "Ahmed Alfateh — Digital Product Lead",
+    "description": "Ahmed Alfateh — Digital Product Lead with 13+ years shipping products in FinTech, GovTech, EdTech, and Insurance across MENA."
+  },
+  "projects": {
+    "title": "Projects — Ahmed Alfateh",
+    "description": "A selection of product work by Ahmed Alfateh — FinTech, GovTech, EdTech, and InsurTech across MENA.",
+    "headline": "Projects I've poured myself into.",
+    "subtext": "Product work across FinTech, GovTech, EdTech, and InsurTech — each one a different kind of problem, solved with the same discipline."
+  },
+  "blog": {
+    "title": "Writing — Ahmed Alfateh",
+    "description": "Ahmed Alfateh's writing on product leadership, technology, behavioral economics, and the things that keep me up at night.",
+    "headline": "Thoughts I couldn't keep to myself.",
+    "subtext": "I write about product, people, and the systems that shape how we build things. No advice-column fluff — just honest reflections from someone still figuring it out."
+  }
+}

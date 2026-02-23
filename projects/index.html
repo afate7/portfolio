@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A selection of product work by Ahmed Alfateh — FinTech, GovTech, EdTech, and InsurTech across MENA." />
+  <meta name="theme-color" content="#fafafa" />
+  <title>Projects — Ahmed Alfateh</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/theme.css" />
+</head>
+<body>
+
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status">
+  <span class="offline-banner__dot"></span>
+  You're offline — browsing cached content
+</div>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="nav" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__logo">ahmed<span>.</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="../index.html#about" class="nav__link">About</a></li>
+        <li><a href="index.html"          class="nav__link active">Projects</a></li>
+        <li><a href="../blog/index.html"  class="nav__link">Writing</a></li>
+        <li><a href="../index.html#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <a href="../index.html#contact" class="nav__cta">Let's Talk</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <ul role="list">
+    <li><a href="../index.html#about"   class="nav__link" data-mobile-link>About</a></li>
+    <li><a href="index.html"            class="nav__link" data-mobile-link>Projects</a></li>
+    <li><a href="../blog/index.html"    class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="../index.html#contact" class="nav__link" data-mobile-link>Contact</a></li>
+  </ul>
+</div>
+
+<main>
+
+<!-- PAGE HEADER -->
+<header class="projects-page-header" aria-label="Projects header">
+  <div class="container">
+    <p class="section-label reveal">Selected work</p>
+    <h1 class="section-title reveal reveal-delay-1" style="font-size: clamp(2.25rem, 5vw, 4rem);">
+      Projects I've<br/>poured myself into.
+    </h1>
+    <p class="section-desc reveal reveal-delay-2" style="margin-top: var(--space-4);">
+      Product work across FinTech, GovTech, EdTech, and InsurTech — each one
+      a different kind of problem, solved with the same discipline.
+    </p>
+
+    <!-- Filters -->
+    <div class="projects-filter reveal reveal-delay-3" style="margin-top: var(--space-8);" role="group" aria-label="Filter projects by category">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="fintech">FinTech</button>
+      <button class="filter-btn" data-filter="govtech">GovTech</button>
+      <button class="filter-btn" data-filter="edtech">EdTech</button>
+      <button class="filter-btn" data-filter="insurtech">InsurTech</button>
+    </div>
+  </div>
+</header>
+
+<!-- PROJECTS GRID -->
+<section style="padding-bottom: var(--space-24);" aria-label="All projects">
+  <div class="container">
+    <div class="projects-grid" id="projectsGrid">
+
+
+      <!-- Featured: AevaPay -->
+      <article class="project-card project-card--featured reveal" data-category="fintech" style="grid-column: 1 / -1;">
+        <div class="project-card__image" style="min-height:300px;">
+          <img
+            src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80"
+            alt="AevaPay digital wallet — FinTech"
+            class="project-card__image-inner"
+            style="object-fit:cover;width:100%;height:100%;display:block;background:none;min-height:300px;"
+            loading="eager"
+          />
+        </div>
+        <div class="project-card__body" style="padding: var(--space-10);">
+          <div class="project-card__meta">
+            <span class="project-card__category">FinTech</span>
+            <span class="project-card__year">2022</span>
+          </div>
+          <h2 class="project-card__title" style="font-size: var(--text-2xl);">AevaPay — Digital Wallet at Scale</h2>
+          <p class="project-card__desc" style="font-size: var(--text-base);">
+            Scaled a digital wallet from 5,000 to 100,000+ active users in twelve months
+            by rethinking the entire KYC onboarding flow, rebuilding trust mechanics, and
+            making financial inclusion genuinely accessible.
+            <br/><br/>
+            The product didn't change. The experience around it did. Drop-off during onboarding
+            fell from <strong>70% to under 25%</strong>, transaction volume grew 35%, and
+            100,000+ people discovered that moving money on their phones could actually feel safe.
+          </p>
+          <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-4);">
+            <span class="tag">Product Strategy</span>
+            <span class="tag">FinTech</span>
+            <span class="tag">KYC / Compliance</span>
+            <span class="tag">UX Research</span>
+            <span class="tag">Onboarding Design</span>
+          </div>
+          <div class="project-card__footer" style="margin-top: var(--space-6);">
+            <div style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-sm); color: var(--clr-text-muted);">
+              <span>📈 20× user growth in 12 months</span>
+              <span>💰 +35% transaction volume</span>
+              <span>⚡ KYC time cut 60%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tameeni -->
+      <article class="project-card reveal reveal-delay-1" data-category="insurtech">
+        <div class="project-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+            alt="Tameeni insurance product strategy"
+            class="project-card__image-inner"
+            style="object-fit:cover;width:100%;height:100%;display:block;background:none;"
+            loading="lazy"
+          />
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__category">InsurTech</span>
+            <span class="project-card__year">2023</span>
+          </div>
+          <h2 class="project-card__title">Tameeni — Rebuilding Insurance from the Inside</h2>
+          <p class="project-card__desc">Stopped $500K in wasted development by killing features nobody used. Introduced design thinking org-wide and rebuilt the core product around what users actually needed.</p>
+          <div class="project-card__footer">
+            <div class="project-card__tags">
+              <span class="tag">Design Thinking</span>
+              <span class="tag">OKRs &amp; KPIs</span>
+              <span class="tag">InsurTech</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Driver Licensing -->
+      <article class="project-card reveal reveal-delay-2" data-category="govtech">
+        <div class="project-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=800&q=80"
+            alt="National driver licensing digital transformation"
+            class="project-card__image-inner"
+            style="object-fit:cover;width:100%;height:100%;display:block;background:none;"
+            loading="lazy"
+          />
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__category">GovTech</span>
+            <span class="project-card__year">2018</span>
+          </div>
+          <h2 class="project-card__title">National Driver Licensing — Days to Minutes</h2>
+          <p class="project-card__desc">A B2G digital transformation that turned a multi-day paper-based process into a minutes-long digital one — redefining what government services can feel like at national scale.</p>
+          <div class="project-card__footer">
+            <div class="project-card__tags">
+              <span class="tag">B2G</span>
+              <span class="tag">Digital Transformation</span>
+              <span class="tag">GovTech</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Nagwa -->
+      <article class="project-card reveal" data-category="edtech">
+        <div class="project-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80"
+            alt="Nagwa EdTech for students across MENA"
+            class="project-card__image-inner"
+            style="object-fit:cover;width:100%;height:100%;display:block;background:none;"
+            loading="lazy"
+          />
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__category">EdTech</span>
+            <span class="project-card__year">2021</span>
+          </div>
+          <h2 class="project-card__title">Nagwa — EdTech That Actually Teaches</h2>
+          <p class="project-card__desc">Launched Nagwa Classes and Nagwa Readers for students across MENA, while rebuilding the content pipeline with AI-driven automation to boost throughput by 20%.</p>
+          <div class="project-card__footer">
+            <div class="project-card__tags">
+              <span class="tag">EdTech</span>
+              <span class="tag">AI Automation</span>
+              <span class="tag">Content Systems</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+<!-- CTA -->
+<section style="padding-block: var(--space-20); background: var(--clr-bg-alt); border-top: 1px solid var(--clr-border);" aria-label="Start a project">
+  <div class="container" style="text-align: center;">
+    <p class="section-label reveal" style="justify-content: center;">Next project</p>
+    <h2 class="section-title reveal reveal-delay-1" style="font-size: var(--text-4xl);">Could be yours.</h2>
+    <p class="section-desc reveal reveal-delay-2" style="margin: var(--space-4) auto var(--space-8);">
+      I take on a limited number of projects each year to ensure quality.
+      If you have something worth building, let's talk.
+    </p>
+    <a href="../index.html#contact" class="btn btn--primary reveal reveal-delay-3" style="display: inline-flex; padding: var(--space-4) var(--space-8); font-size: var(--text-base);">
+      Start a conversation →
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__inner">
+      <p class="footer__copy">© 2026 Ahmed Alfateh. Built with care.</p>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="../index.html"         class="footer__link">Home</a>
+        <a href="index.html"            class="footer__link">Projects</a>
+        <a href="../blog/index.html"    class="footer__link">Blog</a>
+        <a href="../index.html#contact" class="footer__link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js" defer></script>
+<script src="../js/live-reload.js" defer></script>
+<script>
+  // Project filter
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('#projectsGrid .project-card[data-category]');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+
+        cards.forEach(card => {
+          const show = filter === 'all' || card.dataset.category === filter;
+          card.style.transition = 'opacity 0.35s, transform 0.35s';
+          if (show) {
+            card.style.opacity = '1';
+            card.style.transform = '';
+            card.style.pointerEvents = 'all';
+          } else {
+            card.style.opacity = '0.15';
+            card.style.transform = 'scale(0.97)';
+            card.style.pointerEvents = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+</body>
+</html>

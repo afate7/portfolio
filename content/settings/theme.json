@@ -1,0 +1,17 @@
+{
+  "accentColor": "#2563eb",
+  "accentHover": "#1d4ed8",
+  "accentSoft": "#eff6ff",
+  "bgColor": "#fafafa",
+  "bgAlt": "#f4f4f0",
+  "surfaceColor": "#ffffff",
+  "borderColor": "#e8e8e4",
+  "textColor": "#111110",
+  "textMuted": "#6b6b67",
+  "textFaint": "#a8a8a4",
+  "fontFamily": "Inter",
+  "fontFamilyUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+  "borderRadius": 12,
+  "buttonStyle": "rounded",
+  "logoText": "ahmed"
+}

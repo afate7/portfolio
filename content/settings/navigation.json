@@ -1,0 +1,10 @@
+{
+  "logo": "ahmed",
+  "ctaLabel": "Let's Talk",
+  "links": [
+    { "label": "About",    "href": "#about" },
+    { "label": "Projects", "href": "projects/index.html" },
+    { "label": "Writing",  "href": "blog/index.html" },
+    { "label": "Contact",  "href": "#contact" }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "heading": "Engineering roots. Product soul.",
+  "para1": "It started with code — and a lot of it. I spent the early years of my career as a full-stack developer, writing systems and learning that software's hardest problems are rarely technical. They're human. That realization changed everything.",
+  "para2": "So I moved upstream — into business analysis, then product strategy, then leading entire product organizations. Thirteen years and four verticals later — GovTech, FinTech, EdTech, and Insurance — the thread running through every project has been the same: people deserve software that respects their time and earns their trust.",
+  "para3": "Today I work at the intersection of strategy and execution, helping organizations stop building the wrong things — and build the right ones faster. I've scaled a wallet from 5,000 to 100,000 users, cut government licensing from days to minutes, and led teams across Egypt, Kuwait, and Saudi Arabia.",
+  "stats": [
+    { "value": "13+", "label": "Years of experience" },
+    { "value": "100K+", "label": "Users impacted" },
+    { "value": "4", "label": "Verticals shipped" }
+  ],
+  "skills": [
+    "Product Strategy", "Design Thinking", "OKRs & KPIs", "User Research",
+    "Agile / Scrum", "FinTech / KYC", "Behavioral Analytics", "Stakeholder Management"
+  ]
+}
