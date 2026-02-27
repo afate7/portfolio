@@ -3,6 +3,8 @@ title: Atlas — Urban Navigation, Reimagined
 year: 2024
 category: design
 categoryLabel: Product Design
+role: "Product Design Lead"
+teamSize: "9 (design, mobile engineering, research)"
 description: A complete rethinking of how people navigate complex urban environments. I led design from initial research through shipped product — running user studies, designing information architecture, and refining visual details for six months before launch.
 emoji: 🗺️
 gradient: "linear-gradient(135deg, #f0f4ff, #dde8ff)"

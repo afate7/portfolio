@@ -1597,3 +1597,40 @@ h1, h2, h3, h4, h5, h6 {
   .nav, .hero__scroll, .contact, .footer { display: none; }
   body { background: white; color: black; }
 }
+
+/* CMS dynamic cards */
+.cms-post-cover {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+}
+
+.featured-post-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  padding: var(--space-6);
+}
+
+.featured-post-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.featured-pill {
+  font-size: var(--text-xs);
+  background: var(--clr-accent);
+  color: #fff;
+  border-radius: var(--radius-full);
+  padding: 2px 10px;
+}
+
+@media (max-width: 900px) {
+  .featured-post-card { grid-template-columns: 1fr; }
+}

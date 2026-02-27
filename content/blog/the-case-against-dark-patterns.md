@@ -1,6 +1,7 @@
 ---
 title: The Case Against Dark Patterns
 date: 2025-01-15
+categoryKey: product
 category: Design Ethics
 readTime: 8
 excerpt: We've built an internet that tricks people into subscriptions, manipulates them into sharing data, and punishes them for trying to leave. It's time we talk about why — and what we can do instead.
