@@ -30,19 +30,44 @@
 
   // Mobile menu toggle
   if (!hamburger || !mobileMenu) return;
+  mobileMenu.setAttribute('aria-hidden', 'true');
+
+  const focusableSelector = 'a[href], button:not([disabled]), textarea, input, select';
+  let previousFocus = null;
+
+  const trapFocus = (e) => {
+    if (!mobileMenu.classList.contains('open') || e.key !== 'Tab') return;
+    const focusables = mobileMenu.querySelectorAll(focusableSelector);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
 
   const openMenu = () => {
+    previousFocus = document.activeElement;
     hamburger.classList.add('open');
     mobileMenu.classList.add('open');
     hamburger.setAttribute('aria-expanded', 'true');
+    mobileMenu.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    mobileMenu.querySelector(focusableSelector)?.focus();
   };
 
   const closeMenu = () => {
     hamburger.classList.remove('open');
     mobileMenu.classList.remove('open');
     hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
   };
 
   hamburger.addEventListener('click', () => {
@@ -58,6 +83,7 @@
   // Close on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeMenu();
+    trapFocus(e);
   });
 })();
 

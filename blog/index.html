@@ -12,6 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/theme.css" />
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Blog","name":"Ahmed Alfateh Writing","url":"https://ahmedalfateh.com/blog/index.html"}
+  </script>
 </head>
 <body>
 
@@ -75,56 +79,9 @@
 
 <!-- FEATURED POST -->
 <section style="padding-bottom: var(--space-16);" aria-label="Featured post">
-  <div class="container container--lg">
-    <a href="post.html" style="display: block; text-decoration: none;">
-      <article class="reveal" style="
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-12);
-        background: var(--clr-surface);
-        border: 1px solid var(--clr-border);
-        border-radius: var(--radius-xl);
-        overflow: hidden;
-        transition: transform var(--duration-slow) var(--ease-out), box-shadow var(--duration-slow) var(--ease-out);
-      " onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-xl)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-
-        <div style="min-height: 300px; overflow: hidden;">
-          <img
-            src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80"
-            alt="Economics and behavioral decision-making"
-            style="width:100%;height:100%;object-fit:cover;display:block;min-height:300px;"
-            loading="eager"
-          />
-        </div>
-
-        <div style="padding: var(--space-10); display: flex; flex-direction: column; gap: var(--space-4); justify-content: center;">
-          <div style="display: flex; align-items: center; gap: var(--space-3);">
-            <span style="
-              font-size: var(--text-xs); font-weight: 600; color: var(--clr-accent);
-              letter-spacing: 0.1em; text-transform: uppercase;
-            ">Thinking</span>
-            <span style="
-              font-size: var(--text-xs); font-weight: 500; color: white;
-              background: var(--clr-accent); padding: 2px 10px; border-radius: 999px;
-            ">Featured</span>
-          </div>
-          <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.025em; color: var(--clr-text);">
-            Economics Was Never About Money
-          </h2>
-          <p style="font-size: var(--text-base); color: var(--clr-text-muted); line-height: 1.7;">
-            For years, I dismissed economics as dry charts and abstract formulas.
-            Then one sentence changed everything — and reshaped how I think about
-            every decision I make, in product and in life.
-          </p>
-          <div style="display: flex; align-items: center; gap: var(--space-4); font-size: var(--text-sm); color: var(--clr-text-muted);">
-            <span>February 10, 2025</span>
-            <span style="width:3px;height:3px;border-radius:50%;background:var(--clr-text-faint)"></span>
-            <span>10 min read</span>
-          </div>
-          <span class="btn btn--ghost" style="align-self: flex-start; margin-top: var(--space-2);">Read article</span>
-        </div>
-
-      </article>
+  <div class="container container--lg" id="cms-featured-post">
+    <a href="post.html?slug=economics-was-never-about-money" style="display:block; text-decoration:none;">
+      <article class="featured-post-card reveal"><div class="featured-post-card__media"><div class="cms-post-cover" style="background:linear-gradient(135deg,#f0f4ff,#dde8ff);display:flex;align-items:center;justify-content:center;font-size:4rem;">🧠</div></div><div class="featured-post-card__content"><span class="featured-pill" style="align-self:flex-start;">Featured</span><h2 class="blog-full-card__title">Economics Was Never About Money</h2><p class="blog-full-card__excerpt">Behavioral economics, decision-making, and product strategy in the real world.</p></div></article>
     </a>
   </div>
 </section>
@@ -132,104 +89,9 @@
 <!-- ALL POSTS GRID -->
 <section style="padding-bottom: var(--space-24);" aria-label="All posts">
   <div class="container container--lg">
-    <div class="blog-grid">
-
-      <!-- Post 1 -->
-      <a href="post.html" class="blog-full-card reveal" data-category="process" style="text-decoration:none;">
-        <div class="blog-full-card__image" style="font-size:0;padding:0;">
-          <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80" alt="Product process" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        </div>
-        <div class="blog-full-card__body">
-          <span class="blog-full-card__category">Process</span>
-          <h3 class="blog-full-card__title">How I Approach Every New Project</h3>
-          <p class="blog-full-card__excerpt">A behind-the-scenes look at my creative process — from the first client call to the final handoff. Including the mistakes I always make and how I've learned to catch them earlier.</p>
-          <div class="blog-full-card__footer">
-            <span>December 2024</span>
-            <span>6 min read</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Post 2 -->
-      <a href="post.html" class="blog-full-card reveal reveal-delay-1" data-category="life" style="text-decoration:none;">
-        <div class="blog-full-card__image" style="font-size:0;padding:0;">
-          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" alt="Daily writing practice" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        </div>
-        <div class="blog-full-card__body">
-          <span class="blog-full-card__category">Life</span>
-          <h3 class="blog-full-card__title">Why I Write Every Day (Even Badly)</h3>
-          <p class="blog-full-card__excerpt">Writing isn't just for writers. As a designer and developer, daily writing has made me sharper, clearer, and more empathetic — even when what I write is terrible.</p>
-          <div class="blog-full-card__footer">
-            <span>November 2024</span>
-            <span>4 min read</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Post 3 -->
-      <a href="post.html" class="blog-full-card reveal reveal-delay-2" data-category="design" style="text-decoration:none;">
-        <div class="blog-full-card__image" style="font-size:0;padding:0;">
-          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80" alt="The invisible work of good design" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        </div>
-        <div class="blog-full-card__body">
-          <span class="blog-full-card__category">Design</span>
-          <h3 class="blog-full-card__title">The Invisible Work of Good Design</h3>
-          <p class="blog-full-card__excerpt">The best design is the kind nobody notices. When everything works perfectly, users don't think about design — they just accomplish their goals. Here's how to get there.</p>
-          <div class="blog-full-card__footer">
-            <span>October 2024</span>
-            <span>10 min read</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Post 4 -->
-      <a href="post.html" class="blog-full-card reveal" data-category="code" style="text-decoration:none;">
-        <div class="blog-full-card__image" style="font-size:0;padding:0;">
-          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Performance as a design value" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        </div>
-        <div class="blog-full-card__body">
-          <span class="blog-full-card__category">Code</span>
-          <h3 class="blog-full-card__title">Performance is a Design Value</h3>
-          <p class="blog-full-card__excerpt">Speed isn't just a technical metric. A slow website is a bad experience, and bad experiences tell users their time doesn't matter. Performance is respect.</p>
-          <div class="blog-full-card__footer">
-            <span>September 2024</span>
-            <span>7 min read</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Post 5 -->
-      <a href="post.html" class="blog-full-card reveal reveal-delay-1" data-category="design" style="text-decoration:none;">
-        <div class="blog-full-card__image" style="font-size:0;padding:0;">
-          <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=600&q=80" alt="Color theory for developers" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        </div>
-        <div class="blog-full-card__body">
-          <span class="blog-full-card__category">Design</span>
-          <h3 class="blog-full-card__title">Color Theory for Developers</h3>
-          <p class="blog-full-card__excerpt">You don't need a design degree to use color well. A few fundamental principles can make the difference between an app that looks amateur and one that looks polished.</p>
-          <div class="blog-full-card__footer">
-            <span>August 2024</span>
-            <span>9 min read</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Post 6 -->
-      <a href="post.html" class="blog-full-card reveal reveal-delay-2" data-category="process" style="text-decoration:none;">
-        <div class="blog-full-card__image" style="font-size:0;padding:0;">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="The art of the client conversation" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        </div>
-        <div class="blog-full-card__body">
-          <span class="blog-full-card__category">Process</span>
-          <h3 class="blog-full-card__title">The Art of the Client Conversation</h3>
-          <p class="blog-full-card__excerpt">Most project failures aren't technical — they're communicative. Here's how I structure client conversations to ensure we're building the right thing, not just building the thing right.</p>
-          <div class="blog-full-card__footer">
-            <span>July 2024</span>
-            <span>5 min read</span>
-          </div>
-        </div>
-      </a>
-
+    <div class="blog-grid" id="cms-blog-grid">
+      <a href="post.html?slug=the-case-against-dark-patterns" class="blog-full-card"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:linear-gradient(135deg,#f0f4ff,#dde8ff);display:flex;align-items:center;justify-content:center;font-size:3rem;">🎭</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">Product</span><h3 class="blog-full-card__title">The Case Against Dark Patterns</h3><p class="blog-full-card__excerpt">Design ethics and trust over short-term conversion.</p></div></a>
+      <a href="post.html?slug=how-i-approach-every-new-project" class="blog-full-card"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:linear-gradient(135deg,#fff4e6,#ffe8c8);display:flex;align-items:center;justify-content:center;font-size:3rem;">🔍</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">Process</span><h3 class="blog-full-card__title">How I Approach Every New Project</h3><p class="blog-full-card__excerpt">A practical project approach from discovery to delivery.</p></div></a>
     </div>
 
     <!-- Load More -->
@@ -248,7 +110,9 @@
       I send a newsletter when I have something worth saying — roughly twice a month.
       No spam, no sales pitches. Just ideas.
     </p>
-    <form style="display: flex; gap: var(--space-3); max-width: 420px; margin: 0 auto;" class="reveal reveal-delay-3" action="#" method="POST">
+    <form style="display: flex; gap: var(--space-3); max-width: 420px; margin: 0 auto;" class="reveal reveal-delay-3" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="newsletter" />
+      <p hidden><label>Don’t fill this out: <input name="bot-field" /></label></p>
       <input
         type="email"
         name="email"
@@ -290,35 +154,8 @@
 </footer>
 
 <script src="../js/main.js" defer></script>
+<script src="../js/cms.js" defer></script>
 <script src="../js/live-reload.js" defer></script>
-<script>
-  // Category filter for blog
-  document.addEventListener('DOMContentLoaded', () => {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.blog-full-card[data-category]');
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filter = btn.dataset.filter;
-        cards.forEach(card => {
-          const show = filter === 'all' || card.dataset.category === filter;
-          card.style.transition = 'opacity 0.3s, transform 0.3s';
-          if (show) {
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-            card.style.pointerEvents = 'all';
-          } else {
-            card.style.opacity = '0.2';
-            card.style.transform = 'scale(0.97)';
-            card.style.pointerEvents = 'none';
-          }
-        });
-      });
-    });
-  });
-</script>
 </body>
 </html>

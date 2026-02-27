@@ -3,6 +3,8 @@ title: Tameeni — Rebuilding Insurance from the Inside
 year: 2023
 category: insurtech
 categoryLabel: InsurTech
+role: "Director of Product"
+teamSize: "30 across product, design, and engineering"
 description: Stopped $500K in wasted development by killing features nobody used. Introduced design thinking across the organization and rebuilt the core product around what users actually needed from an insurance experience.
 emoji: 🛡️
 gradient: "linear-gradient(135deg, #fff7ed, #ffedd5)"
