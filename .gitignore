@@ -8,6 +8,9 @@
 # Node (only relevant if running the local dev server)
 node_modules/
 
+# Admin credentials — auto-generated on first server start. NEVER commit.
+content/settings/admin.json
+
 # Local dev notes
 instructions.md
 

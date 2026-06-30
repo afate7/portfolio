@@ -168,7 +168,7 @@ function offlinePage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Offline — Alex Morgan</title>
+  <title>Offline — Ahmed Alfateh</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
