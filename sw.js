@@ -6,7 +6,7 @@
 
 // BUILD is auto-stamped by tools/build.mjs on every build so each deploy
 // invalidates stale caches for returning visitors.
-const BUILD         = 'bmrgjb38d';
+const BUILD         = 'bmrgjgtz9';
 const CACHE_NAME    = 'portfolio-' + BUILD;
 const STATIC_CACHE  = 'portfolio-static-' + BUILD;
 const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
@@ -171,7 +171,7 @@ function offlinePage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Offline — Ahmed Alfateh</title>
+  <title>Offline · Ahmed Alfateh</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -199,7 +199,7 @@ function offlinePage() {
   <div class="wrap">
     <div class="icon">📡</div>
     <h1>You're offline</h1>
-    <p>It looks like you've lost your connection. Some pages are available from cache — try navigating to them, or come back when you're reconnected.</p>
+    <p>It looks like you've lost your connection. Some pages are available from cache, try navigating to them, or come back when you're reconnected.</p>
     <a href="/">Go to homepage</a>
   </div>
 </body>

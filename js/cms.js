@@ -300,7 +300,7 @@ async function loadBlogPost(slug) {
   if (bodyEl) bodyEl.innerHTML = html;
   if (emojiEl) emojiEl.textContent = data.emoji || '✍️';
 
-  document.title = `${data.title || 'Post'} — Ahmed Alfateh`;
+  document.title = `${data.title || 'Post'} · Ahmed Alfateh`;
 
   const desc = document.querySelector('meta[name="description"]');
   if (desc && data.excerpt) desc.setAttribute('content', data.excerpt);
@@ -308,7 +308,7 @@ async function loadBlogPost(slug) {
   const ogTitle = document.querySelector('meta[property="og:title"]');
   const ogDesc = document.querySelector('meta[property="og:description"]');
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogTitle) ogTitle.setAttribute('content', `${data.title} — Ahmed Alfateh`);
+  if (ogTitle) ogTitle.setAttribute('content', `${data.title} · Ahmed Alfateh`);
   if (ogDesc) ogDesc.setAttribute('content', data.excerpt || '');
   if (ogUrl) ogUrl.setAttribute('content', `${location.origin}/blog/post.html?slug=${slug}`);
 

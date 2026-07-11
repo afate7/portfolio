@@ -244,7 +244,7 @@
 
     // Build a pre-filled email and open the visitor's mail client.
     const subject = `Portfolio enquiry from ${name.value.trim()}`;
-    const body    = `${message.value.trim()}\n\n— ${name.value.trim()} (${email.value.trim()})`;
+    const body    = `${message.value.trim()}\n\nSent by ${name.value.trim()} (${email.value.trim()})`;
     const href    = `mailto:${RECIPIENT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     if (btn) btn.textContent = 'Opening your email…';
