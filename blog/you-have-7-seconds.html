@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Have 7 Seconds: Build a CV &amp; Cover Letter That Survive the Scan</title>
+<meta name="description" content="A recruiter spends about seven seconds on your CV, and much of the screening is now automated. A practical guide to building a CV and cover letter that actually get through.">
+<meta name="author" content="Ahmed Alfateh">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="You Have 7 Seconds: Build a CV That Survives the Scan">
+<meta property="og:description" content="A recruiter spends about seven seconds on your CV, and much of the screening is now automated. A practical guide to getting through.">
+<meta property="og:url" content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/you-have-7-seconds.html">
+<meta property="og:image" content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/assets/og.png">
+<link rel="canonical" href="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/you-have-7-seconds.html">
+<link rel="icon" href="/assets/icons/icon.svg">
+<link rel="manifest" href="/manifest.json">
+<script src="/js/site.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15173a;
+    --ink-soft:#2a2d5a;
+    --paper:#f3f4f9;
+    --paper-2:#e9ebf4;
+    --card:#ffffff;
+    --indigo:#3a44c4;
+    --indigo-deep:#252c8f;
+    --highlight:#ffd84d;
+    --highlight-deep:#f6c623;
+    --teal:#0fb6a0;
+    --muted:#6a6e8f;
+    --line:#d7dae8;
+    --shadow:0 22px 50px -28px rgba(21,23,58,.45);
+    --maxw:1180px;
+    --read:680px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:20px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .read{max-width:var(--read);margin-left:auto;margin-right:auto}
+
+  /* ---------- Type roles ---------- */
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+  .display{font-family:"Archivo",system-ui,sans-serif;font-weight:800;line-height:.98;letter-spacing:-.02em;font-stretch:125%}
+  h2.display{font-size:clamp(1.9rem,4.4vw,3.1rem)}
+  h3{font-family:"Archivo",system-ui,sans-serif;font-weight:700;font-stretch:112%;letter-spacing:-.01em;line-height:1.08;font-size:1.35rem}
+
+  /* highlighter, the signature */
+  mark{
+    background:linear-gradient(104deg,rgba(255,216,77,0) .5%,rgba(255,216,77,.85) 2%,rgba(255,216,77,.85) 98%,rgba(255,216,77,0) 99.5%);
+    color:inherit;padding:.04em .12em;border-radius:1px;
+    box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+
+  a{color:var(--indigo-deep);text-underline-offset:3px;text-decoration-thickness:1.5px}
+
+  /* ---------- Top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(243,244,249,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:"Archivo",sans-serif;font-weight:800;font-stretch:120%;letter-spacing:-.01em;font-size:1rem}
+  .brand .dot{width:12px;height:20px;background:var(--highlight);display:inline-block;border-radius:2px;transform:skewX(-9deg);box-shadow:0 0 0 3px rgba(255,216,77,.28)}
+  .topbar .meta{color:var(--muted)}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding:clamp(46px,7vw,86px) 0 clamp(40px,5vw,64px)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,4vw,64px);align-items:center}
+  .eyebrow{color:var(--indigo-deep);display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--indigo-deep);display:inline-block}
+  .hero h1{font-family:"Archivo",sans-serif;font-weight:900;font-stretch:130%;letter-spacing:-.03em;line-height:.9;font-size:clamp(3.1rem,9vw,6.4rem);color:var(--ink)}
+  .hero h1 .sec{color:var(--indigo)}
+  .hero .lede{font-size:clamp(1.15rem,2vw,1.42rem);color:var(--ink-soft);max-width:30ch;margin-top:26px;line-height:1.45}
+  .hero .sourceline{margin-top:30px;color:var(--muted);font-size:.95rem;max-width:40ch}
+  .hero .sourceline strong{color:var(--ink)}
+
+  /* Scan card (signature animation) */
+  .scan{position:relative;background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:26px 24px 22px;border:1px solid var(--line);overflow:hidden}
+  .scan::after{content:"";position:absolute;inset:0;border-radius:16px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(21,23,58,.03)}
+  .scan-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--teal))}
+  .scan-head .n{height:9px;width:120px;background:var(--ink);border-radius:3px;opacity:.85}
+  .scan-head .s{height:7px;width:78px;background:var(--line);border-radius:3px;margin-top:7px}
+  .line{height:9px;border-radius:3px;background:var(--paper-2);margin:11px 0}
+  .line.kw{position:relative}
+  .line.kw span{position:absolute;inset:0;background:var(--highlight);border-radius:3px;transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
+  .scan.matched .line.kw span{transform:scaleX(1)}
+  .beam{position:absolute;left:0;right:0;top:0;height:64px;
+    background:linear-gradient(180deg,rgba(58,68,196,0) 0%,rgba(58,68,196,.14) 55%,rgba(58,68,196,0) 100%);
+    border-bottom:2px solid rgba(58,68,196,.55);transform:translateY(-70px)}
+  .counter{position:absolute;right:18px;top:16px;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.15rem;color:var(--indigo);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 12px;letter-spacing:.02em}
+  .stamp{position:absolute;right:20px;bottom:18px;font-family:"Archivo",sans-serif;font-weight:800;font-stretch:120%;font-size:.8rem;letter-spacing:.14em;color:var(--teal);border:2px solid var(--teal);border-radius:8px;padding:5px 12px;transform:rotate(-7deg) scale(.6);opacity:0;transition:opacity .35s ease,transform .35s cubic-bezier(.2,1.4,.4,1)}
+  .scan.matched .stamp{opacity:1;transform:rotate(-7deg) scale(1)}
+
+  @keyframes sweep{
+    0%{transform:translateY(-70px)}
+    88%{transform:translateY(300px)}
+    100%{transform:translateY(300px);opacity:0}
+  }
+  .scan.run .beam{animation:sweep 7s cubic-bezier(.5,0,.5,1) forwards}
+
+  /* ---------- Thesis strip ---------- */
+  .thesis{background:var(--ink);color:#eef0fb;padding:clamp(40px,6vw,72px) 0}
+  .thesis p{font-family:"Newsreader",serif;font-weight:400;font-size:clamp(1.4rem,3.2vw,2.15rem);line-height:1.32;max-width:22ch;margin:0 auto;text-align:center}
+  .thesis mark{color:var(--ink)}
+  .thesis .k{color:var(--highlight);font-weight:500}
+
+  /* ---------- Stats row ---------- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);margin:clamp(38px,5vw,60px) auto 0}
+  .stat{padding:26px 24px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .big{font-family:"Archivo",sans-serif;font-weight:800;font-stretch:120%;font-size:clamp(2.3rem,5vw,3.2rem);line-height:1;color:var(--indigo);letter-spacing:-.02em}
+  .stat .lbl{margin-top:10px;color:var(--ink-soft);font-size:.98rem;line-height:1.35}
+
+  /* ---------- Article sections ---------- */
+  main{padding:clamp(48px,6vw,84px) 0}
+  .sec{margin-bottom:clamp(52px,7vw,88px)}
+  .sec-head{display:flex;gap:20px;align-items:baseline;margin-bottom:22px}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.95rem;color:var(--indigo);border:1.5px solid var(--indigo);border-radius:8px;padding:4px 10px;flex:none;letter-spacing:.05em}
+  .sec-kicker{color:var(--muted);display:block;margin-bottom:8px}
+  p+p{margin-top:1.1em}
+  .sec p{color:var(--ink-soft)}
+  .sec p strong{color:var(--ink);font-weight:600}
+  .sec h3{color:var(--ink);margin:1.5em 0 .5em}
+
+  /* Process steps (cover letter) */
+  .steps{counter-reset:step;margin-top:8px}
+  .step{position:relative;padding:20px 22px 20px 66px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:14px}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;left:18px;top:20px;width:34px;height:34px;border-radius:9px;background:var(--ink);color:var(--highlight);font-family:"Archivo",sans-serif;font-weight:800;font-size:1.05rem;display:grid;place-items:center}
+  .step h4{font-family:"Archivo",sans-serif;font-weight:700;font-stretch:108%;font-size:1.08rem;color:var(--ink);margin-bottom:4px}
+  .step p{font-size:.98rem;margin:0;color:var(--ink-soft)}
+
+  /* Checklist / elements */
+  .checks{list-style:none;margin:10px 0 0}
+  .checks li{position:relative;padding:11px 0 11px 38px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+  .checks li:last-child{border-bottom:none}
+  .checks li::before{content:"";position:absolute;left:4px;top:16px;width:18px;height:18px;border-radius:5px;background:var(--highlight);box-shadow:inset 0 0 0 2px var(--highlight-deep)}
+  .checks li strong{color:var(--ink);font-weight:600}
+
+  /* Skills buckets */
+  .buckets{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+  .bucket{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .bucket .tag{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo-deep);background:var(--paper-2);border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:12px}
+  .bucket h4{font-family:"Archivo",sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:6px;color:var(--ink)}
+  .bucket p{font-size:.92rem;color:var(--ink-soft);margin:0}
+
+  /* Pull quote */
+  .pull{border-left:4px solid var(--highlight);padding:6px 0 6px 24px;margin:1.6em 0;font-size:1.3rem;line-height:1.4;color:var(--ink);font-style:italic}
+
+  /* Tools */
+  .tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .tool{font-family:"IBM Plex Mono",monospace;font-size:.82rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 15px;color:var(--ink-soft)}
+  .tool b{color:var(--ink);font-weight:600}
+
+  /* Callout */
+  .callout{background:linear-gradient(180deg,#fffdf2,#fff);border:1px solid var(--highlight-deep);border-radius:12px;padding:20px 22px;margin:1.4em 0}
+  .callout .mono{color:var(--indigo-deep);display:block;margin-bottom:8px}
+  .callout p{margin:0;font-size:1rem;color:var(--ink-soft)}
+
+  /* Takeaway card */
+  .takeaway{background:var(--ink);color:#eef0fb;border-radius:18px;padding:clamp(30px,4vw,48px);margin-top:20px}
+  .takeaway h2{color:#fff;margin-bottom:8px}
+  .takeaway .sub{color:#a9adde;margin-bottom:22px}
+  .takeaway ol{list-style:none;counter-reset:t}
+  .takeaway li{counter-increment:t;position:relative;padding:14px 0 14px 46px;border-top:1px solid rgba(255,255,255,.12);color:#dfe1f5;font-size:1.02rem}
+  .takeaway li:first-child{border-top:none}
+  .takeaway li::before{content:counter(t,decimal-leading-zero);position:absolute;left:0;top:14px;font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--highlight);letter-spacing:.05em}
+  .takeaway li b{color:#fff;font-weight:600}
+  .takeaway mark{color:var(--ink)}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);margin-top:clamp(48px,6vw,80px);padding:44px 0 60px;color:var(--muted)}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start}
+  footer .src{max-width:52ch;font-size:.92rem;line-height:1.5}
+  footer .src strong{color:var(--ink)}
+  .cta{font-family:"Archivo",sans-serif;font-weight:700;font-stretch:108%;font-size:1rem;color:#fff;background:var(--indigo);border:none;border-radius:10px;padding:14px 22px;text-decoration:none;display:inline-block;white-space:nowrap}
+  .cta:hover{background:var(--indigo-deep)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:34px}
+    .stats{grid-template-columns:1fr}
+    .stat{border-right:none;border-bottom:1px solid var(--line)}
+    .stat:last-child{border-bottom:none}
+    .buckets{grid-template-columns:1fr}
+    .topbar .meta{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .scan.run .beam{animation:none;display:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .scan .line.kw span{transition:none}
+    .stamp{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/index.html" style="text-decoration:none;color:inherit;"><span class="dot"></span> Ahmed Alfateh</a>
+    <a class="meta mono" href="/blog/index.html" style="text-decoration:none;color:inherit;">← All writing</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow mono">CV &amp; Cover Letter · A Practical Guide</span>
+      <h1>You have<br><span class="sec">7 seconds.</span></h1>
+      <p class="lede">That's how long a recruiter spends on your CV before deciding. And often, a machine looks first. Here's how to build a CV and cover letter that survive the scan.</p>
+      <p class="sourceline">Distilled from the <strong>Google Digital Garage</strong> webinar <em>&ldquo;Build a CV and write a cover letter.&rdquo;</em></p>
+    </div>
+
+    <div class="scan" id="scanCard" aria-hidden="true">
+      <span class="counter" id="counter">7s</span>
+      <div class="beam"></div>
+      <div class="scan-head">
+        <div class="avatar"></div>
+        <div><div class="n"></div><div class="s"></div></div>
+      </div>
+      <div class="line" style="width:96%"></div>
+      <div class="line kw" style="width:70%"><span></span></div>
+      <div class="line" style="width:88%"></div>
+      <div class="line" style="width:92%"></div>
+      <div class="line kw" style="width:54%"><span></span></div>
+      <div class="line" style="width:80%"></div>
+      <div class="line" style="width:64%"></div>
+      <div class="stamp">MATCH</div>
+    </div>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section class="thesis">
+  <div class="wrap">
+    <p>Modern hiring rewards the <span class="k">specific</span>, the <span class="k">tailored</span>, and the <span class="k">provable</span>, not the complete.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="stats reveal">
+    <div class="stat"><div class="big">7 sec</div><div class="lbl">Average time a recruiter spends reading a CV.</div></div>
+    <div class="stat"><div class="big">83%</div><div class="lbl">Of hiring managers say a strong cover letter can win an interview, even with a weaker résumé.</div></div>
+    <div class="stat"><div class="big">~⅓</div><div class="lbl">Of employers use social media, like LinkedIn, to find new recruits.</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- 1 -->
+  <section class="sec read reveal">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <div>
+        <span class="sec-kicker mono">The landscape</span>
+        <h2 class="display">Understand what<br>recruiters want</h2>
+      </div>
+    </div>
+    <p>Before you write a single line, understand the room you're writing into. Recruitment has quietly changed shape, and the biggest change is speed. On average, a recruiter spends about <mark>seven seconds</mark> on a CV. Your job is to make the match obvious in that window.</p>
+    <p>Much of the first pass isn't even human. <strong>Applicant Tracking Software (ATS)</strong> and, increasingly, AI now source, screen, and score candidates before a person ever reads a word. The consequence is blunt: a genuinely qualified candidate can still be filtered out if their CV isn't written to match the posting's language.</p>
+    <p>The upside is that the same tools work for you. Around two in three HR professionals see AI as a positive in hiring, and you can use AI writing tools as an <strong>assistant</strong>, to draft a cover letter, tighten a summary, or rephrase a clumsy sentence, as long as the substance stays honest and yours.</p>
+    <div class="callout">
+      <span class="mono">What they're actually scanning for</span>
+      <p>Clear, <b>relevant</b> strengths · impact shown with <b>metrics</b> · evidence you went above and beyond · that you followed the instructions · and that you can adapt. Growing weight goes to <b>cultural fit</b>, <b>diversity</b>, and <b>data-driven</b> selection to reduce bias.</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec read reveal">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <div>
+        <span class="sec-kicker mono">Where the jobs live</span>
+        <h2 class="display">Find work online</h2>
+      </div>
+    </div>
+    <p>Don't fish in one pond. <strong>Google Jobs</strong> aggregates listings from across the web and is a good starting point. <strong>LinkedIn</strong> doubles as your public CV and a jobs board, collect skill endorsements and verifiable references, follow companies, and set alerts; roughly a third of employers recruit through social media. Boards like <strong>Reed</strong> let you filter by salary, location, and hours, and often bundle courses to upskill.</p>
+    <p class="pull">Cast a wide net across several platforms, including sector-specific ones, to raise your odds of an interview.</p>
+    <p>One small discipline that matters more than it sounds: when you screen-share or screenshot your search, hide personal bookmarks and information first.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec read reveal">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <div>
+        <span class="sec-kicker mono">The cover letter</span>
+        <h2 class="display">Five steps,<br>one page</h2>
+      </div>
+    </div>
+    <p>About 60% of companies ask for a cover letter, and 83% of hiring managers say a good one can earn an interview even when the résumé is thin. Keep it to <mark>one page</mark>, and write a fresh one for every role, you can reuse excerpts, but the tailoring is the point. This is a genuine sequence, so follow it in order:</p>
+    <div class="steps">
+      <div class="step"><h4>Open with an introduction</h4><p>Who you are, the skills you bring, why you fit, the exact role, and where you heard about it. Use the reader's name if you have it; otherwise, &ldquo;For the attention of the Hiring Manager.&rdquo; Name any referral.</p></div>
+      <div class="step"><h4>Lead with your most relevant experience</h4><p>Order by relevance, not date. Open with achievements and numbers, &ldquo;grew followers 20% in a month&rdquo; beats &ldquo;managed social media.&rdquo;</p></div>
+      <div class="step"><h4>Show how you'll add value</h4><p>Connect past wins to this role's responsibilities. No experience yet? Lean on education, training, volunteering, and unpaid work, and your goals.</p></div>
+      <div class="step"><h4>Include qualifications &amp; education</h4><p>Dates, institutions, and any relevant certifications or awards (first aid, health &amp; safety, top of class).</p></div>
+      <div class="step"><h4>Sign off with intent</h4><p>Polite and actionable, never pushy: &ldquo;I'd be honoured to be considered, I look forward to hearing from you.&rdquo;</p></div>
+    </div>
+    <div class="callout">
+      <span class="mono">Cover-letter non-negotiables</span>
+      <p>One page · mirror the posting's exact <b>words, skills, and job title</b> to beat the filters · flawless spelling and grammar (use a checker) · and spell the recipient's name right.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec read reveal">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <div>
+        <span class="sec-kicker mono">The CV</span>
+        <h2 class="display">Build for the<br>scanner</h2>
+      </div>
+    </div>
+    <p>Keep it to one page (two at the very most), tailored to each job. A CV isn't your life story, it highlights the parts of your experience and character most applicable to <em>this</em> role. Five elements carry it:</p>
+    <ul class="checks">
+      <li><strong>Basic information</strong>, name, contact, general location; add nationality/visa, licence, or portfolio links only if the role needs them.</li>
+      <li><strong>Opening summary</strong>, two or three sentences: your elevator pitch. Who you are, what you do for an employer, what you want.</li>
+      <li><strong>Work experience</strong>, reverse-chronological, in bullets, with active verbs and achievements over duties. Paid or unpaid both count.</li>
+      <li><strong>Education &amp; achievements</strong>, qualifications, institutions, dates, awards.</li>
+      <li><strong>Skills &amp; strengths</strong>, and these two are not the same thing.</li>
+    </ul>
+    <p class="pull">Skills are what you're trained in and can prove. Strengths are often personality-deep, things you do so naturally you may not notice them. Ask colleagues; they'll name strengths you can't see.</p>
+    <p>Employers broadly want three kinds of skill, and a real skills gap (about 63% of employers report one) makes evidencing them valuable:</p>
+    <div class="buckets">
+      <div class="bucket"><span class="tag">Soft</span><h4>People skills</h4><p>Leadership, teamwork, communication, languages, built through hobbies, sport, and volunteering.</p></div>
+      <div class="bucket"><span class="tag">Hard</span><h4>Technical skills</h4><p>IT, Excel &amp; Office, marketing, accounting, languages, the measurable know-how.</p></div>
+      <div class="bucket"><span class="tag">Digital</span><h4>Online skills</h4><p>Handling info, communicating and transacting online, staying safe, plus coding, editing, social.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec read reveal">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <div>
+        <span class="sec-kicker mono">Tools &amp; polish</span>
+        <h2 class="display">Don't start<br>from a blank page</h2>
+      </div>
+    </div>
+    <p>Templates get you moving; editing makes you competitive. Ready-made, editable CV templates live in:</p>
+    <div class="tools">
+      <span class="tool"><b>Google Docs</b> · docs.google.com</span>
+      <span class="tool"><b>Canva</b> · canva.com</span>
+      <span class="tool"><b>Jobseeker</b> · jobseeker.com</span>
+      <span class="tool"><b>VisualCV</b></span>
+      <span class="tool"><b>Kickresume</b></span>
+      <span class="tool"><b>Craft CV</b> · craft-cv.com</span>
+    </div>
+    <p style="margin-top:1.2em">Then sharpen every version before you send it:</p>
+    <ul class="checks">
+      <li><strong>Lead with results</strong>, what you did, how, and the outcome. Use metrics: &ldquo;increased sales 40% in one year.&rdquo;</li>
+      <li><strong>Show evidence</strong>, link a public article, video, or sample. Never share IP-protected or company-internal files.</li>
+      <li><strong>Use active verbs</strong>, <em>led, delivered, coordinated, created, devised</em>, and drop the first person.</li>
+      <li><strong>Tailor efficiently</strong>, keep one long master CV and trim it per job description.</li>
+    </ul>
+  </section>
+
+  <!-- Takeaway -->
+  <section class="read reveal">
+    <div class="takeaway">
+      <h2 class="display">The seven-second checklist</h2>
+      <p class="sub mono">Before you hit send</p>
+      <ol>
+        <li><b>Tailored</b> to this exact posting, not a generic send.</li>
+        <li><b>Keyword-matched</b> to the job title and skills, so the <mark>filter</mark> passes it on.</li>
+        <li><b>Proven with metrics</b>, not adjectives.</li>
+        <li><b>One page</b>, scannable, active verbs, bullets.</li>
+        <li><b>Spotless</b> spelling, grammar, and the recipient's name.</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="src">
+      <strong>About this guide.</strong> Adapted from the Google Digital Garage webinar &ldquo;Build a CV and write a cover letter,&rdquo; presented by Benedict with live Q&amp;A by Annie. Statistics are as cited in that session. This article is an independent summary for educational use, not affiliated with or endorsed by Google.
+    </div>
+    <a class="cta" href="/cv/index.html">See my CV →</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var card = document.getElementById('scanCard');
+  var counter = document.getElementById('counter');
+
+  if(card){
+    if(reduce){
+      card.classList.add('matched');
+      if(counter) counter.textContent = '0s';
+    } else {
+      // run the 7-second scan once on load
+      requestAnimationFrame(function(){
+        card.classList.add('run');
+        var t = 7;
+        if(counter) counter.textContent = t + 's';
+        var iv = setInterval(function(){
+          t -= 1;
+          if(counter) counter.textContent = Math.max(t,0) + 's';
+          if(t <= 3) card.classList.add('matched'); // keywords light up mid-scan
+          if(t <= 0){ clearInterval(iv); }
+        }, 1000);
+      });
+    }
+  }
+
+  // scroll reveals
+  if(!reduce && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+
+</body>
+</html>

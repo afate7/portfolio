@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * tools/build.mjs — static blog generator (zero dependencies)
+ * tools/build.mjs · static blog generator (zero dependencies)
  *
  * Reads content/blog/*.md and site.config.json, then:
  *   1. Writes a fully static, SEO-complete page per article -> blog/<slug>.html
@@ -110,7 +110,7 @@ const posts = readdirSync(join(ROOT, 'content', 'blog'))
 // ----------------------------------------------------------------------------
 function articlePage(p) {
   const url = `${BASE}/blog/${p.slug}.html`;
-  const title = `${p.title} — ${AUTHOR}`;
+  const title = `${p.title} · ${AUTHOR}`;
   const desc = p.excerpt || `Writing by ${AUTHOR}.`;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -161,7 +161,7 @@ function articlePage(p) {
 </head>
 <body>
 <div class="reading-progress" id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status"><span class="offline-banner__dot"></span>You're offline — browsing cached content</div>
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status"><span class="offline-banner__dot"></span>You're offline · browsing cached content</div>
 
 <nav class="nav scrolled" id="nav" aria-label="Main navigation">
   <div class="container">
@@ -242,21 +242,25 @@ function articlePage(p) {
 // ----------------------------------------------------------------------------
 // Listing card fragments
 // ----------------------------------------------------------------------------
+// URL for a post's card / sitemap entry. Custom articles are hand-authored
+// HTML pages that supply their own href and are not generated from a template.
+const postUrl = (p) => p.href || `/blog/${p.slug}.html`;
+
 function previewCard(p, i) {
   const delay = i > 0 ? ` reveal-delay-${Math.min(i, 3)}` : '';
-  return `      <a href="/blog/${p.slug}.html" class="blog-card reveal${delay}">
+  return `      <a href="${postUrl(p)}" class="blog-card reveal${delay}">
         <span class="blog-card__number">0${i + 1}</span><div class="blog-card__content"><h3 class="blog-card__title">${escapeHTML(p.title)}</h3><div class="blog-card__meta"><span>${escapeHTML(p.category || '')}</span><span class="blog-card__dot"></span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div><span class="blog-card__arrow" aria-hidden="true">→</span>
       </a>`;
 }
 
 function featuredCard(p) {
-  return `    <a href="/blog/${p.slug}.html" style="display:block; text-decoration:none;">
+  return `    <a href="${postUrl(p)}" style="display:block; text-decoration:none;">
       <article class="featured-post-card reveal"><div class="featured-post-card__media"><div class="cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:4rem;">${p.emoji || '✍️'}</div></div><div class="featured-post-card__content"><span class="featured-pill" style="align-self:flex-start;">Featured</span><h2 class="blog-full-card__title">${escapeHTML(p.title)}</h2><p class="blog-full-card__excerpt">${escapeHTML(p.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(fmtLong(p.date))}</span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div></article>
     </a>`;
 }
 
 function gridCard(p) {
-  return `      <a href="/blog/${p.slug}.html" class="blog-full-card" data-category="${escapeAttr(p.categoryKey || 'product')}"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${p.emoji || '✍️'}</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">${escapeHTML(p.category || '')}</span><h3 class="blog-full-card__title">${escapeHTML(p.title)}</h3><p class="blog-full-card__excerpt">${escapeHTML(p.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(fmtLong(p.date))}</span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div></a>`;
+  return `      <a href="${postUrl(p)}" class="blog-full-card" data-category="${escapeAttr(p.categoryKey || 'product')}"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${p.emoji || '✍️'}</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">${escapeHTML(p.category || '')}</span><h3 class="blog-full-card__title">${escapeHTML(p.title)}</h3><p class="blog-full-card__excerpt">${escapeHTML(p.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(fmtLong(p.date))}</span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div></a>`;
 }
 
 // ----------------------------------------------------------------------------
@@ -266,7 +270,7 @@ function inject(file, marker, html) {
   const path = join(ROOT, file);
   const src = readFileSync(path, 'utf8');
   const re = new RegExp(`(<!-- BUILD:${marker}:START -->)[\\s\\S]*?(<!-- BUILD:${marker}:END -->)`);
-  if (!re.test(src)) { console.warn(`  ! marker ${marker} not found in ${file} — skipped`); return; }
+  if (!re.test(src)) { console.warn(`  ! marker ${marker} not found in ${file} · skipped`); return; }
   writeFileSync(path, src.replace(re, `$1\n${html}\n$2`));
   console.log(`  ✓ injected ${marker} into ${file}`);
 }
@@ -277,6 +281,7 @@ function inject(file, marker, html) {
 console.log(`\n▸ Building ${posts.length} article(s) with base URL ${BASE}\n`);
 
 for (const p of posts) {
+  if (p.custom) { console.log(`  · blog/${p.slug} (custom page, listed but not generated)`); continue; }
   writeFileSync(join(ROOT, 'blog', `${p.slug}.html`), articlePage(p));
   console.log(`  ✓ blog/${p.slug}.html  "${p.title}"`);
 }
@@ -294,7 +299,7 @@ inject('blog/index.html', 'BLOG_GRID', rest.map(gridCard).join('\n'));
 const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/cv/index.html'];
 const urls = [
   ...staticUrls.map((u) => ({ loc: BASE + u, priority: u === '/' ? '1.0' : '0.7' })),
-  ...posts.map((p) => ({ loc: `${BASE}/blog/${p.slug}.html`, lastmod: p.date, priority: '0.6' })),
+  ...posts.map((p) => ({ loc: BASE + postUrl(p), lastmod: p.date, priority: '0.6' })),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -15,7 +15,7 @@ Here's something nobody tells you when you start building products:
 
 There isn't one "right" way to do it. And that's both liberating and terrifying.
 
-After 13+ years across fintech, insurtech, edtech, and now GIS, I've seen successful products born from wildly different starting points. Some followed the textbook. Others threw it out the window. The pattern I keep coming back to isn't about method — it's about fit.
+After 13+ years across fintech, insurtech, edtech, and now GIS, I've seen successful products born from wildly different starting points. Some followed the textbook. Others threw it out the window. The pattern I keep coming back to isn't about method, it's about fit.
 
 Here are the paths I've seen actually work.
 
@@ -23,7 +23,7 @@ Here are the paths I've seen actually work.
 
 Find something that works elsewhere. Copy the core. Adapt to your context.
 
-This isn't lazy — it's smart. Why reinvent the wheel when you can focus your energy on the 20% that genuinely needs to be different? *Uber for X. Airbnb for Y.* The pattern is proven; your job is the adaptation.
+This isn't lazy, it's smart. Why reinvent the wheel when you can focus your energy on the 20% that genuinely needs to be different? *Uber for X. Airbnb for Y.* The pattern is proven; your job is the adaptation.
 
 This framework, and the tools around it, is especially helpful when you're **not** the subject-matter expert of the domain you're operating in. Borrowing a validated model buys you time to learn the parts that are actually yours to figure out.
 
@@ -31,13 +31,13 @@ This framework, and the tools around it, is especially helpful when you're **not
 
 Start with data. Talk to potential users. Understand the landscape before writing a single line of code.
 
-This is the "measure twice, cut once" approach. It takes longer upfront, but it saves you from building something nobody wants. It's the most scientific of the bunch — and it's the one consulting companies lean on, because it de-risks the decision before the spend.
+This is the "measure twice, cut once" approach. It takes longer upfront, but it saves you from building something nobody wants. It's the most scientific of the bunch, and it's the one consulting companies lean on, because it de-risks the decision before the spend.
 
 ## 3. The design-thinking journey
 
 Problem → Empathy → Ideation → Prototype → Test.
 
-Identify a real problem first. Deeply understand the pain. Then design your way to a solution. It's beautiful when it works — but it requires patience and organizational buy-in that early-stage teams don't always have.
+Identify a real problem first. Deeply understand the pain. Then design your way to a solution. It's beautiful when it works, but it requires patience and organizational buy-in that early-stage teams don't always have.
 
 ## So which one is "right"?
 
@@ -56,10 +56,10 @@ I've seen billion-dollar companies born from each of these paths. And I've seen 
 
 It's not which path you choose. It's that you:
 
-- **Know your constraints** — time, money, expertise.
-- **Stay flexible** — be ready to pivot between approaches as you learn.
-- **Talk to real users** — no matter which path you pick.
-- **Ship something** — perfect planning still means zero impact if you never launch.
+- **Know your constraints**, time, money, expertise.
+- **Stay flexible**, be ready to pivot between approaches as you learn.
+- **Talk to real users**, no matter which path you pick.
+- **Ship something**, perfect planning still means zero impact if you never launch.
 
 Choose the path that fits your reality, not the one that looks best on a slide.
 
