@@ -3,6 +3,8 @@ title: Nagwa — Building EdTech That Actually Teaches
 year: 2021
 category: edtech
 categoryLabel: EdTech
+role: "Head of Product"
+teamSize: "18 across product, design, engineering, content ops"
 description: Launched Nagwa Classes and Nagwa Readers — two products serving students across the MENA region — while rebuilding the content workflow that powered them with AI-driven automation.
 emoji: 📚
 gradient: "linear-gradient(135deg, #fdf4ff, #f3e8ff)"

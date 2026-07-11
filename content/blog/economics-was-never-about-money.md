@@ -1,6 +1,7 @@
 ---
 title: Economics Was Never About Money
 date: 2025-02-10
+categoryKey: thinking
 category: Thinking
 readTime: 10
 excerpt: For years, I dismissed economics as dry charts and abstract formulas. Then one sentence changed everything — and reshaped how I think about every decision I make.

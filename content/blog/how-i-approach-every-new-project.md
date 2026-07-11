@@ -1,6 +1,7 @@
 ---
 title: How I Approach Every New Project
 date: 2024-12-10
+categoryKey: process
 category: Process
 readTime: 6
 excerpt: A behind-the-scenes look at my creative process — from the first client call to the final handoff. Including the mistakes I always make and how I've learned to catch them earlier.

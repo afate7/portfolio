@@ -16,3 +16,4 @@ assets/uploads/
 
 # Logs
 *.log
+.vercel
