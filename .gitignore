@@ -20,3 +20,4 @@ assets/uploads/
 
 # Claude Code local tooling
 .claude/
+.vercel
