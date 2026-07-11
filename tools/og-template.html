@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #fafafa;
+    color: #111110;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 88px;
+  }
+  /* subtle grid */
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(#e8e8e4 1px, transparent 1px),
+      linear-gradient(90deg, #e8e8e4 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(circle at 80% 20%, #000 0%, transparent 60%);
+            mask-image: radial-gradient(circle at 80% 20%, #000 0%, transparent 60%);
+    opacity: 0.5;
+  }
+  .accent-blob {
+    position: absolute; top: -160px; right: -160px;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.16), transparent 70%);
+  }
+  .eyebrow {
+    position: relative;
+    font-size: 22px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #2563eb; margin-bottom: 28px;
+  }
+  .name {
+    position: relative;
+    font-size: 108px; font-weight: 800; letter-spacing: -0.04em;
+    line-height: 0.98;
+  }
+  .name .dot { color: #2563eb; }
+  .tagline {
+    position: relative;
+    margin-top: 34px; font-size: 40px; font-weight: 500;
+    letter-spacing: -0.01em; color: #3a3a37; max-width: 900px; line-height: 1.28;
+  }
+  .tagline em { color: #2563eb; font-style: normal; font-weight: 600; }
+  .foot {
+    position: absolute; left: 88px; bottom: 72px;
+    display: flex; align-items: center; gap: 18px;
+    font-size: 24px; font-weight: 500; color: #6b6b67;
+  }
+  .foot .sep { width: 6px; height: 6px; border-radius: 50%; background: #c9c9c4; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="accent-blob"></div>
+  <div class="eyebrow">Digital Product Lead</div>
+  <div class="name">Ahmed Alfateh<span class="dot">.</span></div>
+  <div class="tagline">Turning complexity into products people <em>trust.</em></div>
+  <div class="foot">
+    <span>Product · FinTech · GovTech · MENA</span>
+  </div>
+</body>
+</html>

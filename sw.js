@@ -4,9 +4,9 @@
  * Offline fallback included
  */
 
-const CACHE_NAME    = 'portfolio-v1';
-const STATIC_CACHE  = 'portfolio-static-v1';
-const DYNAMIC_CACHE = 'portfolio-dynamic-v1';
+const CACHE_NAME    = 'portfolio-v2';
+const STATIC_CACHE  = 'portfolio-static-v2';
+const DYNAMIC_CACHE = 'portfolio-dynamic-v2';
 
 // Files to precache on install (app shell)
 const PRECACHE_URLS = [
@@ -168,7 +168,7 @@ function offlinePage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Offline — Alex Morgan</title>
+  <title>Offline — Ahmed Alfateh</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {

@@ -413,5 +413,5 @@ staticServer.listen(SITE_PORT, () => {
 
 adminServer.listen(ADMIN_PORT, () => {
   console.log(`✅ Admin: http://localhost:${ADMIN_PORT}  (API)`);
-  console.log(`\n📝 Open your admin panel: http://localhost:${SITE_PORT}/admin/\n`);
+  console.log(`\n📝 Edit content in content/*.md, run \`node tools/build.mjs\`, then commit.\n`);
 });

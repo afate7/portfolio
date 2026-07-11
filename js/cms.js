@@ -342,14 +342,11 @@ function formatDateLong(dateStr) {
 document.addEventListener('DOMContentLoaded', async () => {
   const path = window.location.pathname;
 
-  if (path.endsWith('/index.html') || path === '/') {
-    const posts = await loadBlogPosts();
-    renderHomeBlogPreview(posts);
-  }
-
+  // Blog listings (home preview + /blog index) are pre-rendered as static HTML
+  // by tools/build.mjs, so cms.js no longer renders them. It still wires the
+  // category filter on the blog index, powers the legacy post.html fallback,
+  // and renders the projects grid.
   if (path.includes('/blog/index')) {
-    const posts = await loadBlogPosts();
-    renderBlogIndex(posts);
     initBlogFilter();
   }
 

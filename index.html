@@ -11,13 +11,21 @@
   <meta property="og:title"       content="Ahmed Alfateh — Digital Product Lead" />
   <meta property="og:description" content="Product leader shipping in regulated, high-stakes environments — from national government transformation to FinTech wallets serving 100K+ users." />
   <meta property="og:url"         content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app" />
+  <meta property="og:image"       content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/assets/og.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Ahmed Alfateh — Digital Product Lead" />
+  <meta name="twitter:description" content="Product leader shipping in regulated, high-stakes environments — from national government transformation to FinTech wallets serving 100K+ users." />
+  <meta name="twitter:image"       content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/assets/og.png" />
 
   <link rel="canonical" href="https://portfolio-three-zeta-9cw6dwpro4.vercel.app" />
   <title>Ahmed Alfateh — Digital Product Lead</title>
 
-  <!-- PWA -->
+  <!-- Icons / PWA -->
+  <link rel="icon" href="assets/icons/icon.svg" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icons/icon.svg" />
 
   <!-- Preconnect for fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,6 +34,8 @@
 
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/theme.css" />
+
+  <script src="js/site.js" defer></script>
 
   <script type="application/ld+json">
   {
@@ -375,15 +385,17 @@
     </div>
 
     <nav class="blog-list" id="cms-blog-preview" aria-label="Recent blog posts">
-      <a href="blog/post.html?slug=economics-was-never-about-money" class="blog-card reveal">
+      <!-- BUILD:BLOG_PREVIEW:START -->
+      <a href="/blog/economics-was-never-about-money.html" class="blog-card reveal">
         <span class="blog-card__number">01</span><div class="blog-card__content"><h3 class="blog-card__title">Economics Was Never About Money</h3><div class="blog-card__meta"><span>Thinking</span><span class="blog-card__dot"></span><span>10 min read</span></div></div><span class="blog-card__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="blog/post.html?slug=the-case-against-dark-patterns" class="blog-card reveal reveal-delay-1">
-        <span class="blog-card__number">02</span><div class="blog-card__content"><h3 class="blog-card__title">The Case Against Dark Patterns</h3><div class="blog-card__meta"><span>Product</span><span class="blog-card__dot"></span><span>8 min read</span></div></div><span class="blog-card__arrow" aria-hidden="true">→</span>
+      <a href="/blog/the-case-against-dark-patterns.html" class="blog-card reveal reveal-delay-1">
+        <span class="blog-card__number">02</span><div class="blog-card__content"><h3 class="blog-card__title">The Case Against Dark Patterns</h3><div class="blog-card__meta"><span>Design Ethics</span><span class="blog-card__dot"></span><span>8 min read</span></div></div><span class="blog-card__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="blog/post.html?slug=how-i-approach-every-new-project" class="blog-card reveal reveal-delay-2">
+      <a href="/blog/how-i-approach-every-new-project.html" class="blog-card reveal reveal-delay-2">
         <span class="blog-card__number">03</span><div class="blog-card__content"><h3 class="blog-card__title">How I Approach Every New Project</h3><div class="blog-card__meta"><span>Process</span><span class="blog-card__dot"></span><span>6 min read</span></div></div><span class="blog-card__arrow" aria-hidden="true">→</span>
       </a>
+<!-- BUILD:BLOG_PREVIEW:END -->
     </nav>
   </div>
 </section>
@@ -422,9 +434,7 @@
         </div>
       </div>
 
-      <form class="contact__form reveal-right" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-        <input type="hidden" name="form-name" value="contact" />
-        <p hidden><label>Don’t fill this out: <input name="bot-field" /></label></p>
+      <form class="contact__form reveal-right" novalidate>
         <div class="form-group">
           <label class="form-label" for="name">Your name</label>
           <input class="form-input" type="text" id="name" name="name" placeholder="Jane Smith" autocomplete="name" required />
@@ -457,12 +467,17 @@
         <a href="blog/index.html"     class="footer__link">Blog</a>
         <a href="#contact"        class="footer__link">Contact</a>
       </nav>
+      <nav class="footer__links" aria-label="Social links">
+        <a class="footer__link" data-social="linkedin" href="#" style="display:none">LinkedIn</a>
+        <a class="footer__link" data-social="twitter"  href="#" style="display:none">X</a>
+        <a class="footer__link" data-social="github"   href="#" style="display:none">GitHub</a>
+        <a class="footer__link" data-social="substack" href="#" style="display:none">Substack</a>
+      </nav>
     </div>
   </div>
 </footer>
 
 <script src="js/main.js" defer></script>
 <script src="js/cms.js" defer></script>
-<script src="js/live-reload.js" defer></script>
 </body>
 </html>

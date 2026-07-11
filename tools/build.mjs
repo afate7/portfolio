@@ -1,0 +1,306 @@
+#!/usr/bin/env node
+/**
+ * tools/build.mjs — static blog generator (zero dependencies)
+ *
+ * Reads content/blog/*.md and site.config.json, then:
+ *   1. Writes a fully static, SEO-complete page per article -> blog/<slug>.html
+ *   2. Injects the homepage preview cards into index.html (between markers)
+ *   3. Injects featured + grid cards into blog/index.html (between markers)
+ *   4. Regenerates sitemap.xml
+ *
+ * There is NO deploy build step: run this locally when content changes,
+ * then commit the generated files. You (Claude) are the publisher.
+ *
+ *   node tools/build.mjs
+ */
+
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const cfg = JSON.parse(readFileSync(join(ROOT, 'site.config.json'), 'utf8'));
+const BASE = (cfg.baseUrl || '').replace(/\/+$/, '');
+const AUTHOR = cfg.author || 'Ahmed Alfateh';
+const OG_IMAGE = BASE + '/assets/og.png';
+
+// ----------------------------------------------------------------------------
+// Frontmatter + Markdown (kept in lockstep with js/cms.js so the fallback
+// renderer at blog/post.html produces identical output).
+// ----------------------------------------------------------------------------
+function parseFrontmatter(raw) {
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) return { data: {}, content: raw };
+  const data = {};
+  let key = null, inArray = false;
+  m[1].split('\n').forEach((line) => {
+    if (/^\s+-\s+/.test(line) && key && inArray) {
+      (data[key] = data[key] || []).push(line.replace(/^\s+-\s+/, '').trim().replace(/^['"]|['"]$/g, ''));
+      return;
+    }
+    const kv = line.match(/^([\w-]+)\s*:\s*(.*)$/);
+    if (!kv) return;
+    key = kv[1]; inArray = false;
+    const v = (kv[2] || '').trim();
+    if (!v) { data[key] = []; inArray = true; return; }
+    if (v === 'true') data[key] = true;
+    else if (v === 'false') data[key] = false;
+    else if (/^\d+$/.test(v)) data[key] = Number(v);
+    else data[key] = v.replace(/^['"]|['"]$/g, '');
+  });
+  return { data, content: m[2].trim() };
+}
+
+function escapeHTML(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function escapeAttr(s) {
+  return escapeHTML(s).replace(/"/g, '&quot;');
+}
+
+function markdownToHTML(md) {
+  if (!md) return '';
+  return md
+    .replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
+      `<pre><code class="language-${lang}">${escapeHTML(code.trim())}</code></pre>`)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy" />')
+    .replace(/^---$/gm, '<hr />')
+    .replace(/\n{2,}/g, '\n\n')
+    .split('\n\n')
+    .map((block) => {
+      const clean = block.trim();
+      if (!clean) return '';
+      if (/^<(h[1-6]|ul|ol|li|blockquote|pre|hr|img)/.test(clean)) {
+        return clean.startsWith('<li>') ? `<ul>${clean}</ul>` : clean;
+      }
+      return `<p>${clean.replace(/\n/g, '<br />')}</p>`;
+    })
+    .join('\n');
+}
+
+function fmtLong(d) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+// ----------------------------------------------------------------------------
+// Load posts
+// ----------------------------------------------------------------------------
+const posts = readdirSync(join(ROOT, 'content', 'blog'))
+  .filter((f) => f.endsWith('.md'))
+  .map((f) => {
+    const { data, content } = parseFrontmatter(readFileSync(join(ROOT, 'content', 'blog', f), 'utf8'));
+    return { ...data, content, slug: f.replace(/\.md$/, '') };
+  })
+  .filter((p) => !p.draft)
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+// ----------------------------------------------------------------------------
+// Article page template
+// ----------------------------------------------------------------------------
+function articlePage(p) {
+  const url = `${BASE}/blog/${p.slug}.html`;
+  const title = `${p.title} — ${AUTHOR}`;
+  const desc = p.excerpt || `Writing by ${AUTHOR}.`;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: p.title,
+    datePublished: p.date,
+    dateModified: p.date,
+    author: { '@type': 'Person', name: AUTHOR },
+    description: p.excerpt || '',
+    mainEntityOfPage: url,
+    image: OG_IMAGE,
+  };
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="${escapeAttr(desc)}" />
+  <meta name="theme-color" content="#fafafa" />
+  <meta name="author" content="${escapeAttr(AUTHOR)}" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="${escapeAttr(title)}" />
+  <meta property="og:description" content="${escapeAttr(desc)}" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="${OG_IMAGE}" />
+  <meta property="article:published_time" content="${escapeAttr(p.date)}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escapeAttr(title)}" />
+  <meta name="twitter:description" content="${escapeAttr(desc)}" />
+  <meta name="twitter:image" content="${OG_IMAGE}" />
+
+  <link rel="canonical" href="${url}" />
+  <title>${escapeHTML(title)}</title>
+
+  <link rel="icon" href="/assets/icons/icon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+  <script src="/js/site.js" defer></script>
+</head>
+<body>
+<div class="reading-progress" id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status"><span class="offline-banner__dot"></span>You're offline — browsing cached content</div>
+
+<nav class="nav scrolled" id="nav" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/index.html" class="nav__logo">ahmed<span>.</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="/index.html#about" class="nav__link">About</a></li>
+        <li><a href="/projects/index.html" class="nav__link">Projects</a></li>
+        <li><a href="/blog/index.html" class="nav__link active">Writing</a></li>
+        <li><a href="/index.html#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <a href="/index.html#contact" class="nav__cta">Let's Talk</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <ul role="list">
+    <li><a href="/index.html#about" class="nav__link" data-mobile-link>About</a></li>
+    <li><a href="/projects/index.html" class="nav__link" data-mobile-link>Projects</a></li>
+    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="/index.html#contact" class="nav__link" data-mobile-link>Contact</a></li>
+  </ul>
+</div>
+
+<main>
+  <header class="post-header" aria-label="Post header">
+    <a href="/blog/index.html" class="post-category">← Back to Writing</a>
+    <h1 class="post-title reveal">${escapeHTML(p.title)}</h1>
+    <div class="post-meta reveal reveal-delay-1">
+      <div class="post-author-avatar" aria-hidden="true">🧑‍💻</div>
+      <div>
+        <div style="font-weight: 500; color: var(--clr-text); font-size: var(--text-sm);">${escapeHTML(AUTHOR)}</div>
+        <div style="font-size: var(--text-xs); color: var(--clr-text-muted);">${escapeHTML(fmtLong(p.date))}</div>
+      </div>
+      <span class="post-divider" aria-hidden="true"></span>
+      <span>${escapeHTML(String(p.readTime || ''))} min read</span>
+      <span class="post-divider" aria-hidden="true"></span>
+      <span>${escapeHTML(p.category || '')}</span>
+    </div>
+  </header>
+
+  <div style="max-width: var(--container-md); margin-inline: auto; padding-inline: var(--space-6); margin-bottom: var(--space-12);" class="reveal">
+    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};">${p.emoji || '✍️'}</div>
+  </div>
+
+  <div class="post-content container">
+    <article class="cms-post-body">${markdownToHTML(p.content)}</article>
+    <div style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--clr-border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6);" class="reveal">
+      <a href="/blog/index.html" class="btn btn--outline" style="font-size: var(--text-sm);">← More posts</a>
+      <a href="/index.html#contact" class="btn btn--primary" style="font-size: var(--text-sm);">Work with me</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container"><div class="footer__inner"><p class="footer__copy">© 2026 ${escapeHTML(AUTHOR)}. Built with care.</p></div></div>
+</footer>
+
+<script src="/js/main.js" defer></script>
+<script>
+  document.addEventListener('scroll', () => {
+    const article = document.querySelector('.cms-post-body');
+    if (!article) return;
+    const height = article.offsetHeight || 1;
+    const top = article.offsetTop;
+    const progress = Math.min(100, Math.max(0, ((window.scrollY - top + 200) / height) * 100));
+    const bar = document.getElementById('readingProgress');
+    if (bar) { bar.style.width = progress + '%'; bar.setAttribute('aria-valuenow', String(Math.round(progress))); }
+  }, { passive: true });
+</script>
+</body>
+</html>
+`;
+}
+
+// ----------------------------------------------------------------------------
+// Listing card fragments
+// ----------------------------------------------------------------------------
+function previewCard(p, i) {
+  const delay = i > 0 ? ` reveal-delay-${Math.min(i, 3)}` : '';
+  return `      <a href="/blog/${p.slug}.html" class="blog-card reveal${delay}">
+        <span class="blog-card__number">0${i + 1}</span><div class="blog-card__content"><h3 class="blog-card__title">${escapeHTML(p.title)}</h3><div class="blog-card__meta"><span>${escapeHTML(p.category || '')}</span><span class="blog-card__dot"></span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div><span class="blog-card__arrow" aria-hidden="true">→</span>
+      </a>`;
+}
+
+function featuredCard(p) {
+  return `    <a href="/blog/${p.slug}.html" style="display:block; text-decoration:none;">
+      <article class="featured-post-card reveal"><div class="featured-post-card__media"><div class="cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:4rem;">${p.emoji || '✍️'}</div></div><div class="featured-post-card__content"><span class="featured-pill" style="align-self:flex-start;">Featured</span><h2 class="blog-full-card__title">${escapeHTML(p.title)}</h2><p class="blog-full-card__excerpt">${escapeHTML(p.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(fmtLong(p.date))}</span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div></article>
+    </a>`;
+}
+
+function gridCard(p) {
+  return `      <a href="/blog/${p.slug}.html" class="blog-full-card" data-category="${escapeAttr(p.categoryKey || 'product')}"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${p.emoji || '✍️'}</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">${escapeHTML(p.category || '')}</span><h3 class="blog-full-card__title">${escapeHTML(p.title)}</h3><p class="blog-full-card__excerpt">${escapeHTML(p.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(fmtLong(p.date))}</span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div></a>`;
+}
+
+// ----------------------------------------------------------------------------
+// Marker injection
+// ----------------------------------------------------------------------------
+function inject(file, marker, html) {
+  const path = join(ROOT, file);
+  const src = readFileSync(path, 'utf8');
+  const re = new RegExp(`(<!-- BUILD:${marker}:START -->)[\\s\\S]*?(<!-- BUILD:${marker}:END -->)`);
+  if (!re.test(src)) { console.warn(`  ! marker ${marker} not found in ${file} — skipped`); return; }
+  writeFileSync(path, src.replace(re, `$1\n${html}\n$2`));
+  console.log(`  ✓ injected ${marker} into ${file}`);
+}
+
+// ----------------------------------------------------------------------------
+// Build
+// ----------------------------------------------------------------------------
+console.log(`\n▸ Building ${posts.length} article(s) with base URL ${BASE}\n`);
+
+for (const p of posts) {
+  writeFileSync(join(ROOT, 'blog', `${p.slug}.html`), articlePage(p));
+  console.log(`  ✓ blog/${p.slug}.html  "${p.title}"`);
+}
+
+const featured = posts.find((p) => p.featured) || posts[0];
+const rest = posts.filter((p) => p.slug !== (featured && featured.slug));
+
+inject('index.html', 'BLOG_PREVIEW', posts.slice(0, 4).map(previewCard).join('\n'));
+if (featured) inject('blog/index.html', 'BLOG_FEATURED', featuredCard(featured));
+inject('blog/index.html', 'BLOG_GRID', rest.map(gridCard).join('\n'));
+
+// ----------------------------------------------------------------------------
+// Sitemap
+// ----------------------------------------------------------------------------
+const staticUrls = ['/', '/projects/index.html', '/blog/index.html'];
+const urls = [
+  ...staticUrls.map((u) => ({ loc: BASE + u, priority: u === '/' ? '1.0' : '0.7' })),
+  ...posts.map((p) => ({ loc: `${BASE}/blog/${p.slug}.html`, lastmod: p.date, priority: '0.6' })),
+];
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((u) => `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}<priority>${u.priority}</priority></url>`).join('\n')}
+</urlset>
+`;
+writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
+console.log(`  ✓ sitemap.xml (${urls.length} urls)`);
+console.log('\n✅ Build complete.\n');

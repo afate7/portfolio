@@ -211,57 +211,50 @@
 })();
 
 // ============================================================
-// 7. CONTACT FORM: Simple inline validation + feedback
+// 7. CONTACT FORM: Validate, then hand off to the visitor's email client
+//    (no backend / no keys — the message is pre-addressed to Ahmed)
 // ============================================================
 (function initContactForm() {
   const form = document.querySelector('.contact__form');
   if (!form) return;
 
-  form.addEventListener('submit', async (e) => {
+  const RECIPIENT = 'afateh@me.com';
+
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const btn = form.querySelector('.form-submit');
-    const original = btn.textContent;
-
-    // Basic validation
+    const btn     = form.querySelector('.form-submit');
+    const original = btn ? btn.textContent : '';
     const name    = form.querySelector('#name');
     const email   = form.querySelector('#email');
     const message = form.querySelector('#message');
 
+    // Basic validation
     let valid = true;
-
-    [name, email, message].forEach(field => {
+    [name, email, message].forEach((field) => {
       if (!field) return;
-      if (!field.value.trim()) {
-        field.style.borderColor = '#ef4444';
-        valid = false;
-      } else {
-        field.style.borderColor = '';
-      }
+      if (!field.value.trim()) { field.style.borderColor = '#ef4444'; valid = false; }
+      else { field.style.borderColor = ''; }
     });
-
     if (email && email.value && !email.value.includes('@')) {
       email.style.borderColor = '#ef4444';
       valid = false;
     }
-
     if (!valid) return;
 
-    // Simulate send (replace with actual endpoint)
-    btn.textContent = 'Sending…';
-    btn.disabled = true;
+    // Build a pre-filled email and open the visitor's mail client.
+    const subject = `Portfolio enquiry from ${name.value.trim()}`;
+    const body    = `${message.value.trim()}\n\n— ${name.value.trim()} (${email.value.trim()})`;
+    const href    = `mailto:${RECIPIENT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    await new Promise(resolve => setTimeout(resolve, 1200));
-
-    btn.textContent = '✓ Message sent!';
-    btn.style.background = '#22c55e';
-    form.reset();
+    if (btn) btn.textContent = 'Opening your email…';
+    window.location.href = href;
 
     setTimeout(() => {
-      btn.textContent = original;
-      btn.style.background = '';
-      btn.disabled = false;
-    }, 4000);
+      if (btn) btn.textContent = '✓ Opened in your mail app';
+      form.reset();
+      setTimeout(() => { if (btn) btn.textContent = original; }, 4000);
+    }, 600);
   });
 })();
 

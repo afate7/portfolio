@@ -17,3 +17,6 @@ assets/uploads/
 # Logs
 *.log
 .vercel
+
+# Claude Code local tooling
+.claude/

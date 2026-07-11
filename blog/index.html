@@ -5,13 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Ahmed Alfateh's writing on product leadership, technology, behavioral economics, and the things that keep me up at night." />
   <meta name="theme-color" content="#fafafa" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Writing — Ahmed Alfateh" />
+  <meta property="og:description" content="Essays on product leadership, technology, and behavioral economics by Ahmed Alfateh." />
+  <meta property="og:url" content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/index.html" />
+  <meta property="og:image" content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/assets/og.png" />
+
+  <link rel="canonical" href="https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/index.html" />
   <title>Writing — Ahmed Alfateh</title>
+  <link rel="icon" href="../assets/icons/icon.svg" />
   <link rel="manifest" href="../manifest.json" />
+  <link rel="apple-touch-icon" href="../assets/icons/icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/theme.css" />
+
+  <script src="../js/site.js" defer></script>
 
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Blog","name":"Ahmed Alfateh Writing","url":"https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/index.html"}
@@ -80,9 +94,11 @@
 <!-- FEATURED POST -->
 <section style="padding-bottom: var(--space-16);" aria-label="Featured post">
   <div class="container container--lg" id="cms-featured-post">
-    <a href="post.html?slug=economics-was-never-about-money" style="display:block; text-decoration:none;">
-      <article class="featured-post-card reveal"><div class="featured-post-card__media"><div class="cms-post-cover" style="background:linear-gradient(135deg,#f0f4ff,#dde8ff);display:flex;align-items:center;justify-content:center;font-size:4rem;">🧠</div></div><div class="featured-post-card__content"><span class="featured-pill" style="align-self:flex-start;">Featured</span><h2 class="blog-full-card__title">Economics Was Never About Money</h2><p class="blog-full-card__excerpt">Behavioral economics, decision-making, and product strategy in the real world.</p></div></article>
+    <!-- BUILD:BLOG_FEATURED:START -->
+    <a href="/blog/economics-was-never-about-money.html" style="display:block; text-decoration:none;">
+      <article class="featured-post-card reveal"><div class="featured-post-card__media"><div class="cms-post-cover" style="background:linear-gradient(135deg, #f0f7ff, #dce9ff);display:flex;align-items:center;justify-content:center;font-size:4rem;">📊</div></div><div class="featured-post-card__content"><span class="featured-pill" style="align-self:flex-start;">Featured</span><h2 class="blog-full-card__title">Economics Was Never About Money</h2><p class="blog-full-card__excerpt">For years, I dismissed economics as dry charts and abstract formulas. Then one sentence changed everything — and reshaped how I think about every decision I make.</p><div class="blog-full-card__footer"><span>February 10, 2025</span><span>10 min read</span></div></div></article>
     </a>
+<!-- BUILD:BLOG_FEATURED:END -->
   </div>
 </section>
 
@@ -90,50 +106,25 @@
 <section style="padding-bottom: var(--space-24);" aria-label="All posts">
   <div class="container container--lg">
     <div class="blog-grid" id="cms-blog-grid">
-      <a href="post.html?slug=the-case-against-dark-patterns" class="blog-full-card"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:linear-gradient(135deg,#f0f4ff,#dde8ff);display:flex;align-items:center;justify-content:center;font-size:3rem;">🎭</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">Product</span><h3 class="blog-full-card__title">The Case Against Dark Patterns</h3><p class="blog-full-card__excerpt">Design ethics and trust over short-term conversion.</p></div></a>
-      <a href="post.html?slug=how-i-approach-every-new-project" class="blog-full-card"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:linear-gradient(135deg,#fff4e6,#ffe8c8);display:flex;align-items:center;justify-content:center;font-size:3rem;">🔍</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">Process</span><h3 class="blog-full-card__title">How I Approach Every New Project</h3><p class="blog-full-card__excerpt">A practical project approach from discovery to delivery.</p></div></a>
+      <!-- BUILD:BLOG_GRID:START -->
+      <a href="/blog/the-case-against-dark-patterns.html" class="blog-full-card" data-category="product"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:linear-gradient(135deg, #f0f4ff, #dde8ff);display:flex;align-items:center;justify-content:center;font-size:3rem;">🎭</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">Design Ethics</span><h3 class="blog-full-card__title">The Case Against Dark Patterns</h3><p class="blog-full-card__excerpt">We've built an internet that tricks people into subscriptions, manipulates them into sharing data, and punishes them for trying to leave. It's time we talk about why — and what we can do instead.</p><div class="blog-full-card__footer"><span>January 15, 2025</span><span>8 min read</span></div></div></a>
+      <a href="/blog/how-i-approach-every-new-project.html" class="blog-full-card" data-category="process"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:linear-gradient(135deg, #fff4e6, #ffe8c8);display:flex;align-items:center;justify-content:center;font-size:3rem;">🔍</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">Process</span><h3 class="blog-full-card__title">How I Approach Every New Project</h3><p class="blog-full-card__excerpt">A behind-the-scenes look at my creative process — from the first client call to the final handoff. Including the mistakes I always make and how I've learned to catch them earlier.</p><div class="blog-full-card__footer"><span>December 10, 2024</span><span>6 min read</span></div></div></a>
+<!-- BUILD:BLOG_GRID:END -->
     </div>
 
-    <!-- Load More -->
-    <div style="display:flex; justify-content:center; margin-top: var(--space-12);">
-      <button class="btn btn--outline reveal" onclick="this.textContent='No more posts for now!'">Load more posts</button>
-    </div>
   </div>
 </section>
 
 <!-- NEWSLETTER -->
-<section style="padding-block: var(--space-20); background: var(--clr-bg-alt); border-top: 1px solid var(--clr-border);" aria-label="Newsletter signup">
+<section style="padding-block: var(--space-20); background: var(--clr-bg-alt); border-top: 1px solid var(--clr-border);" aria-label="Newsletter signup" data-substack-section>
   <div class="container container--sm" style="text-align: center;">
     <p class="section-label reveal" style="justify-content: center;">Newsletter</p>
     <h2 class="section-title reveal reveal-delay-1" style="font-size: var(--text-3xl);">New essays, occasionally.</h2>
     <p class="section-desc reveal reveal-delay-2" style="margin: var(--space-4) auto var(--space-8);">
-      I send a newsletter when I have something worth saying — roughly twice a month.
+      I publish essays on Substack when I have something worth saying — roughly twice a month.
       No spam, no sales pitches. Just ideas.
     </p>
-    <form style="display: flex; gap: var(--space-3); max-width: 420px; margin: 0 auto;" class="reveal reveal-delay-3" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="newsletter" />
-      <p hidden><label>Don’t fill this out: <input name="bot-field" /></label></p>
-      <input
-        type="email"
-        name="email"
-        placeholder="your@email.com"
-        autocomplete="email"
-        required
-        style="
-          flex: 1;
-          font-family: var(--font-sans);
-          font-size: var(--text-sm);
-          padding: var(--space-3) var(--space-4);
-          border: 1px solid var(--clr-border);
-          border-radius: var(--radius-full);
-          background: var(--clr-surface);
-          color: var(--clr-text);
-          outline: none;
-          transition: border-color var(--duration-base) var(--ease-out);
-        "
-      />
-      <button type="submit" class="btn btn--primary" style="border-radius: var(--radius-full); flex-shrink:0;">Subscribe</button>
-    </form>
+    <a class="btn btn--primary reveal reveal-delay-3" data-substack href="#" style="border-radius: var(--radius-full);">Subscribe on Substack →</a>
   </div>
 </section>
 
@@ -155,7 +146,6 @@
 
 <script src="../js/main.js" defer></script>
 <script src="../js/cms.js" defer></script>
-<script src="../js/live-reload.js" defer></script>
 
 </body>
 </html>
