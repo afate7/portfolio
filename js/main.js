@@ -384,14 +384,29 @@
 })();
 
 // ============================================================
-// 12. PAGE LOAD FADE-IN
+// 13. HERO BRAND VIDEO: play only when motion is allowed + in view
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.4s ease';
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.body.style.opacity = '1';
-    });
-  });
+  const video = document.querySelector('.hero__brand-video');
+  if (!video) return;
+
+  // Respect reduced motion — leave the static poster in place.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const start = () => {
+    video.preload = 'auto';
+    const p = video.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {}); // ignore autoplay block
+  };
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { start(); obs.disconnect(); }
+      });
+    }, { rootMargin: '0px' });
+    io.observe(video);
+  } else {
+    start();
+  }
 });

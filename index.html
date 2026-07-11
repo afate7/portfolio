@@ -132,12 +132,16 @@
       <div class="hero__visual" aria-hidden="true">
         <div class="hero__image-wrap">
           <div class="hero__image-placeholder" style="font-size:0;padding:0;">
-          <img
-            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
-            alt="Product strategy at work"
-            style="width:100%;height:100%;object-fit:cover;display:block;"
-            loading="eager"
-          />
+          <video
+            class="hero__brand-video"
+            muted loop playsinline preload="none"
+            poster="assets/brand-loop-poster.png"
+            aria-label="Animated brand mark: turning complexity into products people trust"
+            style="width:100%;height:100%;object-fit:cover;display:block;background:#fafafa;"
+          >
+            <source src="assets/brand-loop.webm" type="video/webm" />
+            <source src="assets/brand-loop.mp4" type="video/mp4" />
+          </video>
         </div>
         </div>
 

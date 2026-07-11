@@ -21,3 +21,8 @@ assets/uploads/
 # Claude Code local tooling
 .claude/
 .vercel
+
+# Local verification artifacts (screenshots, Playwright output)
+.playwright-mcp/
+/globe-*.png
+/hero-video.png
