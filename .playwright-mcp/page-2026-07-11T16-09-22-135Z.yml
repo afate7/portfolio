@@ -1,0 +1,236 @@
+- generic [active] [ref=f7e1]:
+  - status [ref=f7e2]: You're offline, browsing cached content
+  - navigation "Main navigation" [ref=f7e4]:
+    - generic [ref=f7e6]:
+      - link "ahmed." [ref=f7e7] [cursor=pointer]:
+        - /url: index.html
+      - button "Toggle menu" [ref=f7e8] [cursor=pointer]
+  - dialog:
+    - list:
+      - listitem:
+        - link:
+          - /url: "#about"
+          - text: About
+      - listitem:
+        - link:
+          - /url: "#projects"
+          - text: Projects
+      - listitem:
+        - link:
+          - /url: "#blog"
+          - text: Writing
+      - listitem:
+        - link:
+          - /url: cv/index.html
+          - text: CV
+      - listitem:
+        - link:
+          - /url: "#contact"
+          - text: Contact
+  - main [ref=f7e12]:
+    - region "Introduction" [ref=f7e13]:
+      - generic [ref=f7e15]:
+        - generic [ref=f7e16]:
+          - paragraph [ref=f7e17]: Digital Product Lead
+          - heading "I turn complexity into products people trust." [level=1] [ref=f7e18]:
+            - generic [ref=f7e19]: I turn complexity
+            - generic [ref=f7e21]: into products
+            - generic [ref=f7e24]:
+              - text: people
+              - emphasis [ref=f7e25]: trust.
+          - paragraph [ref=f7e26]: Product leader with 13+ years shipping in regulated, high-stakes environments, from national government transformation to FinTech wallets serving 100K+ users across MENA.
+          - generic [ref=f7e27]:
+            - link "View my work" [ref=f7e28] [cursor=pointer]:
+              - /url: projects/index.html
+            - link "My story" [ref=f7e31] [cursor=pointer]:
+              - /url: "#about"
+        - generic [ref=f7e38]:
+          - generic [ref=f7e39]: Available for work
+          - generic [ref=f7e40]: Open to new opportunities
+      - generic "Scroll down" [ref=f7e41]: Scroll
+    - region "Past collaborations" [ref=f7e44]:
+      - generic [ref=f7e45]:
+        - paragraph [ref=f7e46]: Organizations I've worked with
+        - generic [ref=f7e47]:
+          - generic [ref=f7e48]: GeoTech
+          - generic [ref=f7e49]: Tameeni
+          - generic [ref=f7e50]: AevaPay
+          - generic [ref=f7e51]: Nagwa
+          - generic [ref=f7e52]: Aanaab
+    - region "About me" [ref=f7e53]:
+      - generic [ref=f7e55]:
+        - generic [ref=f7e56]:
+          - generic [ref=f7e57]:
+            - paragraph [ref=f7e58]: My story
+            - heading "Engineering roots. Product soul." [level=2] [ref=f7e59]: Engineering roots.Product soul.
+          - paragraph [ref=f7e60]:
+            - text: It started with code, and a lot of it. I spent the early years of my career as a full-stack developer, writing systems and learning that
+            - strong [ref=f7e61]: software's hardest problems are rarely technical.
+            - text: They're human. That realization changed everything.
+          - paragraph [ref=f7e62]:
+            - text: So I moved upstream, into business analysis, then product strategy, then leading entire product organizations. Thirteen years and five verticals later, FinTech, EdTech, GovTech, Insurance, and now GIS,
+            - strong [ref=f7e63]: "the thread running through every project has been the same:"
+            - text: people deserve software that respects their time and earns their trust.
+          - paragraph [ref=f7e64]:
+            - text: Today I work at the intersection of strategy and execution, helping organizations stop building the wrong things, and build the right ones
+            - strong [ref=f7e65]: faster, with more confidence.
+            - text: On the side, I build and run
+            - link "SuperCV" [ref=f7e66] [cursor=pointer]:
+              - /url: https://www.super-cv.me
+            - text: ", an AI SaaS I designed, engineered, and shipped solo."
+          - generic [ref=f7e67]:
+            - generic [ref=f7e68]: Product Strategy
+            - generic [ref=f7e69]: Design Thinking
+            - generic [ref=f7e70]: OKRs & KPIs
+            - generic [ref=f7e71]: User Research
+            - generic [ref=f7e72]: Agile / Scrum
+            - generic [ref=f7e73]: FinTech / KYC
+            - generic [ref=f7e74]: Behavioral Analytics
+            - generic [ref=f7e75]: Stakeholder Management
+          - generic [ref=f7e76]:
+            - generic [ref=f7e77]:
+              - generic [ref=f7e78]: 13+
+              - generic [ref=f7e79]: Years of experience
+            - generic [ref=f7e80]:
+              - generic [ref=f7e81]: 100K+
+              - generic [ref=f7e82]: Users impacted
+            - generic [ref=f7e83]:
+              - generic [ref=f7e84]: "5"
+              - generic [ref=f7e85]: Verticals shipped
+        - generic [ref=f7e87]:
+          - 'img "Globe highlighting the four cities I''ve shipped products from: Cairo, Riyadh, Dubai, and Kuwait City" [ref=f7e88]':
+            - img "Globe highlighting Cairo, Riyadh, Dubai and Kuwait City" [ref=f7e89]
+          - generic [ref=f7e241]: Shipping across MENA
+    - region "Selected projects" [ref=f7e243]:
+      - generic [ref=f7e244]:
+        - generic [ref=f7e245]:
+          - generic [ref=f7e246]:
+            - paragraph [ref=f7e247]: Selected work
+            - heading "Projects I'm proud of." [level=2] [ref=f7e248]: Projects I'mproud of.
+          - link "All projects →" [ref=f7e249] [cursor=pointer]:
+            - /url: projects/index.html
+        - generic [ref=f7e250]:
+          - article [ref=f7e251]:
+            - img "AevaPay digital wallet" [ref=f7e253]
+            - generic [ref=f7e254]:
+              - generic [ref=f7e255]:
+                - generic [ref=f7e256]: FinTech
+                - generic [ref=f7e257]: "2022"
+              - heading "AevaPay, Digital Wallet at Scale" [level=3] [ref=f7e258]
+              - paragraph [ref=f7e259]: Owned product for a live fintech wallet, now Tekka Pay, scaling it 20×, from 5,000 to 100,000+ users in twelve months, and growing transaction volume 35% by integrating major vendors like ValU and Fawry to reach the underbanked.
+              - generic [ref=f7e260]:
+                - generic [ref=f7e261]:
+                  - generic [ref=f7e262]: Product Strategy
+                  - generic [ref=f7e263]: FinTech
+                  - generic [ref=f7e264]: KYC / Compliance
+                - link "View project" [ref=f7e266] [cursor=pointer]:
+                  - /url: projects/index.html
+          - article [ref=f7e269]:
+            - img "Tameeni insurance product" [ref=f7e271]
+            - generic [ref=f7e272]:
+              - generic [ref=f7e273]:
+                - generic [ref=f7e274]: InsurTech
+                - generic [ref=f7e275]: "2023"
+              - heading "Tameeni, Rebuilding Insurance from the Inside" [level=3] [ref=f7e276]
+              - paragraph [ref=f7e277]: Led the redesign of Saudi Arabia's leading motor-insurance app. The version live today, rated 4.7★ by 157,000+ users with 1M+ downloads, is the one I shipped.
+              - generic [ref=f7e278]:
+                - generic [ref=f7e279]:
+                  - generic [ref=f7e280]: Design Thinking
+                  - generic [ref=f7e281]: OKRs
+                - link "View project" [ref=f7e283] [cursor=pointer]:
+                  - /url: projects/index.html
+          - article [ref=f7e286]:
+            - img "National driver licensing digitization" [ref=f7e288]
+            - generic [ref=f7e289]:
+              - generic [ref=f7e290]:
+                - generic [ref=f7e291]: GovTech
+                - generic [ref=f7e292]: "2018"
+              - heading "National Driver Licensing, Days to Minutes" [level=3] [ref=f7e293]
+              - paragraph [ref=f7e294]: A B2G digital transformation that turned a multi-day paper-based process into a minutes-long digital one, redefining what government services could feel like.
+              - generic [ref=f7e295]:
+                - generic [ref=f7e296]:
+                  - generic [ref=f7e297]: B2G
+                  - generic [ref=f7e298]: Digital Transformation
+                - link "View project" [ref=f7e300] [cursor=pointer]:
+                  - /url: projects/index.html
+    - region "Recent writing" [ref=f7e303]:
+      - generic [ref=f7e304]:
+        - generic [ref=f7e305]:
+          - generic [ref=f7e306]:
+            - paragraph [ref=f7e307]: Writing
+            - heading "Thoughts I couldn't keep in." [level=2] [ref=f7e308]: Thoughts Icouldn't keep in.
+          - link "All posts →" [ref=f7e309] [cursor=pointer]:
+            - /url: blog/index.html
+        - navigation "Recent blog posts" [ref=f7e310]:
+          - link "You Have 7 Seconds Careers 8 min read" [ref=f7e311] [cursor=pointer]:
+            - /url: /blog/you-have-7-seconds.html
+            - generic [ref=f7e312]:
+              - heading "You Have 7 Seconds" [level=3] [ref=f7e313]
+              - generic [ref=f7e314]:
+                - generic [ref=f7e315]: Careers
+                - generic [ref=f7e317]: 8 min read
+          - link "There's No \"Right\" Way to Build a Product Product Strategy 6 min read" [ref=f7e318] [cursor=pointer]:
+            - /url: /blog/no-right-way-to-build-a-product.html
+            - generic [ref=f7e319]:
+              - heading "There's No \"Right\" Way to Build a Product" [level=3] [ref=f7e320]
+              - generic [ref=f7e321]:
+                - generic [ref=f7e322]: Product Strategy
+                - generic [ref=f7e324]: 6 min read
+          - link "GIS Reset My Definition of \"Hard\" Field Notes 6 min read" [ref=f7e325] [cursor=pointer]:
+            - /url: /blog/gis-reset-my-definition-of-hard.html
+            - generic [ref=f7e326]:
+              - heading "GIS Reset My Definition of \"Hard\"" [level=3] [ref=f7e327]
+              - generic [ref=f7e328]:
+                - generic [ref=f7e329]: Field Notes
+                - generic [ref=f7e331]: 6 min read
+          - link "Economics Was Never About Money Thinking 10 min read" [ref=f7e332] [cursor=pointer]:
+            - /url: /blog/economics-was-never-about-money.html
+            - generic [ref=f7e333]:
+              - heading "Economics Was Never About Money" [level=3] [ref=f7e334]
+              - generic [ref=f7e335]:
+                - generic [ref=f7e336]: Thinking
+                - generic [ref=f7e338]: 10 min read
+    - region "Contact me" [ref=f7e339]:
+      - generic [ref=f7e341]:
+        - generic [ref=f7e342]:
+          - paragraph [ref=f7e343]: Get in touch
+          - heading "Let's build something great." [level=2] [ref=f7e344]: Let's buildsomething great.
+          - paragraph [ref=f7e345]: Have a project in mind? A problem to solve? Or just want to say hi? My inbox is always open, I read every message personally.
+          - generic [ref=f7e346]:
+            - link [ref=f7e347] [cursor=pointer]:
+              - /url: mailto:afateh@me.com
+            - link [ref=f7e352] [cursor=pointer]:
+              - /url: https://linkedin.com/in/ahmed-alfateh
+        - generic [ref=f7e356]:
+          - generic [ref=f7e357]:
+            - generic [ref=f7e358]: Your name
+            - textbox "Your name" [ref=f7e359]:
+              - /placeholder: Jane Smith
+          - generic [ref=f7e360]:
+            - generic [ref=f7e361]: Email address
+            - textbox "Email address" [ref=f7e362]:
+              - /placeholder: jane@company.com
+          - generic [ref=f7e363]:
+            - generic [ref=f7e364]: Message
+            - textbox "Message" [ref=f7e365]:
+              - /placeholder: Tell me about your project...
+          - button "Send message →" [ref=f7e366] [cursor=pointer]
+  - contentinfo [ref=f7e367]:
+    - generic [ref=f7e369]:
+      - paragraph [ref=f7e370]: © 2026 Ahmed Alfateh. Built with care.
+      - navigation "Footer navigation" [ref=f7e371]:
+        - link "Home" [ref=f7e372] [cursor=pointer]:
+          - /url: "#home"
+        - link "Projects" [ref=f7e373] [cursor=pointer]:
+          - /url: projects/index.html
+        - link "Blog" [ref=f7e374] [cursor=pointer]:
+          - /url: blog/index.html
+        - link "Contact" [ref=f7e375] [cursor=pointer]:
+          - /url: "#contact"
+      - navigation "Social links" [ref=f7e376]:
+        - link "LinkedIn" [ref=f7e377] [cursor=pointer]:
+          - /url: https://linkedin.com/in/ahmed-alfateh
+        - link "GitHub" [ref=f7e378] [cursor=pointer]:
+          - /url: https://github.com/afate7
+        - link "SuperCV" [ref=f7e379] [cursor=pointer]:
+          - /url: https://www.super-cv.me

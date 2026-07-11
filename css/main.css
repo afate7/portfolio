@@ -671,6 +671,61 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-full);
 }
 
+/* --- MENA presence globe (replaces stock photo) --- */
+.about__globe {
+  font-size: 0;
+  padding: 0;
+  background:
+    radial-gradient(120% 90% at 50% 18%, #ffffff 0%, #f6f7fb 55%, #eef0f6 100%);
+  position: relative;
+}
+.globe-canvas {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.globe-canvas svg { width: 100%; height: 100%; }
+.globe-caption {
+  position: absolute;
+  left: var(--space-5);
+  bottom: var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  z-index: 2;
+}
+.globe-caption__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--clr-accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+.globe-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--clr-accent);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition: opacity 0.35s ease;
+  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.12);
+}
+
 /* --- Skills / Tags --- */
 .skills-tags {
   display: flex;
