@@ -4,9 +4,12 @@
  * Offline fallback included
  */
 
-const CACHE_NAME    = 'portfolio-v2';
-const STATIC_CACHE  = 'portfolio-static-v2';
-const DYNAMIC_CACHE = 'portfolio-dynamic-v2';
+// BUILD is auto-stamped by tools/build.mjs on every build so each deploy
+// invalidates stale caches for returning visitors.
+const BUILD         = 'bmrgcd35y';
+const CACHE_NAME    = 'portfolio-' + BUILD;
+const STATIC_CACHE  = 'portfolio-static-' + BUILD;
+const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
 
 // Files to precache on install (app shell)
 const PRECACHE_URLS = [

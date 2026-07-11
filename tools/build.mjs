@@ -291,7 +291,7 @@ inject('blog/index.html', 'BLOG_GRID', rest.map(gridCard).join('\n'));
 // ----------------------------------------------------------------------------
 // Sitemap
 // ----------------------------------------------------------------------------
-const staticUrls = ['/', '/projects/index.html', '/blog/index.html'];
+const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/cv/index.html'];
 const urls = [
   ...staticUrls.map((u) => ({ loc: BASE + u, priority: u === '/' ? '1.0' : '0.7' })),
   ...posts.map((p) => ({ loc: `${BASE}/blog/${p.slug}.html`, lastmod: p.date, priority: '0.6' })),
@@ -303,4 +303,15 @@ ${urls.map((u) => `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod
 `;
 writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
 console.log(`  ✓ sitemap.xml (${urls.length} urls)`);
+
+// ----------------------------------------------------------------------------
+// Stamp the service worker cache version so every build busts stale caches
+// for returning visitors (cache-first assets like js/cms.js otherwise persist).
+// ----------------------------------------------------------------------------
+const swPath = join(ROOT, 'sw.js');
+const stamp = 'b' + Date.now().toString(36);
+const swOut = readFileSync(swPath, 'utf8').replace(/const BUILD\s*=\s*'[^']*';/, `const BUILD         = '${stamp}';`);
+writeFileSync(swPath, swOut);
+console.log(`  ✓ sw.js cache version -> ${stamp}`);
+
 console.log('\n✅ Build complete.\n');

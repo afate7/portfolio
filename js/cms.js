@@ -13,11 +13,11 @@ const BLOG_POSTS = [
 ];
 
 const PROJECTS = [
+  'content/projects/geotech-gis.md',
   'content/projects/aevapay.md',
   'content/projects/tameeni.md',
   'content/projects/driver-licensing.md',
   'content/projects/nagwa.md',
-  'content/projects/atlas.md',
 ];
 
 const BLOG_TAXONOMY = ['all', 'product', 'thinking', 'process', 'fintech'];
