@@ -6,7 +6,7 @@
 
 // BUILD is auto-stamped by tools/build.mjs on every build so each deploy
 // invalidates stale caches for returning visitors.
-const BUILD         = 'bmrhnss72';
+const BUILD         = 'bmrho29k5';
 const CACHE_NAME    = 'portfolio-' + BUILD;
 const STATIC_CACHE  = 'portfolio-static-' + BUILD;
 const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
@@ -70,6 +70,14 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
   if (!url.protocol.startsWith('http')) return;
 
+  // Runtime config must always be fresh: it's edited between deploys (analytics,
+  // Substack, intro video) with no rebuild, so returning visitors need the
+  // latest immediately — network-first, cache only as an offline fallback.
+  if (url.pathname === '/site.config.json') {
+    event.respondWith(networkFirstConfig(request));
+    return;
+  }
+
   // Strategy: Cache-first for static assets (CSS, JS, fonts, images)
   if (isStaticAsset(request)) {
     event.respondWith(cacheFirst(request));
@@ -105,6 +113,25 @@ function isHTMLPage(request) {
     request.destination === 'document' ||
     request.headers.get('Accept')?.includes('text/html')
   );
+}
+
+// Network-first for the runtime config: fresh when online, cached fallback
+// offline, and a safe empty object as a last resort so JSON.parse never throws.
+async function networkFirstConfig(request) {
+  try {
+    const response = await fetch(request, { cache: 'no-store' });
+    if (response.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    return cached || new Response('{}', {
+      headers: { 'Content-Type': 'application/json' },
+      status: 200,
+    });
+  }
 }
 
 // Cache-first: serve from cache, fallback to network + cache result
