@@ -76,6 +76,24 @@
     .cv-job__date { color: var(--clr-text-faint); font-size: var(--text-sm); white-space: nowrap; }
     .cv-job__desc { color: var(--clr-text-muted); font-size: var(--text-sm); line-height: 1.6; margin-top: var(--space-2); }
 
+    /* Company block with nested roles (shows promotion arcs) */
+    .cv-roles { margin-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-5); }
+    .cv-role { position: relative; padding-left: var(--space-5); }
+    .cv-role::before { content: ""; position: absolute; left: 1px; top: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--clr-bg); border: 2px solid var(--clr-accent); }
+    .cv-role--current::before { background: var(--clr-accent); }
+    .cv-role__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); }
+    .cv-role__title { font-weight: 600; font-size: var(--text-base); }
+    .cv-role__badge { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--clr-accent); background: var(--clr-accent-soft); padding: 2px 8px; border-radius: var(--radius-full); }
+    .cv-role__date { color: var(--clr-text-faint); font-size: var(--text-sm); margin-left: auto; white-space: nowrap; }
+    .cv-role .cv-job__desc { margin-top: var(--space-1); }
+    @media (max-width: 520px) { .cv-role__date { margin-left: 0; width: 100%; } }
+
+    /* QR / share card */
+    .cv-share { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--radius-xl); padding: var(--space-6) var(--space-8); }
+    .cv-share__qr { width: 108px; height: 108px; flex-shrink: 0; padding: var(--space-2); background: #fff; border: 1px solid var(--clr-border); border-radius: var(--radius-md); }
+    .cv-share__qr img { width: 100%; height: 100%; display: block; }
+    .cv-share__body { flex: 1 1 240px; }
+
     .cv-supercv { background: linear-gradient(135deg, var(--clr-accent-soft), var(--clr-surface)); border: 1px solid var(--clr-border); border-radius: var(--radius-xl); padding: var(--space-8); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); justify-content: space-between; }
     .cv-two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-8); }
     .cv-list { list-style: none; padding: 0; margin: 0; }
@@ -131,8 +149,8 @@
       </p>
       <div class="cv-actions reveal reveal-delay-3">
         <a href="/assets/Ahmed-Alfateh-CV.pdf" class="btn btn--primary" download>↓ Download PDF</a>
-        <a href="../index.html#contact" class="btn btn--outline">Get in touch</a>
-        <a href="https://www.super-cv.me" class="btn btn--ghost" target="_blank" rel="noopener noreferrer">Made with SuperCV ↗</a>
+        <a href="../cover-letter/index.html" class="btn btn--outline">Read my cover letter →</a>
+        <a href="../index.html#contact" class="btn btn--ghost">Get in touch</a>
       </div>
 
       <div class="cv-stats reveal reveal-delay-3">
@@ -164,46 +182,86 @@
     <div class="container">
       <h2 class="cv-section__title reveal">Experience</h2>
       <div class="cv-timeline">
+
+        <!-- GeoTech (two roles — promotion) -->
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Director of Solutions · <span class="cv-job__org">GeoTech</span></span><span class="cv-job__date">Jan 2026 to Present · Egypt / Riyadh</span></div>
-          <p class="cv-job__desc">Own the end-to-end roadmap for new GIS solutions serving the B2G segment, resulting in multi-million-dollar deals with municipalities and government institutions. Lead a team of 20 across product, design, development, QC, and research; set vision and strategy and own delivery with engineering. Leverage AI-powered tooling for product intelligence and decision-making.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">GeoTech</span></span><span class="cv-job__date">Aug 2024 – Present · Egypt / Riyadh</span></div>
+          <div class="cv-roles">
+            <div class="cv-role cv-role--current">
+              <div class="cv-role__head"><span class="cv-role__title">Director of Solutions</span><span class="cv-role__badge">Promotion</span><span class="cv-role__date">Jan 2026 – Present</span></div>
+              <p class="cv-job__desc">Own the end-to-end roadmap for new GIS solutions serving the B2G segment, resulting in multi-million-dollar deals with municipalities and government institutions. Lead a team of 20 across product, design, development, QC, and research; set vision and strategy and own delivery with engineering. Leverage AI-powered tooling for product intelligence and decision-making.</p>
+            </div>
+            <div class="cv-role">
+              <div class="cv-role__head"><span class="cv-role__title">Principal Product Manager</span><span class="cv-role__date">Aug 2024 – Jan 2026</span></div>
+              <p class="cv-job__desc">Shipped a geospatial DSS used inside several government entities. Drove a privacy-first data design, splitting a data lake for analytics from PostGIS for live map ops, and using RAG to feed the LLM only schema from a vector DB so it generated spatial queries without touching client data. Mentored 4 product managers.</p>
+            </div>
+          </div>
         </div>
+
+        <!-- Rasan (two roles — promotion) -->
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Principal Product Manager · <span class="cv-job__org">GeoTech</span></span><span class="cv-job__date">Aug 2024 to Jan 2026 · Egypt / Riyadh</span></div>
-          <p class="cv-job__desc">Shipped a geospatial DSS used inside several government entities. Drove a privacy-first data design, splitting a data lake for analytics from PostGIS for live map ops, and using RAG to feed the LLM only schema from a vector DB so it generated spatial queries without touching client data. Mentored 4 product managers.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">Rasan</span> <span class="cv-note">· Tameeni</span></span><span class="cv-job__date">May 2023 – Jun 2024 · Dubai / Riyadh</span></div>
+          <div class="cv-roles">
+            <div class="cv-role">
+              <div class="cv-role__head"><span class="cv-role__title">Research Manager</span><span class="cv-role__badge">Promotion</span><span class="cv-role__date">Oct 2023 – Jun 2024</span></div>
+              <p class="cv-job__desc">Drove design-thinking adoption through workshops and training. Authored and ran research plans, qualitative and quantitative, plus behavioral analysis (GA4, Hotjar), to identify segments and pain points. Led the design and research team to revamp the flagship product, Tameeni.</p>
+            </div>
+            <div class="cv-role">
+              <div class="cv-role__head"><span class="cv-role__title">Senior Product Manager</span><span class="cv-role__date">May 2023 – Oct 2023</span></div>
+              <p class="cv-job__desc">Focused on the Saudi market, regulatory compliance audits and market research. Pioneered new insurance products, diversifying the portfolio and contributing to a 10% revenue increase.</p>
+            </div>
+          </div>
         </div>
+
+        <!-- Single-role companies -->
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Research Manager · <span class="cv-job__org">Rasan FinTech (Tameeni)</span></span><span class="cv-job__date">Oct 2023 to Jun 2024 · Dubai / Riyadh</span></div>
-          <p class="cv-job__desc">Drove design-thinking adoption through workshops and training. Authored and ran research plans, qualitative and quantitative, plus behavioral analysis (GA4, Hotjar), to identify segments and pain points. Led the design and research team to revamp the flagship product, Tameeni.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">AevaPay</span></span><span class="cv-job__date">Feb 2022 – May 2023 · Egypt</span></div>
+          <div class="cv-roles"><div class="cv-role">
+            <div class="cv-role__head"><span class="cv-role__title">Product Lead</span><span class="cv-role__date">Feb 2022 – May 2023</span></div>
+            <p class="cv-job__desc">Managed strategy and roadmaps across card acceptance, POS, ride-hailing, and wallets. Led cross-functional teams to 20× user growth in 12 months and +35% transaction volume by integrating major vendors (ValU, Fawry), expanding options for the underbanked.</p>
+          </div></div>
         </div>
+
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Senior Product Manager · <span class="cv-job__org">Rasan FinTech</span></span><span class="cv-job__date">May 2023 to Oct 2023 · Dubai / Riyadh</span></div>
-          <p class="cv-job__desc">Focused on the Saudi market, regulatory compliance audits and market research. Pioneered new insurance products, diversifying the portfolio and contributing to a 10% revenue increase.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">Nagwa Technologies</span></span><span class="cv-job__date">Apr 2021 – Feb 2022 · Egypt</span></div>
+          <div class="cv-roles"><div class="cv-role">
+            <div class="cv-role__head"><span class="cv-role__title">Product Manager</span><span class="cv-role__date">Apr 2021 – Feb 2022</span></div>
+            <p class="cv-job__desc">Launched "Nagwa Classes" and "Nagwa Readers," opening new B2C revenue to offset B2B volatility. Boosted content-team throughput 20% with an internal AI-enabled content workflow.</p>
+          </div></div>
         </div>
+
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Product Lead · <span class="cv-job__org">AevaPay</span></span><span class="cv-job__date">Feb 2022 to May 2023 · Egypt</span></div>
-          <p class="cv-job__desc">Managed strategy and roadmaps across card acceptance, POS, ride-hailing, and wallets. Led cross-functional teams to 20× user growth in 12 months and +35% transaction volume by integrating major vendors (ValU, Fawry), expanding options for the underbanked.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">Squadio</span></span><span class="cv-job__date">Nov 2020 – Apr 2021 · Egypt</span></div>
+          <div class="cv-roles"><div class="cv-role">
+            <div class="cv-role__head"><span class="cv-role__title">Scrum Master</span><span class="cv-role__date">Nov 2020 – Apr 2021</span></div>
+            <p class="cv-job__desc">Ran agile ceremonies and optimized utilization 15%, guiding the team to deliver 15+ increments to education provider Aanaab.</p>
+          </div></div>
         </div>
+
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Product Manager · <span class="cv-job__org">Nagwa Technologies</span></span><span class="cv-job__date">Apr 2021 to Feb 2022 · Egypt</span></div>
-          <p class="cv-job__desc">Launched "Nagwa Classes" and "Nagwa Readers," opening new B2C revenue to offset B2B volatility. Boosted content-team throughput 20% with an internal AI-enabled content workflow.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">Mawaqaa</span></span><span class="cv-job__date">Aug 2019 – Nov 2020 · Kuwait</span></div>
+          <div class="cv-roles"><div class="cv-role">
+            <div class="cv-role__head"><span class="cv-role__title">Lead Business Analyst / PM</span><span class="cv-role__date">Aug 2019 – Nov 2020</span></div>
+            <p class="cv-job__desc">Elevated documentation processes to reduce delays and improve alignment; led analysis, design, and engineering teams to deliver several major projects.</p>
+          </div></div>
         </div>
+
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Scrum Master · <span class="cv-job__org">Squadio</span></span><span class="cv-job__date">Nov 2020 to Apr 2021 · Egypt</span></div>
-          <p class="cv-job__desc">Ran agile ceremonies and optimized utilization 15%, guiding the team to deliver 15+ increments to education provider Aanaab.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">TechOffice</span></span><span class="cv-job__date">Dec 2018 – Jul 2019 · Kuwait</span></div>
+          <div class="cv-roles"><div class="cv-role">
+            <div class="cv-role__head"><span class="cv-role__title">Product Manager</span><span class="cv-role__date">Dec 2018 – Jul 2019</span></div>
+            <p class="cv-job__desc">Assembled engineering, design, and testing teams; drove agile adoption; launched drop-shipping products landing 60+ clients in the first quarter.</p>
+          </div></div>
         </div>
+
         <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Lead Business Analyst / PM · <span class="cv-job__org">Mawaqaa</span></span><span class="cv-job__date">Aug 2019 to Nov 2020 · Kuwait</span></div>
-          <p class="cv-job__desc">Elevated documentation processes to reduce delays and improve alignment; led analysis, design, and engineering teams to deliver several major projects.</p>
+          <div class="cv-job__head"><span class="cv-job__title"><span class="cv-job__org">Early career</span></span><span class="cv-job__date">2013 – 2018 · Kuwait / Egypt</span></div>
+          <div class="cv-roles"><div class="cv-role">
+            <div class="cv-role__head"><span class="cv-role__title">Business Analyst · Developer · Trainer</span><span class="cv-role__date">Diyar United · Ministry of Awqaf · Pitman</span></div>
+            <p class="cv-job__desc">Business Analyst on national digital-transformation projects (including a driver-licensing system that turned days of paperwork into minutes); full-stack developer then BA building government workflow systems; and 800+ hours of technical training delivered to 1,000+ students.</p>
+          </div></div>
         </div>
-        <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Product Manager · <span class="cv-job__org">TechOffice</span></span><span class="cv-job__date">Dec 2018 to Jul 2019 · Kuwait</span></div>
-          <p class="cv-job__desc">Assembled engineering, design, and testing teams; drove agile adoption; launched drop-shipping products landing 60+ clients in the first quarter.</p>
-        </div>
-        <div class="cv-job reveal">
-          <div class="cv-job__head"><span class="cv-job__title">Early career · <span class="cv-job__org">Diyar United · Ministry of Awqaf · Pitman Training</span></span><span class="cv-job__date">2013 to 2018</span></div>
-          <p class="cv-job__desc">Business Analyst on national digital-transformation projects (E-Driver's License); full-stack developer then BA building government workflow systems; and 800+ hours of technical training delivered to 1,000+ students.</p>
-        </div>
+
       </div>
     </div>
   </section>
@@ -272,9 +330,21 @@
         </div>
       </div>
 
-      <div style="margin-top: var(--space-12); display:flex; gap: var(--space-3); flex-wrap:wrap;" class="reveal">
+      <div class="cv-share reveal" style="margin-top: var(--space-12);">
+        <div class="cv-share__qr"><img src="/assets/qr/portfolio.svg" alt="QR code linking to ahmedalfateh portfolio" width="108" height="108" /></div>
+        <div class="cv-share__body">
+          <h3 style="font-size: var(--text-lg); font-weight: 700;">Reading this on paper?</h3>
+          <p style="color: var(--clr-text-muted); font-size: var(--text-sm); margin-top: var(--space-2); max-width: 46ch;">
+            Scan to open the live portfolio, projects, writing, and my cover letter, all in one place. The same code is on my printed CV.
+          </p>
+          <a href="/assets/qr/portfolio.svg" download class="btn btn--ghost" style="margin-top: var(--space-3);">↓ Download the QR</a>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--space-8); display:flex; gap: var(--space-3); flex-wrap:wrap;" class="reveal">
         <a href="/assets/Ahmed-Alfateh-CV.pdf" class="btn btn--primary" download>↓ Download the full CV (PDF)</a>
-        <a href="../index.html" class="btn btn--outline">← Back to portfolio</a>
+        <a href="../cover-letter/index.html" class="btn btn--outline">Read my cover letter →</a>
+        <a href="../index.html" class="btn btn--ghost">← Back to portfolio</a>
       </div>
     </div>
   </section>

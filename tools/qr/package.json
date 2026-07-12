@@ -1,0 +1,10 @@
+{
+  "name": "portfolio-qr",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build-time QR generator. Writes SVG QR codes into ../../assets/qr. Not part of the runtime site. Run: node generate.mjs",
+  "type": "module",
+  "dependencies": {
+    "qrcode": "1.5.4"
+  }
+}

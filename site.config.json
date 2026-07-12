@@ -5,11 +5,12 @@
     "ga4": "",
     "clarity": ""
   },
-  "substackUrl": "",
+  "substackUrl": "https://substack.com/@fateh",
+  "introVideoUrl": "",
   "social": {
     "linkedin": "https://linkedin.com/in/ahmed-alfateh",
     "twitter": "",
     "github": "https://github.com/afate7",
-    "substack": ""
+    "substack": "https://substack.com/@fateh"
   }
 }

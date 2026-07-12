@@ -296,7 +296,7 @@ inject('blog/index.html', 'BLOG_GRID', rest.map(gridCard).join('\n'));
 // ----------------------------------------------------------------------------
 // Sitemap
 // ----------------------------------------------------------------------------
-const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/cv/index.html'];
+const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/cv/index.html', '/cover-letter/index.html'];
 const urls = [
   ...staticUrls.map((u) => ({ loc: BASE + u, priority: u === '/' ? '1.0' : '0.7' })),
   ...posts.map((p) => ({ loc: BASE + postUrl(p), lastmod: p.date, priority: '0.6' })),

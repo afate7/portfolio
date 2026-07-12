@@ -18,6 +18,7 @@
     if (a.clarity) loadClarity(a.clarity);
     wireSubstack(cfg.substackUrl || (cfg.social && cfg.social.substack) || '');
     wireSocials(cfg.social || {});
+    wireIntroVideo(cfg.introVideoUrl || '');
   }
 
   // ---- Google Analytics 4 ---------------------------------------------------
@@ -74,5 +75,41 @@
         el.style.display = 'none';
       }
     });
+  }
+
+  // ---- Intro video ----------------------------------------------------------
+  // When introVideoUrl is set, embed it into [data-intro-video]; otherwise hide
+  // the [data-intro-video-section] wrapper entirely (no empty box ever ships).
+  // Supports YouTube, Vimeo, and direct video files (.mp4/.webm).
+  function wireIntroVideo(url) {
+    var sections = document.querySelectorAll('[data-intro-video-section]');
+    var mounts = document.querySelectorAll('[data-intro-video]');
+    if (!url) {
+      sections.forEach(function (el) { el.style.display = 'none'; });
+      return;
+    }
+    var embed = toEmbed(url);
+    mounts.forEach(function (el) { el.innerHTML = embed; });
+  }
+
+  function toEmbed(url) {
+    var yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+    if (yt) {
+      return '<iframe src="https://www.youtube-nocookie.com/embed/' + yt[1] +
+        '" title="Intro video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ' +
+        'style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>';
+    }
+    var vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vm) {
+      return '<iframe src="https://player.vimeo.com/video/' + vm[1] +
+        '" title="Intro video" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen ' +
+        'style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>';
+    }
+    return '<video controls playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;">' +
+      '<source src="' + escapeAttr(url) + '" /></video>';
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 })();
