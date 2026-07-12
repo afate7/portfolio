@@ -30,12 +30,15 @@
 
   <style>
     .letter-hero { padding-block: var(--space-24) var(--space-8); }
+    /* Keep the hero and the letter body on the SAME centered reading column so
+       the title, subtitle, and letter all align on one vertical edge. */
+    .letter-hero .container, .letter-doc { max-width: 46rem; }
     .letter-eyebrow { color: var(--clr-accent); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: var(--text-sm); }
     .letter-title { font-size: clamp(2.25rem, 5.5vw, 4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; margin-top: var(--space-4); }
     .letter-title .dot { color: var(--clr-accent); }
     .letter-sub { color: var(--clr-text-muted); font-size: var(--text-lg); margin-top: var(--space-5); max-width: 58ch; line-height: 1.7; }
 
-    .letter-body { max-width: 40rem; margin: 0 auto; padding-block: var(--space-8) var(--space-16); }
+    .letter-body { max-width: 100%; margin: 0; padding-block: var(--space-8) var(--space-16); }
     .letter-body p { font-family: "Newsreader", Georgia, serif; font-size: 1.32rem; line-height: 1.62; color: #26262b; margin-top: 1.15em; }
     .letter-body p:first-child { margin-top: 0; }
     .letter-body p strong { font-weight: 600; color: var(--clr-text); }
@@ -109,7 +112,7 @@
   </header>
 
   <!-- LETTER -->
-  <article class="container">
+  <article class="container letter-doc">
     <div class="letter-body">
       <p class="letter-greet reveal">Hello,</p>
 
