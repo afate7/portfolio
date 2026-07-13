@@ -35,7 +35,7 @@
     "name": "Ahmed Alfateh",
     "jobTitle": "Digital Product Lead",
     "url": "https://portfolio-three-zeta-9cw6dwpro4.vercel.app",
-    "sameAs": ["https://linkedin.com/in/ahmed-alfateh", "https://github.com/afate7", "https://www.super-cv.me"],
+    "sameAs": ["https://www.linkedin.com/in/ahmedalfateh/", "https://github.com/afate7", "https://www.super-cv.me"],
     "alumniOf": "Arab Academy for Science & Technology",
     "knowsAbout": ["Product Management", "Product Strategy", "FinTech", "GIS", "Design Thinking"]
   }
@@ -43,6 +43,9 @@
 
   <style>
     .cv-hero { padding-block: var(--space-24) var(--space-12); }
+    .cv-hero__grid { display: grid; grid-template-columns: 1fr auto; gap: var(--space-12); align-items: center; }
+    .cv-portrait { width: 232px; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius-xl); border: 1px solid var(--clr-border); box-shadow: var(--shadow-lg); filter: grayscale(1) contrast(1.04); }
+    @media (max-width: 820px) { .cv-hero__grid { grid-template-columns: 1fr; } .cv-portrait { width: 168px; order: -1; } }
     .cv-eyebrow { color: var(--clr-accent); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: var(--text-sm); }
     .cv-name { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-top: var(--space-4); }
     .cv-name .dot { color: var(--clr-accent); }
@@ -136,21 +139,26 @@
   <!-- HERO -->
   <header class="cv-hero">
     <div class="container">
-      <p class="cv-eyebrow reveal">Curriculum Vitae, the long version</p>
-      <h1 class="cv-name reveal reveal-delay-1">Ahmed Alfateh<span class="dot">.</span></h1>
-      <p class="cv-role reveal reveal-delay-1">Digital Product Manager &amp; Product Lead</p>
-      <p class="cv-summary reveal reveal-delay-2">
-        Product leader with 13+ years taking digital products from concept to scale across
-        <strong>FinTech, EdTech, GovTech, InsurTech, and now GIS</strong>, in Egypt, Saudi Arabia,
-        the UAE, and Kuwait. I own products end to end, from discovery and strategy through delivery
-        with engineering, and I turn user and market research into roadmaps teams can build against.
-        A Computer Science degree and a Marketing MBA let me work across the technical and commercial
-        sides of the business.
-      </p>
-      <div class="cv-actions reveal reveal-delay-3">
-        <a href="/assets/Ahmed-Alfateh-CV.pdf" class="btn btn--primary" download>↓ Download PDF</a>
-        <a href="../cover-letter/index.html" class="btn btn--outline">Read my cover letter →</a>
-        <a href="../index.html#contact" class="btn btn--ghost">Get in touch</a>
+      <div class="cv-hero__grid">
+        <div>
+          <p class="cv-eyebrow reveal">Curriculum Vitae, the long version</p>
+          <h1 class="cv-name reveal reveal-delay-1">Ahmed Alfateh<span class="dot">.</span></h1>
+          <p class="cv-role reveal reveal-delay-1">Digital Product Manager &amp; Product Lead</p>
+          <p class="cv-summary reveal reveal-delay-2">
+            Product leader with 13+ years taking digital products from concept to scale across
+            <strong>FinTech, EdTech, GovTech, InsurTech, and now GIS</strong>, in Egypt, Saudi Arabia,
+            the UAE, and Kuwait. I own products end to end, from discovery and strategy through delivery
+            with engineering, and I turn user and market research into roadmaps teams can build against.
+            A Computer Science degree and a Marketing MBA let me work across the technical and commercial
+            sides of the business.
+          </p>
+          <div class="cv-actions reveal reveal-delay-3">
+            <a href="/assets/Ahmed-Alfateh-CV.pdf" class="btn btn--primary" download>↓ Download PDF</a>
+            <a href="../cover-letter/index.html" class="btn btn--outline">Read my cover letter →</a>
+            <a href="../index.html#contact" class="btn btn--ghost">Get in touch</a>
+          </div>
+        </div>
+        <img class="cv-portrait reveal reveal-delay-2" src="/assets/portrait-640.jpg" alt="Ahmed Alfateh" width="640" height="800" loading="lazy" decoding="async" />
       </div>
 
       <div class="cv-stats reveal reveal-delay-3">

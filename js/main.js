@@ -384,29 +384,71 @@
 })();
 
 // ============================================================
-// 13. HERO BRAND VIDEO: play only when motion is allowed + in view
+// 13. POINTER TILT: hero portrait + project cards
+//     (fine pointers only, and never against reduced-motion)
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  const video = document.querySelector('.hero__brand-video');
-  if (!video) return;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!finePointer || reducedMotion) return;
 
-  // Respect reduced motion — leave the static poster in place.
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const els = document.querySelectorAll('[data-tilt], .project-card');
+  els.forEach((el) => {
+    const max = el.hasAttribute('data-tilt') ? 5 : 2.5;
+    let raf = null;
 
-  const start = () => {
-    video.preload = 'auto';
-    const p = video.play();
-    if (p && typeof p.catch === 'function') p.catch(() => {}); // ignore autoplay block
-  };
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { start(); obs.disconnect(); }
+    el.addEventListener('pointermove', (e) => {
+      // Don't fight the scroll-reveal transition while it's still playing
+      if (el.classList.contains('reveal') && !el.classList.contains('visible')) return;
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform =
+          `perspective(900px) rotateX(${(-y * max).toFixed(2)}deg) rotateY(${(x * max).toFixed(2)}deg)`;
       });
-    }, { rootMargin: '0px' });
-    io.observe(video);
-  } else {
-    start();
-  }
+    });
+
+    el.addEventListener('pointerleave', () => {
+      if (raf) cancelAnimationFrame(raf);
+      el.style.transform = '';
+    });
+  });
+});
+
+// ============================================================
+// 14. STAT COUNT-UP: numbers earn attention by arriving
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const els = document.querySelectorAll('.about__stat-value, .cv-stat__value');
+  if (!els.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+
+      const raw = entry.target.textContent.trim();
+      const m = raw.match(/^(\d+)([^\d]*)$/);
+      if (!m || raw.includes('.')) return; // leave decimals and odd formats alone
+
+      const target = Number(m[1]);
+      const suffix = m[2];
+      const duration = 1100;
+      const t0 = performance.now();
+
+      const tick = (t) => {
+        const p = Math.min(1, (t - t0) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        entry.target.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+
+  els.forEach((el) => io.observe(el));
 });
