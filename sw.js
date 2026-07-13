@@ -6,7 +6,7 @@
 
 // BUILD is auto-stamped by tools/build.mjs on every build so each deploy
 // invalidates stale caches for returning visitors.
-const BUILD         = 'bmrjq9hzm';
+const BUILD         = 'bmrjtgo6n';
 const CACHE_NAME    = 'portfolio-' + BUILD;
 const STATIC_CACHE  = 'portfolio-static-' + BUILD;
 const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
@@ -68,6 +68,9 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests and browser-extension URLs
   if (request.method !== 'GET') return;
   if (!url.protocol.startsWith('http')) return;
+
+  // Vercel platform paths (analytics script/beacons) go straight to the network
+  if (url.pathname.startsWith('/_vercel/')) return;
 
   // Runtime config must always be fresh: it's edited between deploys (analytics,
   // Substack, intro video) with no rebuild, so returning visitors need the

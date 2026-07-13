@@ -170,6 +170,7 @@ function articlePage(p) {
 
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <script src="/js/site.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="reading-progress" id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -307,6 +308,7 @@ function projectPage(p, next) {
 
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <script src="/js/site.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
 
   <style>
     .case-meta { display: flex; flex-wrap: wrap; gap: var(--space-6); margin-top: var(--space-6); }
