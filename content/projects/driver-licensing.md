@@ -3,8 +3,8 @@ title: National Driver Licensing, Days to Minutes
 year: 2018
 category: govtech
 categoryLabel: GovTech
-role: "Product Lead"
-teamSize: "Cross-agency team of 40+"
+role: "Business Analyst"
+teamSize: "Cross-agency programme"
 description: A B2G digital transformation that turned a multi-day paper-based licensing process into a minutes-long digital one, and in doing so, redefined what government services could feel like.
 emoji: 🪪
 gradient: "linear-gradient(135deg, #f0fff4, #d0f0dc)"
@@ -45,9 +45,9 @@ Stakeholder management was half the work. We ran working sessions with licensing
 
 ## Results
 
-- End-to-end process time reduced from multiple days to under 10 minutes
+- End-to-end process time reduced from multiple days to minutes
 - National-scale rollout across licensing points
 - Process fully digitized from document verification through license issuance
-- Significant reduction in physical office visits and administrative overhead
+- Far fewer physical office visits, and far less administrative overhead
 
 The real result was harder to measure: people who had dreaded this process discovered it was manageable. That shift in expectation, government services can be humane, is what made the project worth doing.

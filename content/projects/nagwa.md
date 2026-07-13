@@ -3,8 +3,8 @@ title: Nagwa, Building EdTech That Actually Teaches
 year: 2021
 category: edtech
 categoryLabel: EdTech
-role: "Head of Product"
-teamSize: "18 across product, design, engineering, content ops"
+role: "Product Manager"
+teamSize: "Product, design, engineering & content ops"
 description: Launched Nagwa Classes and Nagwa Readers, two products serving students across the MENA region, while rebuilding the content workflow that powered them with AI-driven automation.
 emoji: 📚
 gradient: "linear-gradient(135deg, #fdf4ff, #f3e8ff)"
@@ -18,8 +18,8 @@ liveUrl: ""
 githubUrl: ""
 highlights:
   - "🎓 Nagwa Classes & Nagwa Readers launched"
+  - "📲 Nagwa Classes now past 1M+ downloads"
   - "🤖 20% content throughput increase via AI"
-  - "🌍 MENA-wide student reach"
 featured: false
 ---
 
@@ -49,7 +49,7 @@ We introduced AI-assisted automation at the right points in the content pipeline
 
 ## Results
 
-- Nagwa Classes and Nagwa Readers both launched and reached students across MENA
-- 20% increase in content production throughput through AI-assisted workflows
-- Significant improvement in session completion rates for both products
+- Nagwa Classes and Nagwa Readers both launched, opening a new B2C revenue stream to offset B2B volatility
+- Nagwa Classes has since passed **1M+ downloads**
+- **20% increase** in content production throughput through AI-assisted workflows
 - Content team able to focus on quality and curation rather than mechanical production

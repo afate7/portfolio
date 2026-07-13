@@ -3,8 +3,8 @@ title: AevaPay, Digital Wallet at Scale
 year: 2022
 category: fintech
 categoryLabel: FinTech
-role: "Director of Product"
-teamSize: "12 (product, design, engineering, compliance)"
+role: "Product Lead"
+teamSize: "Cross-functional (product, design, engineering, compliance)"
 description: Scaled a digital wallet from 5,000 to 100,000+ active users in twelve months by rethinking the entire KYC onboarding flow, rebuilding trust mechanics, and making financial inclusion genuinely accessible.
 emoji: 💳
 gradient: "linear-gradient(135deg, #f0f4ff, #dde8ff)"
@@ -19,15 +19,15 @@ githubUrl: ""
 highlights:
   - "📈 20× user growth in 12 months"
   - "💰 +35% transaction volume"
-  - "⚡ KYC completion time reduced by 60%"
-featured: true
+  - "🤝 ValU & Fawry integrations for the underbanked"
+featured: false
 ---
 
 ## The Problem
 
-When I joined AevaPay, the product worked. The wallet processed transactions, the KYC flow ran, and the engineering was solid. But the user base was stuck at around 5,000 active accounts, not because people didn't need a digital wallet, but because the experience of getting one was exhausting.
+When I joined AevaPay (now Tekka Pay) as Product Lead, I owned strategy and roadmaps across card acceptance, POS, ride-hailing, and the wallet itself. The product worked. The wallet processed transactions, the KYC flow ran, and the engineering was solid. But the user base was stuck at around 5,000 active accounts, not because people didn't need a digital wallet, but because the experience of getting one was exhausting.
 
-The onboarding process asked too much, too early. Users hit friction at every step. Drop-off rates during KYC were over 70%. People who did complete onboarding often never made their first transaction.
+The onboarding process asked too much, too early. Users hit friction at every step. Most people who started KYC never finished it. People who did complete onboarding often never made their first transaction.
 
 This wasn't a marketing problem. It was a product problem.
 
@@ -48,8 +48,8 @@ We also redesigned the post-KYC experience, the moment right after approval. Pre
 ## Results
 
 - **20× growth**: 5,000 → 100,000+ active users in 12 months
-- **+35% transaction volume** year-over-year
-- **60% reduction** in KYC completion time
-- Drop-off during onboarding fell from 70% to under 25%
+- **+35% transaction volume**
+- Integrations with major vendors, **ValU and Fawry**, expanded options for the underbanked
+- Onboarding drop-off fell sharply once the flow explained before it asked
 
 The wallet didn't change. The product around it did.

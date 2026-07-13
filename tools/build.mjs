@@ -106,6 +106,18 @@ const posts = readdirSync(join(ROOT, 'content', 'blog'))
   .sort((a, b) => new Date(b.date) - new Date(a.date));
 
 // ----------------------------------------------------------------------------
+// Load projects
+// ----------------------------------------------------------------------------
+const projects = readdirSync(join(ROOT, 'content', 'projects'))
+  .filter((f) => f.endsWith('.md'))
+  .map((f) => {
+    const { data, content } = parseFrontmatter(readFileSync(join(ROOT, 'content', 'projects', f), 'utf8'));
+    return { ...data, content, slug: f.replace(/\.md$/, '') };
+  })
+  .filter((p) => !p.draft)
+  .sort((a, b) => (b.year || 0) - (a.year || 0));
+
+// ----------------------------------------------------------------------------
 // Article page template
 // ----------------------------------------------------------------------------
 function articlePage(p) {
@@ -240,6 +252,158 @@ function articlePage(p) {
 }
 
 // ----------------------------------------------------------------------------
+// Case-study page template (projects/<slug>.html)
+// ----------------------------------------------------------------------------
+function projectPage(p, next) {
+  const url = `${BASE}/projects/${p.slug}.html`;
+  const title = `${p.title} · ${AUTHOR}`;
+  const desc = p.description || `Product case study by ${AUTHOR}.`;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: p.title,
+    author: { '@type': 'Person', name: AUTHOR },
+    description: p.description || '',
+    dateCreated: String(p.year || ''),
+    genre: p.categoryLabel || p.category || '',
+    mainEntityOfPage: url,
+    image: OG_IMAGE,
+  };
+  const highlights = (p.highlights || [])
+    .map((h) => `<li>${escapeHTML(h)}</li>`)
+    .join('');
+  const tags = (p.tags || []).map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join('');
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="${escapeAttr(desc)}" />
+  <meta name="theme-color" content="#fafafa" />
+  <meta name="author" content="${escapeAttr(AUTHOR)}" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="${escapeAttr(title)}" />
+  <meta property="og:description" content="${escapeAttr(desc)}" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="${OG_IMAGE}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escapeAttr(title)}" />
+  <meta name="twitter:description" content="${escapeAttr(desc)}" />
+  <meta name="twitter:image" content="${OG_IMAGE}" />
+
+  <link rel="canonical" href="${url}" />
+  <title>${escapeHTML(title)}</title>
+
+  <link rel="icon" href="/assets/icons/icon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+  <script src="/js/site.js" defer></script>
+
+  <style>
+    .case-meta { display: flex; flex-wrap: wrap; gap: var(--space-6); margin-top: var(--space-6); }
+    .case-meta__item { min-width: 140px; }
+    .case-meta__label { font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-faint); font-weight: 600; }
+    .case-meta__value { font-size: var(--text-sm); color: var(--clr-text); margin-top: var(--space-1); font-weight: 500; }
+    .case-highlights { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
+    .case-highlights li { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--radius-full); padding: var(--space-2) var(--space-4); font-size: var(--text-sm); font-weight: 500; }
+  </style>
+</head>
+<body>
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status"><span class="offline-banner__dot"></span>You're offline · browsing cached content</div>
+
+<nav class="nav scrolled" id="nav" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/index.html" class="nav__logo">ahmed<span>.</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="/index.html#about" class="nav__link">About</a></li>
+        <li><a href="/projects/index.html" class="nav__link active">Projects</a></li>
+        <li><a href="/blog/index.html" class="nav__link">Writing</a></li>
+        <li><a href="/cv/index.html" class="nav__link">CV</a></li>
+        <li><a href="/index.html#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <a href="/index.html#contact" class="nav__cta">Let's Talk</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <ul role="list">
+    <li><a href="/index.html#about" class="nav__link" data-mobile-link>About</a></li>
+    <li><a href="/projects/index.html" class="nav__link" data-mobile-link>Projects</a></li>
+    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="/cv/index.html" class="nav__link" data-mobile-link>CV</a></li>
+    <li><a href="/index.html#contact" class="nav__link" data-mobile-link>Contact</a></li>
+  </ul>
+</div>
+
+<main>
+  <header class="post-header" aria-label="Case study header">
+    <a href="/projects/index.html" class="post-category">← Back to Projects</a>
+    <h1 class="post-title reveal">${escapeHTML(p.title)}</h1>
+    <div class="case-meta reveal reveal-delay-1">
+      <div class="case-meta__item"><div class="case-meta__label">Category</div><div class="case-meta__value">${escapeHTML(p.categoryLabel || p.category || '')}</div></div>
+      <div class="case-meta__item"><div class="case-meta__label">Year</div><div class="case-meta__value">${escapeHTML(String(p.year || ''))}</div></div>
+      <div class="case-meta__item"><div class="case-meta__label">My role</div><div class="case-meta__value">${escapeHTML(p.role || '')}</div></div>
+      <div class="case-meta__item"><div class="case-meta__label">Team</div><div class="case-meta__value">${escapeHTML(p.teamSize || '')}</div></div>
+    </div>
+    ${highlights ? `<ul class="case-highlights reveal reveal-delay-2">${highlights}</ul>` : ''}
+  </header>
+
+  <div style="max-width: var(--container-md); margin-inline: auto; padding-inline: var(--space-6); margin-bottom: var(--space-12);" class="reveal">
+    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};">${p.emoji || '🚀'}</div>
+  </div>
+
+  <div class="post-content container">
+    <article class="cms-post-body">${markdownToHTML(p.content)}</article>
+    ${tags ? `<div class="skills-tags" style="margin-top: var(--space-12);">${tags}</div>` : ''}
+    <div style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--clr-border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6);" class="reveal">
+      <a href="/projects/index.html" class="btn btn--outline" style="font-size: var(--text-sm);">← All projects</a>
+      ${next ? `<a href="/projects/${next.slug}.html" class="btn btn--ghost" style="font-size: var(--text-sm);">Next: ${escapeHTML(next.title)} →</a>` : ''}
+      <a href="/index.html#contact" class="btn btn--primary" style="font-size: var(--text-sm);">Work with me</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container"><div class="footer__inner"><p class="footer__copy">© 2026 ${escapeHTML(AUTHOR)}. Built with care.</p></div></div>
+</footer>
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>
+`;
+}
+
+// Project card fragment for the static projects grid
+function projectCard(p, i) {
+  const delay = i % 3 ? ` reveal-delay-${Math.min(i % 3, 2)}` : '';
+  return `      <a href="/projects/${p.slug}.html" class="project-card ${p.featured ? 'project-card--featured ' : ''}reveal${delay}" data-category="${escapeAttr(p.category || '')}" style="text-decoration:none;color:inherit;">
+        <div class="project-card__image"><div class="project-card__image-inner cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};font-size:3rem;display:flex;align-items:center;justify-content:center;">${p.emoji || '🚀'}</div></div>
+        <div class="project-card__body">
+          <div class="project-card__meta"><span class="project-card__category">${escapeHTML(p.categoryLabel || p.category || '')}</span><span class="project-card__year">${escapeHTML(String(p.year || ''))}</span></div>
+          <h2 class="project-card__title">${escapeHTML(p.title)}</h2>
+          <p class="project-card__desc">${escapeHTML(p.description || '')}</p>
+          <p class="project-card__desc" style="font-size:var(--text-sm);color:var(--clr-text-muted);margin-top:var(--space-2);">Role: ${escapeHTML(p.role || '')} · Team: ${escapeHTML(p.teamSize || 'Cross-functional')}</p>
+          <div class="project-card__footer">
+            <div class="project-card__tags">${(p.tags || []).slice(0, 3).map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join('')}</div>
+            <span class="project-card__link" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h12M9 3l5 5-5 5"/></svg></span>
+          </div>
+        </div>
+      </a>`;
+}
+
+// ----------------------------------------------------------------------------
 // Listing card fragments
 // ----------------------------------------------------------------------------
 // URL for a post's card / sitemap entry. Custom articles are hand-authored
@@ -294,11 +458,24 @@ if (featured) inject('blog/index.html', 'BLOG_FEATURED', featuredCard(featured))
 inject('blog/index.html', 'BLOG_GRID', rest.map(gridCard).join('\n'));
 
 // ----------------------------------------------------------------------------
+// Project case-study pages + static grid
+// ----------------------------------------------------------------------------
+console.log(`\n▸ Building ${projects.length} case stud${projects.length === 1 ? 'y' : 'ies'}\n`);
+for (let i = 0; i < projects.length; i++) {
+  const p = projects[i];
+  const next = projects[(i + 1) % projects.length];
+  writeFileSync(join(ROOT, 'projects', `${p.slug}.html`), projectPage(p, next.slug === p.slug ? null : next));
+  console.log(`  ✓ projects/${p.slug}.html  "${p.title}"`);
+}
+inject('projects/index.html', 'PROJECTS_GRID', projects.map(projectCard).join('\n'));
+
+// ----------------------------------------------------------------------------
 // Sitemap
 // ----------------------------------------------------------------------------
 const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/cv/index.html', '/cover-letter/index.html'];
 const urls = [
   ...staticUrls.map((u) => ({ loc: BASE + u, priority: u === '/' ? '1.0' : '0.7' })),
+  ...projects.map((p) => ({ loc: `${BASE}/projects/${p.slug}.html`, priority: '0.7' })),
   ...posts.map((p) => ({ loc: BASE + postUrl(p), lastmod: p.date, priority: '0.6' })),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

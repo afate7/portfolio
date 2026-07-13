@@ -6,7 +6,7 @@
 
 // BUILD is auto-stamped by tools/build.mjs on every build so each deploy
 // invalidates stale caches for returning visitors.
-const BUILD         = 'bmrhr0014';
+const BUILD         = 'bmrj4rg3n';
 const CACHE_NAME    = 'portfolio-' + BUILD;
 const STATIC_CACHE  = 'portfolio-static-' + BUILD;
 const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
@@ -16,7 +16,6 @@ const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/blog/index.html',
-  '/blog/post.html',
   '/projects/index.html',
   '/css/main.css',
   '/js/main.js',

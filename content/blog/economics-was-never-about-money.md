@@ -7,7 +7,7 @@ readTime: 10
 excerpt: For years, I dismissed economics as dry charts and abstract formulas. Then one sentence changed everything, and reshaped how I think about every decision I make.
 emoji: 📊
 gradient: "linear-gradient(135deg, #f0f7ff, #dce9ff)"
-featured: true
+featured: false
 draft: false
 ---
 

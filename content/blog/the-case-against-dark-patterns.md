@@ -7,7 +7,7 @@ readTime: 8
 excerpt: We've built an internet that tricks people into subscriptions, manipulates them into sharing data, and punishes them for trying to leave. It's time we talk about why, and what we can do instead.
 emoji: 🎭
 gradient: "linear-gradient(135deg, #f0f4ff, #dde8ff)"
-featured: true
+featured: false
 draft: false
 ---
 
