@@ -14,7 +14,7 @@
  *   node tools/build.mjs
  */
 
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -93,6 +93,13 @@ function fmtLong(d) {
   return new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
+// Cover artwork: real brand logo when the entry has one, emoji otherwise
+function coverInner(p) {
+  return p.logo
+    ? `<img class="brand-logo" src="${escapeAttr(p.logo)}" alt="${escapeAttr(p.title)} logo" loading="lazy" width="112" height="112" />`
+    : (p.emoji || '\u{1F680}');
+}
+
 // ----------------------------------------------------------------------------
 // Load posts
 // ----------------------------------------------------------------------------
@@ -116,6 +123,20 @@ const projects = readdirSync(join(ROOT, 'content', 'projects'))
   })
   .filter((p) => !p.draft)
   .sort((a, b) => (b.year || 0) - (a.year || 0));
+
+// ----------------------------------------------------------------------------
+// Load books
+// ----------------------------------------------------------------------------
+const books = existsSync(join(ROOT, 'content', 'books'))
+  ? readdirSync(join(ROOT, 'content', 'books'))
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => {
+        const { data, content } = parseFrontmatter(readFileSync(join(ROOT, 'content', 'books', f), 'utf8'));
+        return { ...data, content, slug: f.replace(/\.md$/, '') };
+      })
+      .filter((b) => !b.draft)
+      .sort((a, b) => (a.order || 99) - (b.order || 99))
+  : [];
 
 // ----------------------------------------------------------------------------
 // Article page template
@@ -183,7 +204,7 @@ function articlePage(p) {
       <ul class="nav__links" role="list">
         <li><a href="/index.html#about" class="nav__link">About</a></li>
         <li><a href="/projects/index.html" class="nav__link">Projects</a></li>
-        <li><a href="/blog/index.html" class="nav__link active">Writing</a></li>
+        <li><a href="/blog/index.html" class="nav__link active">Writing</a></li>\n        <li><a href="/books/index.html" class="nav__link">Books</a></li>
         <li><a href="/index.html#contact" class="nav__link">Contact</a></li>
       </ul>
       <a href="/index.html#contact" class="nav__cta">Let's Talk</a>
@@ -196,7 +217,7 @@ function articlePage(p) {
   <ul role="list">
     <li><a href="/index.html#about" class="nav__link" data-mobile-link>About</a></li>
     <li><a href="/projects/index.html" class="nav__link" data-mobile-link>Projects</a></li>
-    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>\n    <li><a href="/books/index.html" class="nav__link" data-mobile-link>Books</a></li>
     <li><a href="/index.html#contact" class="nav__link" data-mobile-link>Contact</a></li>
   </ul>
 </div>
@@ -329,7 +350,7 @@ function projectPage(p, next) {
       <ul class="nav__links" role="list">
         <li><a href="/index.html#about" class="nav__link">About</a></li>
         <li><a href="/projects/index.html" class="nav__link active">Projects</a></li>
-        <li><a href="/blog/index.html" class="nav__link">Writing</a></li>
+        <li><a href="/blog/index.html" class="nav__link">Writing</a></li>\n        <li><a href="/books/index.html" class="nav__link">Books</a></li>
         <li><a href="/cv/index.html" class="nav__link">CV</a></li>
         <li><a href="/index.html#contact" class="nav__link">Contact</a></li>
       </ul>
@@ -343,7 +364,7 @@ function projectPage(p, next) {
   <ul role="list">
     <li><a href="/index.html#about" class="nav__link" data-mobile-link>About</a></li>
     <li><a href="/projects/index.html" class="nav__link" data-mobile-link>Projects</a></li>
-    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>\n    <li><a href="/books/index.html" class="nav__link" data-mobile-link>Books</a></li>
     <li><a href="/cv/index.html" class="nav__link" data-mobile-link>CV</a></li>
     <li><a href="/index.html#contact" class="nav__link" data-mobile-link>Contact</a></li>
   </ul>
@@ -363,7 +384,7 @@ function projectPage(p, next) {
   </header>
 
   <div style="max-width: var(--container-md); margin-inline: auto; padding-inline: var(--space-6); margin-bottom: var(--space-12);" class="reveal">
-    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};">${p.emoji || '🚀'}</div>
+    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};">${coverInner(p)}</div>
   </div>
 
   <div class="post-content container">
@@ -391,7 +412,7 @@ function projectPage(p, next) {
 function projectCard(p, i) {
   const delay = i % 3 ? ` reveal-delay-${Math.min(i % 3, 2)}` : '';
   return `      <a href="/projects/${p.slug}.html" class="project-card ${p.featured ? 'project-card--featured ' : ''}reveal${delay}" data-category="${escapeAttr(p.category || '')}" style="text-decoration:none;color:inherit;">
-        <div class="project-card__image"><div class="project-card__image-inner cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};font-size:3rem;display:flex;align-items:center;justify-content:center;">${p.emoji || '🚀'}</div></div>
+        <div class="project-card__image"><div class="project-card__image-inner cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};font-size:3rem;display:flex;align-items:center;justify-content:center;">${coverInner(p)}</div></div>
         <div class="project-card__body">
           <div class="project-card__meta"><span class="project-card__category">${escapeHTML(p.categoryLabel || p.category || '')}</span><span class="project-card__year">${escapeHTML(String(p.year || ''))}</span></div>
           <h2 class="project-card__title">${escapeHTML(p.title)}</h2>
@@ -427,6 +448,150 @@ function featuredCard(p) {
 
 function gridCard(p) {
   return `      <a href="${postUrl(p)}" class="blog-full-card" data-category="${escapeAttr(p.categoryKey || 'product')}"><div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(p.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${p.emoji || '✍️'}</div></div><div class="blog-full-card__body"><span class="blog-full-card__category">${escapeHTML(p.category || '')}</span><h3 class="blog-full-card__title">${escapeHTML(p.title)}</h3><p class="blog-full-card__excerpt">${escapeHTML(p.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(fmtLong(p.date))}</span><span>${escapeHTML(String(p.readTime || ''))} min read</span></div></div></a>`;
+}
+
+// ----------------------------------------------------------------------------
+// Books: shared shell, card, page, index
+// ----------------------------------------------------------------------------
+function bookHead(title, desc, path) {
+  const url = `${BASE}${path}`;
+  return `<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="${escapeAttr(desc)}" />
+  <meta name="theme-color" content="#fafafa" />
+  <meta name="author" content="${escapeAttr(AUTHOR)}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="${escapeAttr(title)}" />
+  <meta property="og:description" content="${escapeAttr(desc)}" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="${OG_IMAGE}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="${url}" />
+  <title>${escapeHTML(title)}</title>
+  <link rel="icon" href="/assets/icons/icon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+  <script src="/js/site.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>`;
+}
+
+function bookNav() {
+  return `<nav class="nav scrolled" id="nav" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/index.html" class="nav__logo">ahmed<span>.</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="/index.html#about" class="nav__link">About</a></li>
+        <li><a href="/projects/index.html" class="nav__link">Projects</a></li>
+        <li><a href="/blog/index.html" class="nav__link">Writing</a></li>
+        <li><a href="/books/index.html" class="nav__link active">Books</a></li>
+        <li><a href="/cv/index.html" class="nav__link">CV</a></li>
+        <li><a href="/index.html#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <a href="/index.html#contact" class="nav__cta">Let's Talk</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="nav__mobile" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <ul role="list">
+    <li><a href="/index.html#about" class="nav__link" data-mobile-link>About</a></li>
+    <li><a href="/projects/index.html" class="nav__link" data-mobile-link>Projects</a></li>
+    <li><a href="/blog/index.html" class="nav__link" data-mobile-link>Writing</a></li>
+    <li><a href="/books/index.html" class="nav__link" data-mobile-link>Books</a></li>
+    <li><a href="/cv/index.html" class="nav__link" data-mobile-link>CV</a></li>
+    <li><a href="/index.html#contact" class="nav__link" data-mobile-link>Contact</a></li>
+  </ul>
+</div>`;
+}
+
+function bookCard(b, i) {
+  const delay = i % 3 ? ` reveal-delay-${Math.min(i % 3, 2)}` : '';
+  return `      <a href="/books/${b.slug}.html" class="blog-full-card reveal${delay}" style="text-decoration:none;">
+        <div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(b.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${b.emoji || '\u{1F4D6}'}</div></div>
+        <div class="blog-full-card__body"><span class="blog-full-card__category">${escapeHTML(b.author || '')}</span><h2 class="blog-full-card__title">${escapeHTML(b.title)}</h2><p class="blog-full-card__excerpt">${escapeHTML(b.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(b.category || '')}</span><span>My notes →</span></div></div>
+      </a>`;
+}
+
+function booksIndexPage(items) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  ${bookHead(`Books · ${AUTHOR}`, `Books that shaped how ${AUTHOR} thinks and builds — with personal notes on each.`, '/books/index.html')}
+</head>
+<body>
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status"><span class="offline-banner__dot"></span>You're offline · browsing cached content</div>
+${bookNav()}
+<main>
+  <header class="projects-page-header" aria-label="Books header">
+    <div class="container">
+      <p class="section-label reveal">Reading</p>
+      <h1 class="section-title reveal reveal-delay-1" style="font-size: clamp(2.25rem, 5vw, 4rem);">Books that<br/>rewired me.</h1>
+      <p class="section-desc reveal reveal-delay-2" style="margin-top: var(--space-4);">
+        Mostly behavioral economics and psychology — the operating system behind
+        every product decision I make. Each entry is my own notes, not a summary.
+      </p>
+    </div>
+  </header>
+  <section style="padding-bottom: var(--space-24);" aria-label="All books">
+    <div class="container container--lg">
+      <div class="blog-grid">
+${items.map(bookCard).join('\n')}
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer" role="contentinfo">
+  <div class="container"><div class="footer__inner"><p class="footer__copy">© 2026 ${escapeHTML(AUTHOR)}. Built with care.</p></div></div>
+</footer>
+<script src="/js/main.js" defer></script>
+</body>
+</html>
+`;
+}
+
+function bookPage(b, next) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  ${bookHead(`${b.title} · My notes · ${AUTHOR}`, b.excerpt || `Reading notes by ${AUTHOR}.`, `/books/${b.slug}.html`)}
+</head>
+<body>
+<div class="offline-banner" id="offlineBanner" aria-live="polite" role="status"><span class="offline-banner__dot"></span>You're offline · browsing cached content</div>
+${bookNav()}
+<main>
+  <header class="post-header" aria-label="Book header">
+    <a href="/books/index.html" class="post-category">← All books</a>
+    <h1 class="post-title reveal">${escapeHTML(b.title)}</h1>
+    <div class="post-meta reveal reveal-delay-1">
+      <span style="font-weight:500;color:var(--clr-text);font-size:var(--text-sm);">${escapeHTML(b.author || '')}</span>
+      <span class="post-divider" aria-hidden="true"></span>
+      <span>${escapeHTML(b.category || '')}</span>
+    </div>
+  </header>
+  <div style="max-width: var(--container-md); margin-inline: auto; padding-inline: var(--space-6); margin-bottom: var(--space-12);" class="reveal">
+    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(b.gradient || 'var(--clr-accent-soft)')};">${b.emoji || '\u{1F4D6}'}</div>
+  </div>
+  <div class="post-content container">
+    <article class="cms-post-body">${markdownToHTML(b.content)}</article>
+    <div style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--clr-border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6);" class="reveal">
+      <a href="/books/index.html" class="btn btn--outline" style="font-size: var(--text-sm);">← All books</a>
+      ${next ? `<a href="/books/${next.slug}.html" class="btn btn--ghost" style="font-size: var(--text-sm);">Next: ${escapeHTML(next.title)} →</a>` : ''}
+    </div>
+  </div>
+</main>
+<footer class="footer" role="contentinfo">
+  <div class="container"><div class="footer__inner"><p class="footer__copy">© 2026 ${escapeHTML(AUTHOR)}. Built with care.</p></div></div>
+</footer>
+<script src="/js/main.js" defer></script>
+</body>
+</html>
+`;
 }
 
 // ----------------------------------------------------------------------------
@@ -472,13 +637,27 @@ for (let i = 0; i < projects.length; i++) {
 inject('projects/index.html', 'PROJECTS_GRID', projects.map(projectCard).join('\n'));
 
 // ----------------------------------------------------------------------------
+// Books pages
+// ----------------------------------------------------------------------------
+if (books.length) {
+  mkdirSync(join(ROOT, 'books'), { recursive: true });
+  for (let i = 0; i < books.length; i++) {
+    const next = books.length > 1 ? books[(i + 1) % books.length] : null;
+    writeFileSync(join(ROOT, 'books', `${books[i].slug}.html`), bookPage(books[i], next));
+  }
+  writeFileSync(join(ROOT, 'books', 'index.html'), booksIndexPage(books));
+  console.log(`  ✓ books/ (${books.length} books + index)`);
+}
+
+// ----------------------------------------------------------------------------
 // Sitemap
 // ----------------------------------------------------------------------------
-const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/cv/index.html', '/cover-letter/index.html'];
+const staticUrls = ['/', '/projects/index.html', '/blog/index.html', '/books/index.html', '/cv/index.html', '/cover-letter/index.html'];
 const urls = [
   ...staticUrls.map((u) => ({ loc: BASE + u, priority: u === '/' ? '1.0' : '0.7' })),
   ...projects.map((p) => ({ loc: `${BASE}/projects/${p.slug}.html`, priority: '0.7' })),
   ...posts.map((p) => ({ loc: BASE + postUrl(p), lastmod: p.date, priority: '0.6' })),
+  ...books.map((b) => ({ loc: `${BASE}/books/${b.slug}.html`, priority: '0.5' })),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -497,5 +676,22 @@ const stamp = 'b' + Date.now().toString(36);
 const swOut = readFileSync(swPath, 'utf8').replace(/const BUILD\s*=\s*'[^']*';/, `const BUILD         = '${stamp}';`);
 writeFileSync(swPath, swOut);
 console.log(`  ✓ sw.js cache version -> ${stamp}`);
+
+// ----------------------------------------------------------------------------
+// Cache-bust first-party css/js so new HTML never pairs with stale cached
+// assets (the SW caches css/js cache-first; a version query forces a miss).
+// ----------------------------------------------------------------------------
+const htmlFiles = [
+  'index.html', 'cv/index.html', 'cover-letter/index.html',
+  ...readdirSync(join(ROOT, 'projects')).filter((f) => f.endsWith('.html')).map((f) => `projects/${f}`),
+  ...readdirSync(join(ROOT, 'blog')).filter((f) => f.endsWith('.html')).map((f) => `blog/${f}`),
+  ...(existsSync(join(ROOT, 'books')) ? readdirSync(join(ROOT, 'books')).filter((f) => f.endsWith('.html')).map((f) => `books/${f}`) : []),
+];
+const assetRe = /((?:\.\.\/|\/)?(?:css\/main\.css|js\/(?:main|cms|map|site)\.js))(?:\?v=[a-z0-9]+)?/g;
+for (const f of htmlFiles) {
+  const fp = join(ROOT, f);
+  writeFileSync(fp, readFileSync(fp, 'utf8').replace(assetRe, `$1?v=${stamp}`));
+}
+console.log(`  ✓ cache-busted css/js urls (?v=${stamp}) across ${htmlFiles.length} pages`);
 
 console.log('\n✅ Build complete.\n');

@@ -6,6 +6,7 @@ categoryLabel: InsurTech
 role: "Senior Product Manager → Research Manager"
 teamSize: "Design & research team"
 description: Led the research and design revamp of Saudi Arabia's leading motor-insurance app. The version live today — rated 4.7★ by 157,000+ users with 1M+ downloads — is the one I shipped.
+logo: /assets/logos/tameeni.png
 emoji: 🛡️
 gradient: "linear-gradient(135deg, #fff7ed, #ffedd5)"
 tags:

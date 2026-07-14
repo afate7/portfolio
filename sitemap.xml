@@ -3,6 +3,7 @@
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/</loc><priority>1.0</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/projects/index.html</loc><priority>0.7</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/index.html</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/index.html</loc><priority>0.7</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/cv/index.html</loc><priority>0.7</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/cover-letter/index.html</loc><priority>0.7</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/projects/geotech-gis.html</loc><priority>0.7</priority></url>
@@ -16,4 +17,11 @@
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/economics-was-never-about-money.html</loc><lastmod>2025-02-10</lastmod><priority>0.6</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/the-case-against-dark-patterns.html</loc><lastmod>2025-01-15</lastmod><priority>0.6</priority></url>
   <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/blog/how-i-approach-every-new-project.html</loc><lastmod>2024-12-10</lastmod><priority>0.6</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/predictably-irrational.html</loc><priority>0.5</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/the-psychology-of-money.html</loc><priority>0.5</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/the-power-of-habit.html</loc><priority>0.5</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/the-upside-of-irrationality.html</loc><priority>0.5</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/the-honest-truth-about-dishonesty.html</loc><priority>0.5</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/dollars-and-sense.html</loc><priority>0.5</priority></url>
+  <url><loc>https://portfolio-three-zeta-9cw6dwpro4.vercel.app/books/payoff.html</loc><priority>0.5</priority></url>
 </urlset>

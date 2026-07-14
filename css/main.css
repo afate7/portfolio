@@ -1821,3 +1821,50 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 10px;
   background: rgba(255, 255, 255, 0.75);
 }
+
+/* ============================================================
+   BRAND LOGO COVERS + MAP PIN HIGHLIGHT
+   ============================================================ */
+
+.cms-post-cover .brand-logo {
+  width: 112px;
+  height: 112px;
+  border-radius: 24px;
+  object-fit: cover;
+  background: #fff;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Pulsing halo makes the four cities read as live, active places */
+.map-pin { position: relative; }
+
+.map-pin::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 2px solid var(--clr-accent);
+  opacity: 0;
+  animation: pinPulse 2.4s var(--ease-out) infinite;
+}
+
+@keyframes pinPulse {
+  0%   { transform: scale(0.4); opacity: 0.9; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* City labels: filled accent pills, unmissable at a glance */
+#mena-map .map-label {
+  background: var(--clr-accent);
+  border: 1px solid var(--clr-accent);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+#mena-map .map-label::before { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .map-pin::after { animation: none; }
+}

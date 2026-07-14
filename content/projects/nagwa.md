@@ -6,6 +6,7 @@ categoryLabel: EdTech
 role: "Product Manager"
 teamSize: "Product, design, engineering & content ops"
 description: Launched Nagwa Classes and Nagwa Readers, two products serving students across the MENA region, while rebuilding the content workflow that powered them with AI-driven automation.
+logo: /assets/logos/nagwa.png
 emoji: 📚
 gradient: "linear-gradient(135deg, #fdf4ff, #f3e8ff)"
 tags:

@@ -6,6 +6,7 @@ categoryLabel: FinTech
 role: "Product Lead"
 teamSize: "Cross-functional (product, design, engineering, compliance)"
 description: Scaled a digital wallet from 5,000 to 100,000+ active users in twelve months by rethinking the entire KYC onboarding flow, rebuilding trust mechanics, and making financial inclusion genuinely accessible.
+logo: /assets/logos/aevapay.png
 emoji: 💳
 gradient: "linear-gradient(135deg, #f0f4ff, #dde8ff)"
 tags:
