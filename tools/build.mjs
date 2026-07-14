@@ -244,7 +244,7 @@ function articlePage(p) {
   </div>
 
   <div class="post-content container">
-    <article class="cms-post-body">${markdownToHTML(p.content)}</article>
+    <article class="cms-post-body">${markdownToHTML(p.content)}</article>${timelineBlock(p)}${chaptersBlock(p)}
     <div style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--clr-border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6);" class="reveal">
       <a href="/blog/index.html" class="btn btn--outline" style="font-size: var(--text-sm);">← More posts</a>
       <a href="/index.html#contact" class="btn btn--primary" style="font-size: var(--text-sm);">Work with me</a>
@@ -271,6 +271,39 @@ function articlePage(p) {
 </body>
 </html>
 `;
+}
+
+// ----------------------------------------------------------------------------
+// Case series: timeline + chapter blocks (flagship multi-article cases)
+// Frontmatter:
+//   timeline:  list of "label | title | text" rows (hub page)
+//   chapters:  list of "slug | title | one-liner" rows (hub page)
+//   series / seriesTitle:  set on chapter pages to link back to the hub
+// ----------------------------------------------------------------------------
+function timelineBlock(p) {
+  if (!Array.isArray(p.timeline) || !p.timeline.length) return '';
+  const items = p.timeline.map((row) => {
+    const [label, title, text] = String(row).split('|').map((x) => x.trim());
+    return `      <div class="case-tl__item reveal"><div class="case-tl__label">${escapeHTML(label || '')}</div><div class="case-tl__title">${escapeHTML(title || '')}</div><p class="case-tl__text">${escapeHTML(text || '')}</p></div>`;
+  }).join('\n');
+  return `
+    <section class="case-tl" aria-label="Project timeline">
+      <h2>The timeline</h2>
+${items}
+    </section>`;
+}
+
+function chaptersBlock(p) {
+  if (!Array.isArray(p.chapters) || !p.chapters.length) return '';
+  const cards = p.chapters.map((row, i) => {
+    const [slug, title, desc] = String(row).split('|').map((x) => x.trim());
+    return `      <a class="case-chapter reveal" href="/projects/${escapeAttr(slug)}.html"><span class="case-chapter__num">0${i + 1}</span><span class="case-chapter__body"><span class="case-chapter__title">${escapeHTML(title || '')}</span><span class="case-chapter__desc">${escapeHTML(desc || '')}</span></span><span class="case-chapter__arrow" aria-hidden="true">→</span></a>`;
+  }).join('\n');
+  return `
+    <section class="case-chapters" aria-label="Deep-dive chapters">
+      <h2>Deep dives</h2>
+${cards}
+    </section>`;
 }
 
 // ----------------------------------------------------------------------------
@@ -372,7 +405,7 @@ function projectPage(p, next) {
 
 <main>
   <header class="post-header" aria-label="Case study header">
-    <a href="/projects/index.html" class="post-category">← Back to Projects</a>
+    <a href="${p.series ? `/projects/${escapeAttr(p.series)}.html` : '/projects/index.html'}" class="post-category">← ${p.series ? escapeHTML(p.seriesTitle || 'Back to the case') : 'Back to Projects'}</a>
     <h1 class="post-title reveal">${escapeHTML(p.title)}</h1>
     <div class="case-meta reveal reveal-delay-1">
       <div class="case-meta__item"><div class="case-meta__label">Category</div><div class="case-meta__value">${escapeHTML(p.categoryLabel || p.category || '')}</div></div>
@@ -388,7 +421,7 @@ function projectPage(p, next) {
   </div>
 
   <div class="post-content container">
-    <article class="cms-post-body">${markdownToHTML(p.content)}</article>
+    <article class="cms-post-body">${markdownToHTML(p.content)}</article>${timelineBlock(p)}${chaptersBlock(p)}
     ${tags ? `<div class="skills-tags" style="margin-top: var(--space-12);">${tags}</div>` : ''}
     <div style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--clr-border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6);" class="reveal">
       <a href="/projects/index.html" class="btn btn--outline" style="font-size: var(--text-sm);">← All projects</a>
