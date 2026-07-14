@@ -1755,3 +1755,69 @@ h1, h2, h3, h4, h5, h6 {
   .accent-underline path { animation: none; stroke-dashoffset: 0; }
   .hero__portrait { transition: none; }
 }
+
+/* ============================================================
+   ORG LINKS STRIP + MENA MAP
+   ============================================================ */
+
+.orgs-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.org-link {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--clr-text);
+  text-decoration: none;
+  opacity: 0.4;
+  transition: opacity var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+
+.org-link:hover,
+.org-link:focus-visible {
+  opacity: 1;
+  color: var(--clr-accent);
+}
+
+/* Leaflet map inside the About card */
+#mena-map { z-index: 0; }
+#mena-map .leaflet-container { font-family: inherit; }
+
+.map-pin {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25), var(--shadow-md);
+}
+
+.map-label {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  color: var(--clr-accent);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  padding: 2px 10px;
+}
+
+.map-label::before { display: none; }
+
+#mena-map .leaflet-popup-content-wrapper {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+}
+
+#mena-map .leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.75);
+}

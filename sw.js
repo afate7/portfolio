@@ -6,7 +6,7 @@
 
 // BUILD is auto-stamped by tools/build.mjs on every build so each deploy
 // invalidates stale caches for returning visitors.
-const BUILD         = 'bmrjtgo6n';
+const BUILD         = 'bmrkcoqy0';
 const CACHE_NAME    = 'portfolio-' + BUILD;
 const STATIC_CACHE  = 'portfolio-static-' + BUILD;
 const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
@@ -71,6 +71,10 @@ self.addEventListener('fetch', (event) => {
 
   // Vercel platform paths (analytics script/beacons) go straight to the network
   if (url.pathname.startsWith('/_vercel/')) return;
+
+  // Map tiles are many and change rarely — let the browser's HTTP cache handle
+  // them instead of filling the SW cache with hundreds of tile images.
+  if (url.hostname.endsWith('cartocdn.com') || url.hostname.endsWith('tile.openstreetmap.org')) return;
 
   // Runtime config must always be fresh: it's edited between deploys (analytics,
   // Substack, intro video) with no rebuild, so returning visitors need the

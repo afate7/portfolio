@@ -143,14 +143,6 @@
             decoding="async"
           />
         </div>
-
-        <div class="hero__badge">
-          <div class="hero__badge-dot"></div>
-          <div>
-            <div class="hero__badge-text">Available for work</div>
-            <div class="hero__badge-sub">Open to new opportunities</div>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -166,12 +158,12 @@
 <section class="section" style="padding-block: var(--space-12); border-top: 1px solid var(--clr-border); border-bottom: 1px solid var(--clr-border);" aria-label="Past collaborations">
   <div class="container">
     <p class="reveal" style="text-align:center; font-size: var(--text-sm); color: var(--clr-text-faint); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: var(--space-8);">Organizations I've worked with</p>
-    <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-12); flex-wrap: wrap; opacity: 0.4;" class="reveal">
-      <span style="font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.03em; color: var(--clr-text);">GeoTech</span>
-      <span style="font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.03em; color: var(--clr-text);">Tameeni</span>
-      <span style="font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.03em; color: var(--clr-text);">AevaPay</span>
-      <span style="font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.03em; color: var(--clr-text);">Nagwa</span>
-      <span style="font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.03em; color: var(--clr-text);">Aanaab</span>
+    <div class="orgs-strip reveal">
+      <a class="org-link" href="https://www.geotech-company.com" target="_blank" rel="noopener noreferrer">GeoTech</a>
+      <a class="org-link" href="https://www.tameeni.com" target="_blank" rel="noopener noreferrer">Tameeni</a>
+      <a class="org-link" href="https://www.takka-pay.com" target="_blank" rel="noopener noreferrer">AevaPay</a>
+      <a class="org-link" href="https://www.nagwa.com" target="_blank" rel="noopener noreferrer">Nagwa</a>
+      <a class="org-link" href="https://www.aanaab.com" target="_blank" rel="noopener noreferrer">Aanaab</a>
     </div>
   </div>
 </section>
@@ -238,7 +230,7 @@
 
       <div class="about__image reveal-right">
         <div class="about__image-main about__globe">
-          <div id="mena-globe" class="globe-canvas" role="img" aria-label="Globe highlighting the four cities I've shipped products from: Cairo, Riyadh, Dubai, and Kuwait City"></div>
+          <div id="mena-map" class="globe-canvas" role="region" aria-label="Map of the four cities I've shipped products from: Cairo, Riyadh, Dubai, and Kuwait City"></div>
           <div class="globe-caption"><span class="globe-caption__dot"></span> Shipping across MENA</div>
         </div>
         <div class="about__image-card">
@@ -471,6 +463,8 @@
 
 <script src="js/main.js" defer></script>
 <script src="js/cms.js" defer></script>
-<script src="js/globe.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous" defer></script>
+<script src="js/map.js" defer></script>
 </body>
 </html>
