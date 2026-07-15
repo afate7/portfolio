@@ -1945,14 +1945,18 @@ h1, h2, h3, h4, h5, h6 {
 .cms-post-body img {
   display: block;
   margin: var(--space-10) auto var(--space-3);
-  max-width: 100%;
+  /* Break out of the text column: artifacts deserve more room than prose */
+  max-width: min(100vw - var(--space-12), 1120px);
   width: auto;
-  max-height: 640px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 85vh;
   object-fit: contain;
   border-radius: var(--radius-lg);
   border: 1px solid var(--clr-border);
   background: #fff;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
 .cms-post-body img + p {

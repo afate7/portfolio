@@ -27,7 +27,7 @@ Research that ends in a findings deck changes nothing. The Define phase existed 
 Each wall followed the same skeleton: the Hotjar and GA evidence at the top, then *problem → our thinking → goal → metric*, then the step's flowchart, then the open questions we owed stakeholders answers to.
 
 ![Per-step problem walls with drop-off rates, flowcharts and open questions](/assets/cases/tameeni/stage-problem-statement.png)
-*The four walls. Every step carries its own drop-off number like a price tag.*
+*The four walls. Every step carries its own drop-off number like a price tag — the small Hotjar cards at each panel top hold the early pulls; the wall figures are the final baseline as the data window extended.*
 
 The numbers, from the Nov 2023 – Feb 2024 window:
 

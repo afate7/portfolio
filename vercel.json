@@ -1,27 +1,67 @@
 {
   "rewrites": [
-    { "source": "/css/theme.css", "destination": "/api/theme" }
+    {
+      "source": "/css/theme.css",
+      "destination": "/api/theme"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options",        "value": "DENY"    },
-        { "key": "X-XSS-Protection",       "value": "1; mode=block" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/css/main.css",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/projects/tameeni-rebrand-research.html",
+      "destination": "/projects/tameeni-rebrand-empathize.html",
+      "permanent": true
+    },
+    {
+      "source": "/projects/tameeni-rebrand-brand.html",
+      "destination": "/projects/tameeni-rebrand-prototype.html",
+      "permanent": true
+    },
+    {
+      "source": "/projects/tameeni-rebrand-flows.html",
+      "destination": "/projects/tameeni-rebrand-prototype.html",
+      "permanent": true
+    },
+    {
+      "source": "/projects/tameeni-rebrand-results.html",
+      "destination": "/projects/tameeni-rebrand-test.html",
+      "permanent": true
     }
   ]
 }

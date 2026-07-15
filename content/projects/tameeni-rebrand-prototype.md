@@ -21,7 +21,7 @@ seriesTitle: "Rebranding Tameeni — The Full Story"
 Everything before this phase was argument; this phase was construction. The process board pinned the sequence in advance — **user flow → information architecture → lo-fi → hi-fi → prototype → usability testing → mockup** — with a sticky note carrying the phase's one law: *"consult with engineers to know the feasibility of the designs."*
 
 ![The prototype stage of the process map](/assets/cases/tameeni/method-prototype.png)
-*The build sequence, drawn before the build. The rule on the sticky saved us twice.*
+*The build sequence, drawn before the build: user flow → IA → lo-fi → hi-fi → prototype → usability testing → mockup.*
 
 ## Step 1 — Information architecture, twice
 
