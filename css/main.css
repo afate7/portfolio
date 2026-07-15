@@ -1940,3 +1940,26 @@ h1, h2, h3, h4, h5, h6 {
 .case-chapter__title { font-weight: 600; }
 .case-chapter__desc { font-size: var(--text-sm); color: var(--clr-text-muted); }
 .case-chapter__arrow { color: var(--clr-accent); font-weight: 600; }
+
+/* Case-study artifacts: framed images with quiet captions */
+.cms-post-body img {
+  display: block;
+  margin: var(--space-10) auto var(--space-3);
+  max-width: 100%;
+  width: auto;
+  max-height: 640px;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--clr-border);
+  background: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.cms-post-body img + p {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--clr-text-faint);
+  max-width: 52ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-10);
+}

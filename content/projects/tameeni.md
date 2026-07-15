@@ -50,3 +50,8 @@ With that foundation in place, I led the design and research team through a reva
 - Research plans and GA4/Hotjar behavioral analysis became standard practice, not a special request
 
 The biggest outcome wasn't a screen. It was an organization that stopped guessing.
+
+
+---
+
+*This is the short version. The full story — the Hotjar walls, the webview autopsy, the wireframes — is told in [Rebranding Tameeni, The Full Story](/projects/tameeni-rebrand.html).*

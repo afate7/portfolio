@@ -21,7 +21,7 @@ highlights:
   - "🏛️ Deployed inside several government entities"
   - "💼 Multi-million-dollar B2G deals"
   - "👥 Team of 20"
-featured: true
+featured: false
 ---
 
 ## Overview

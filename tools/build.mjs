@@ -72,8 +72,8 @@ function markdownToHTML(md) {
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
     .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy" />')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     .replace(/^---$/gm, '<hr />')
     .replace(/\n{2,}/g, '\n\n')
     .split('\n\n')
@@ -661,13 +661,14 @@ inject('blog/index.html', 'BLOG_GRID', rest.map(gridCard).join('\n'));
 // Project case-study pages + static grid
 // ----------------------------------------------------------------------------
 console.log(`\n▸ Building ${projects.length} case stud${projects.length === 1 ? 'y' : 'ies'}\n`);
-for (let i = 0; i < projects.length; i++) {
-  const p = projects[i];
-  const next = projects[(i + 1) % projects.length];
-  writeFileSync(join(ROOT, 'projects', `${p.slug}.html`), projectPage(p, next.slug === p.slug ? null : next));
+for (const p of projects) {
+  const siblings = projects.filter((x) => (x.series || null) === (p.series || null));
+  const i = siblings.findIndex((x) => x.slug === p.slug);
+  const next = siblings.length > 1 ? siblings[(i + 1) % siblings.length] : null;
+  writeFileSync(join(ROOT, 'projects', `${p.slug}.html`), projectPage(p, next));
   console.log(`  ✓ projects/${p.slug}.html  "${p.title}"`);
 }
-inject('projects/index.html', 'PROJECTS_GRID', projects.map(projectCard).join('\n'));
+inject('projects/index.html', 'PROJECTS_GRID', projects.filter((p) => !p.series).map(projectCard).join('\n'));
 
 // ----------------------------------------------------------------------------
 // Books pages
