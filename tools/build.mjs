@@ -283,8 +283,11 @@ function articlePage(p) {
 function timelineBlock(p) {
   if (!Array.isArray(p.timeline) || !p.timeline.length) return '';
   const items = p.timeline.map((row) => {
-    const [label, title, text] = String(row).split('|').map((x) => x.trim());
-    return `      <div class="case-tl__item reveal"><div class="case-tl__label">${escapeHTML(label || '')}</div><div class="case-tl__title">${escapeHTML(title || '')}</div><p class="case-tl__text">${escapeHTML(text || '')}</p></div>`;
+    const [label, title, text, slug] = String(row).split('|').map((x) => x.trim());
+    const heading = slug
+      ? `<a href="/projects/${escapeAttr(slug)}.html" class="case-tl__link">${escapeHTML(title || '')} →</a>`
+      : escapeHTML(title || '');
+    return `      <div class="case-tl__item reveal"><div class="case-tl__label">${escapeHTML(label || '')}</div><div class="case-tl__title">${heading}</div><p class="case-tl__text">${escapeHTML(text || '')}</p></div>`;
   }).join('\n');
   return `
     <section class="case-tl" aria-label="Project timeline">

@@ -4,8 +4,8 @@ year: 2024
 category: insurtech
 categoryLabel: InsurTech · Flagship Case
 role: "Senior Product Manager → Research Manager"
-teamSize: "Design & research team"
-description: Saudi Arabia's leading insurance platform was shipping its website in an app costume — while a new competitor ate its lead. This is the full story of the revamp, from Hotjar recordings to the 4.7★ app live today. A timeline, plus four deep-dive chapters.
+teamSize: "5-person squad (research, design, product)"
+description: A market leader shipping its website in an app costume, a competitor eating its lead, and the research-driven revamp that rebuilt it — told phase by phase through the design-thinking process, with the real boards and the real numbers.
 logo: /assets/logos/tameeni.png
 emoji: 🛡️
 gradient: "linear-gradient(135deg, #fff7ed, #ffedd5)"
@@ -18,30 +18,62 @@ tags:
 draft: false
 featured: true
 timeline:
-  - "May 2023 | Joined Rasan as Senior Product Manager | Saudi market focus: regulatory compliance audits, market research, and new insurance products that diversified the portfolio (+10% revenue)."
-  - "2023 | The wake-up call | A recent competitor was taking ground from the market leader — and the flagship app couldn't fight back, because it wasn't really an app. It was the website in a webview wrapper, footer and all."
-  - "Oct 2023 | Promoted to Research Manager | The mandate: stop arguing from opinions. Build the research practice that would earn the revamp its shape."
-  - "Late 2023 | Reading the bleeding | Google Analytics events and Hotjar recordings on every step of the funnel. Double-digit drop-off at each stage — 15% on the homepage alone. Screen by screen, the data said the same thing: people wanted to buy, and the product was in their way."
-  - "Late 2023 | Knowing the enemy, and the customer | A wall-sized competitor teardown, market sizing, Porter's five forces, and a market survey. Empathy maps, personas, and journey maps for the people actually renewing motor insurance at midnight before a Muroor deadline."
-  - "2024 | Problem statements with numbers attached | Every journey step got its own How-Might-We wall: problem, thinking, goal, metric. If a problem couldn't name the metric it would move, it didn't make the cut."
-  - "2024 | Information architecture → prototyped wireframes | The full app redrawn as a native product: onboarding, Arabic/English, OTP login, a rebuilt quotation journey mapped step by step, quote comparison, add-ons, policies. Prototyped, tested, and walked through with engineers for feasibility."
-  - "2024 | Design system & new identity | A moodboard-driven visual direction and a component design system — the brand finally built for the product, not borrowed from the website."
-  - "2024 | The version live today | Native app shipped. Rated 4.7★ by 157,000+ users, 1M+ downloads on Google Play."
+  - "Oct 2023 | The mandate | Promoted to Research Manager with one instruction that mattered: stop arguing from opinions. The revamp would be earned with evidence or not at all."
+  - "Nov 2023 | Instrumentation begins | GA event framework and Hotjar recordings switched on across the entire funnel. Data window: November 2023 to February 2024."
+  - "Jan 2024 | The squad forms | Five people, two fixed weekly meetings, one Phase-1 plan on the wall: eight weeks from kickoff to problem statement."
+  - "Jan–Feb 2024 | Phase 1 · Empathize | Who actually buys insurance at Tameeni, and what do their sessions look like? Demographics, funnels, session recordings, and three personas drawn from real traffic. | tameeni-rebrand-empathize"
+  - "Feb 2024 | Phase 2 · Define | Every journey step gets a problem statement with its own drop-off number attached. Quote List loses 21.7% of users; Payment loses 20.2%. The problems get weighted, not just listed. | tameeni-rebrand-define"
+  - "Feb–Mar 2024 | Phase 3 · Ideate | Four local competitors torn down journey by journey, five international aggregators benchmarked, and an opportunity workshop where findings became solution principles. | tameeni-rebrand-ideate"
+  - "Mar 2024 | Phase 4 · Prototype | Information architecture (two variants argued to a decision), prototyped wireframes for every screen, a moodboard-driven identity, and engineering feasibility checks before high fidelity. | tameeni-rebrand-prototype"
+  - "2024 | Phase 5 · Test & Ship | Usability sessions on the prototypes, an A/B discipline for the arguable calls, and the native app that replaced the webview. | tameeni-rebrand-test"
+  - "Jul 2026 | Where it stands today | The app holds 4.7★ from 157,000+ ratings with 1M+ Google Play downloads — verified on the store listing, not remembered from a deck."
 chapters:
-  - "tameeni-rebrand-research | Reading the bleeding | GA events, Hotjar recordings, a competitor teardown, and the market lens — how we replaced opinions with evidence."
-  - "tameeni-rebrand-brand | The webview problem | The old app had the website's footer on its home screen. The audit of everything that had to go — and the moodboard for what came next."
-  - "tameeni-rebrand-flows | Rebuilding the journey | HMW walls with metrics attached, information architecture, and the prototyped wireframes of every screen."
-  - "tameeni-rebrand-results | What shipped | The native app, the numbers, and what this project taught me about earning a revamp instead of demanding one."
+  - "tameeni-rebrand-empathize | Phase 1 · Empathize | GA archaeology, Hotjar sessions, and the three personas the traffic actually contained — including a 31-minute recording of one person trying to buy mandatory insurance."
+  - "tameeni-rebrand-define | Phase 2 · Define | Problem statements with drop-off numbers attached, step by step: Homepage 13%, Basic Data 11.1%, Quote List 21.7%, Payment 20.2%."
+  - "tameeni-rebrand-ideate | Phase 3 · Ideate | Shory, Bcare, Thiqa, Eltizam torn down journey by journey; five international aggregators benchmarked; findings turned into solution principles with stakeholders and engineers in the room."
+  - "tameeni-rebrand-prototype | Phase 4 · Prototype | Two IA variants, wireframes for every screen, the moodboard, the design system — and nothing promoted to high fidelity without an engineering yes."
+  - "tameeni-rebrand-test | Phase 5 · Test & Ship | Usability sessions, the ship, the store standing today, and what this project taught me about earning a revamp."
 ---
 
-Saudi Arabia's leading car-insurance platform had a secret, and every user with a thumb had already discovered it: the app wasn't an app.
+## The instability
 
-It was the website, wrapped in a Cordova-style webview and shipped to the stores. You could tell without reading a line of code — **the home screen had a footer.** Copyright line, sitemap links, the works, sitting at the bottom of a "native" app like a tag left on a suit. Every scroll stuttered like a browser because it was one.
+By late 2023, Saudi Arabia's pioneer car-insurance aggregator was in a position that looks comfortable from the outside and feels like vertigo from the inside: still the market leader, and **visibly losing ground to a newer competitor** with a genuinely native product.
 
-For years, being first mattered more than being good. Tameeni had pioneered insurance aggregation in the Kingdom, and the market rewarded it with the lead. Then a recent competitor showed up with a real product — and the lead started to shrink. That's the thing about trust built on being the only option: it evaporates the moment there's a second one.
+The uncomfortable truth was on every user's phone. Tameeni's mobile "app" was the website wrapped in a Cordova-style webview — and it confessed as much on its own home screen, where a **website footer** sat at the bottom of the app: copyright line, link columns, the works. The board we opened the project with states the problem in one sentence, and I'll quote it rather than dramatize it:
 
-This is the story of the revamp: how a research practice, built from scratch, earned the argument for rebuilding the product — brand, flows, and all — and how the app rated **4.7★ by 157,000+ users** today came out of it.
+> "Tameeni doesn't have an excellent user experience on mobile. The mobile experience is based on a web app, which comes with its constraints."
 
-The short version is on the timeline below. The long version — the analytics archaeology, the audit of the old app, the wireframe wall, and what shipped — lives in the four chapters underneath it. Start anywhere; they each stand alone.
+Motor insurance is mandatory in Saudi Arabia. Demand was never the question. The question was how much of that guaranteed demand the product itself was turning away — and whether we could prove it, fix it, and rebrand the experience before the competitor made the answer irrelevant.
 
-*A note on the artifacts: the boards you'll see are the real working files — Hotjar walls, HMW frameworks, competitor teardowns — shown at a zoom that respects what's internal while showing the scale of the work.*
+## The team
+
+This wasn't a solo act and I won't present it as one. The revamp squad was five people: a design director, a design lead, a UI/UX designer, a product manager, and me — running research and, with the design lead, the synthesis you're about to read. Two fixed weekly meetings (Tuesdays and Thursdays) kept the cadence; a Phase-1 plan on the wall gave us **eight weeks from kickoff to problem statement**, with named owners per swimlane.
+
+My role, in one line: make the evidence so clear that the redesign decisions would feel inevitable rather than brave.
+
+## Before and after, measured
+
+A researcher's synthesis should survive a hostile reader, so here is the case in numbers — with their dates attached, because numbers without dates are folklore.
+
+**The before** (measured across the Nov 2023 – Feb 2024 data window):
+
+- **Quote List: 21.7% drop-off** — the worst step, at the exact moment of choosing an offer
+- **Payment: 20.2% drop-off** — a fifth of users lost while trying to give us money
+- **Homepage: 13%** and **Basic Data: 11.1%** — a toll booth at every gate
+- A recorded **31-minute session** of one user attempting a single purchase
+- The sidebar — the primary navigation — noticed by **1.44% of users**
+- Quote cards so tall a user **couldn't compare two quotes on one screen**, in a comparison product
+- **57% of traffic on iOS mobile** — served by a webview built for desktop assumptions
+
+![Audit wall of the old Tameeni app, organized by flow](/assets/cases/tameeni/old-app.png)
+*The before, in full: every screen of the old product audited flow by flow. You can spot the website footers even at this zoom.*
+
+**The after** (verified on the Google Play listing, July 2026):
+
+- A native, bilingual app built on its own design system — no webview, no footer
+- **4.7★ from 157,000+ ratings**, **1M+ downloads**, holding that rating two years after ship
+- A research practice that outlived the project: instrumentation, personas, and problem-weighting as standing infrastructure
+
+## How to read this case
+
+The work followed the design-thinking arc — **Empathize → Define → Ideate → Prototype → Test** — and so does this case. Each phase below is its own article: what we did, step by step, and what each step delivered. The timeline gives you the spine; the chapters give you the muscle. Every artifact shown is the real working board, zoomed to respect what's internal while showing the scale of what was done.
