@@ -549,7 +549,7 @@ function bookNav() {
 function bookCard(b, i) {
   const delay = i % 3 ? ` reveal-delay-${Math.min(i % 3, 2)}` : '';
   return `      <a href="/books/${b.slug}.html" class="blog-full-card reveal${delay}" style="text-decoration:none;">
-        <div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(b.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${b.emoji || '\u{1F4D6}'}</div></div>
+        <div class="blog-full-card__image"><div class="cms-post-cover" style="background:${escapeAttr(b.gradient || 'var(--clr-accent-soft)')};display:flex;align-items:center;justify-content:center;font-size:3rem;">${b.cover ? `<img class="book-cover" src="${escapeAttr(b.cover)}" alt="${escapeAttr(b.title)} cover" loading="lazy" />` : (b.emoji || '\u{1F4D6}')}</div></div>
         <div class="blog-full-card__body"><span class="blog-full-card__category">${escapeHTML(b.author || '')}</span><h2 class="blog-full-card__title">${escapeHTML(b.title)}</h2><p class="blog-full-card__excerpt">${escapeHTML(b.excerpt || '')}</p><div class="blog-full-card__footer"><span>${escapeHTML(b.category || '')}</span><span>My notes →</span></div></div>
       </a>`;
 }
@@ -611,7 +611,7 @@ ${bookNav()}
     </div>
   </header>
   <div style="max-width: var(--container-md); margin-inline: auto; padding-inline: var(--space-6); margin-bottom: var(--space-12);" class="reveal">
-    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(b.gradient || 'var(--clr-accent-soft)')};">${b.emoji || '\u{1F4D6}'}</div>
+    <div class="cms-post-cover" style="aspect-ratio:16/7;border-radius:var(--radius-xl);border:1px solid var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:5rem;background:${escapeAttr(b.gradient || 'var(--clr-accent-soft)')};">${b.cover ? `<img class="book-cover book-cover--hero" src="${escapeAttr(b.cover)}" alt="${escapeAttr(b.title)} cover" />` : (b.emoji || '\u{1F4D6}')}</div>
   </div>
   <div class="post-content container">
     <article class="cms-post-body">${markdownToHTML(b.content)}</article>

@@ -2,6 +2,7 @@
 title: Dollars and Sense
 author: Dan Ariely & Jeff Kreisler
 category: Money & Behavior
+cover: /assets/books/dollars-and-sense.jpg
 emoji: 💸
 gradient: "linear-gradient(135deg, #f0f9ff, #d9edfb)"
 excerpt: A field guide to every mental-accounting trick users bring to a payment screen. I read it as product documentation.

@@ -2,6 +2,7 @@
 title: The Power of Habit
 author: Charles Duhigg
 category: Habits & Behavior
+cover: /assets/books/the-power-of-habit.jpg
 emoji: 🔁
 gradient: "linear-gradient(135deg, #fff7ed, #ffe4c7)"
 excerpt: Cue, routine, reward — the loop that runs users, teams, and me. The book that made me design for the second visit, not the first.

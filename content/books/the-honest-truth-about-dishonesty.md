@@ -2,6 +2,7 @@
 title: The Honest Truth About Dishonesty
 author: Dan Ariely
 category: Behavioral Economics
+cover: /assets/books/the-honest-truth-about-dishonesty.jpg
 emoji: 🪞
 gradient: "linear-gradient(135deg, #fef2f2, #fde0e0)"
 excerpt: Everyone cheats a little — just up to the point where they can still feel honest. The book behind my rule against dark patterns.

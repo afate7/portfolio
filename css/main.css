@@ -1970,3 +1970,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .case-tl__link { color: inherit; text-decoration: none; border-bottom: 2px solid var(--clr-accent-soft); transition: border-color var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out); }
 .case-tl__link:hover { color: var(--clr-accent); border-color: var(--clr-accent); }
+
+/* Real book covers on the Books page */
+.book-cover {
+  height: 82%;
+  width: auto;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+}
+
+.book-cover--hero { height: 84%; }

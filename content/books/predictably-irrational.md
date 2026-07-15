@@ -2,6 +2,7 @@
 title: Predictably Irrational
 author: Dan Ariely
 category: Behavioral Economics
+cover: /assets/books/predictably-irrational.jpg
 emoji: 🎭
 gradient: "linear-gradient(135deg, #eef4ff, #dbe6ff)"
 excerpt: The book that explained why users kept doing the "wrong" thing in every product I shipped — they weren't wrong, my assumptions were.

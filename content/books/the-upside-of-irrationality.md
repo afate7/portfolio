@@ -2,6 +2,7 @@
 title: The Upside of Irrationality
 author: Dan Ariely
 category: Behavioral Economics
+cover: /assets/books/the-upside-of-irrationality.jpg
 emoji: 🎢
 gradient: "linear-gradient(135deg, #fdf4ff, #efdcfb)"
 excerpt: The sequel that flipped the lens inward — how the same biases that break users' decisions break mine, especially around effort and ownership.

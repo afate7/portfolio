@@ -62,6 +62,11 @@
       "source": "/projects/tameeni-rebrand-results.html",
       "destination": "/projects/tameeni-rebrand-test.html",
       "permanent": true
+    },
+    {
+      "source": "/projects/tameeni.html",
+      "destination": "/projects/tameeni-rebrand.html",
+      "permanent": true
     }
   ]
 }

@@ -2,6 +2,7 @@
 title: The Psychology of Money
 author: Morgan Housel
 category: Money & Behavior
+cover: /assets/books/the-psychology-of-money.jpg
 emoji: 💰
 gradient: "linear-gradient(135deg, #f0fdf4, #d3f1de)"
 excerpt: Nobody is crazy with money — everyone is reasoning from a different history. Essential reading for anyone building financial products.

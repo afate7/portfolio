@@ -2,6 +2,7 @@
 title: Payoff
 author: Dan Ariely
 category: Motivation
+cover: /assets/books/payoff.jpg
 emoji: 🎯
 gradient: "linear-gradient(135deg, #f7fee7, #e4f5c3)"
 excerpt: A short book with a long shadow — what actually motivates people, and why bonuses keep failing to.
