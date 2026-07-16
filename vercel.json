@@ -44,6 +44,17 @@
   ],
   "redirects": [
     {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "portfolio-three-zeta-9cw6dwpro4.vercel.app"
+        }
+      ],
+      "destination": "https://me.super-cv.me/$1",
+      "permanent": true
+    },
+    {
       "source": "/projects/tameeni-rebrand-research.html",
       "destination": "/projects/tameeni-rebrand-empathize.html",
       "permanent": true
