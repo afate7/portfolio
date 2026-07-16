@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://portfolio-three-zeta-9cw6dwpro4.vercel.app/sitemap.xml
+Sitemap: https://me.super-cv.me/sitemap.xml
