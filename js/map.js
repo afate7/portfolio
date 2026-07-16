@@ -28,11 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // resets blow up to full size)
   map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
-    maxZoom: 12,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-  }).addTo(map);
+  const makeTiles = () => {
+    const style = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark_all' : 'light_all';
+    return L.tileLayer(`https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`, {
+      subdomains: 'abcd',
+      maxZoom: 12,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    }).addTo(map);
+  };
+  let tiles = makeTiles();
+  document.addEventListener('themechange', () => {
+    map.removeLayer(tiles);
+    tiles = makeTiles();
+  });
 
   const pinIcon = L.divIcon({
     className: 'map-pin-wrap',

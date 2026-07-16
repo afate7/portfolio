@@ -1980,3 +1980,105 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .book-cover--hero { height: 84%; }
+
+/* ============================================================
+   DARK THEME — GitHub-dark derived, sibling of the light identity
+   ============================================================ */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --clr-bg:           #0d1117;
+  --clr-bg-alt:       #10161d;
+  --clr-surface:      #161b22;
+  --clr-border:       #30363d;
+  --clr-text:         #e6edf3;
+  --clr-text-muted:   #9198a1;
+  --clr-text-faint:   #6e7681;
+  --clr-accent:       #58a6ff;
+  --clr-accent-hover: #79b8ff;
+  --clr-accent-soft:  rgba(56, 139, 253, 0.15);
+
+  /* Dark UIs separate with borders, not shadows */
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.45);
+  --shadow-lg:  0 12px 40px rgba(0,0,0,0.5);
+  --shadow-xl:  0 24px 80px rgba(0,0,0,0.55);
+}
+
+html[data-theme="dark"] .nav.scrolled {
+  background: rgba(13, 17, 23, 0.88);
+  box-shadow: 0 1px 0 var(--clr-border);
+}
+
+/* The contact section inverts against the page; in dark it goes deepest */
+html[data-theme="dark"] .contact {
+  background: #010409;
+  color: #e6edf3;
+  border-top: 1px solid var(--clr-border);
+}
+
+/* Buttons that used the ink color keep their inverted punch */
+html[data-theme="dark"] .nav__cta,
+html[data-theme="dark"] .btn--primary,
+html[data-theme="dark"] .form-submit {
+  background: #e6edf3;
+  color: #0d1117;
+}
+
+html[data-theme="dark"] .nav__cta:hover,
+html[data-theme="dark"] .btn--primary:hover,
+html[data-theme="dark"] .form-submit:hover {
+  background: var(--clr-accent);
+  color: #0d1117;
+}
+
+html[data-theme="dark"] .about__globe {
+  background: radial-gradient(120% 90% at 50% 18%, #161b22 0%, #10161d 55%, #0d1117 100%);
+}
+
+html[data-theme="dark"] .globe-caption {
+  background: rgba(22, 27, 34, 0.85);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .bg-gradient {
+  background: radial-gradient(circle, rgba(88, 166, 255, 0.07) 0%, transparent 70%);
+}
+
+html[data-theme="dark"] #mena-map .leaflet-control-attribution {
+  background: rgba(22, 27, 34, 0.8);
+  color: var(--clr-text-faint);
+}
+
+html[data-theme="dark"] #mena-map .leaflet-control-zoom a {
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+
+/* Artifact frames stay white in both themes — the boards were drawn on white */
+
+/* Theme toggle button (injected into the nav by main.js) */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+  color: var(--clr-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: var(--space-3);
+  transition: color var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+
+.theme-toggle:hover { color: var(--clr-accent); border-color: var(--clr-accent); transform: translateY(-1px); }
+.theme-toggle svg { width: 16px; height: 16px; }
+
+/* Gentle cross-fade when switching */
+body, .nav.scrolled, .contact, .footer {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}

@@ -452,3 +452,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   els.forEach((el) => io.observe(el));
 });
+
+// ============================================================
+// 15. THEME TOGGLE: GitHub-style dark mode, injected into the nav
+//     (the html[data-theme] attribute is set pre-paint by an inline
+//      head snippet; this adds the control and persistence)
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const inner = document.querySelector('.nav__inner');
+  if (!inner) return;
+
+  const SUN = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3.2"/><path d="M8 1v1.8M8 13.2V15M15 8h-1.8M2.8 8H1M12.95 3.05l-1.27 1.27M4.32 11.68l-1.27 1.27M12.95 12.95l-1.27-1.27M4.32 4.32L3.05 3.05"/></svg>';
+  const MOON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7z"/></svg>';
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'theme-toggle';
+
+  const apply = () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    btn.innerHTML = dark ? SUN : MOON;
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#0d1117' : '#fafafa');
+  };
+
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    apply();
+    document.dispatchEvent(new CustomEvent('themechange'));
+  });
+
+  const anchor = inner.querySelector('.nav__cta') || inner.querySelector('.nav__hamburger');
+  inner.insertBefore(btn, anchor);
+  apply();
+});
