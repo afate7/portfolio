@@ -3,7 +3,7 @@ title: "Phase 5 · Test & Ship"
 year: 2024
 category: insurtech
 categoryLabel: "Tameeni Rebrand · Phase 5"
-role: "Senior Product Manager → Research Manager"
+role: "Product Development Manager → Research Manager"
 teamSize: "5-person squad"
 description: Usability sessions on the prototypes, an A/B discipline for the arguable calls, the native app that replaced the webview — and where it stands on the store today.
 emoji: 🏁

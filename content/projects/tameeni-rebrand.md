@@ -3,7 +3,7 @@ title: Rebranding Tameeni, The Full Story
 year: 2024
 category: insurtech
 categoryLabel: InsurTech · Flagship Case
-role: "Senior Product Manager → Research Manager"
+role: "Product Development Manager → Research Manager"
 teamSize: "5-person squad (research, design, product)"
 description: A market leader shipping its website in an app costume, a competitor eating its lead, and the research-driven revamp that rebuilt it — told phase by phase through the design-thinking process, with the real boards and the real numbers.
 logo: /assets/logos/tameeni.png
