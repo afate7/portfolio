@@ -3,7 +3,7 @@ title: GeoTech, Geospatial Decision Support for Government
 year: 2026
 category: govtech
 categoryLabel: GovTech · GIS
-role: "Director of Solutions"
+role: "Lead Product Manager"
 teamSize: "20 (product, design, engineering, QC, research)"
 description: Leading product for a geospatial decision-support system that puts spatial analysis in the hands of non-technical government staff, turning work that once required GIS specialists into something a planner can do directly. The work has driven multi-million-dollar deals with municipalities and government institutions.
 emoji: 🗺️

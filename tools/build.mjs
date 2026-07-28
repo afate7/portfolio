@@ -21,7 +21,7 @@ import { dirname, join } from 'node:path';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const cfg = JSON.parse(readFileSync(join(ROOT, 'site.config.json'), 'utf8'));
 const BASE = (cfg.baseUrl || '').replace(/\/+$/, '');
-const AUTHOR = cfg.author || 'Ahmed Alfateh';
+const AUTHOR = cfg.author || 'Ahmed Elfateh';
 const OG_IMAGE = BASE + '/assets/og.png';
 
 // ----------------------------------------------------------------------------

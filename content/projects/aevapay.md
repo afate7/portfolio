@@ -26,7 +26,7 @@ featured: false
 
 ## The Problem
 
-When I joined AevaPay (now Tekka Pay) as Product Lead, I owned strategy and roadmaps across card acceptance, POS, ride-hailing, and the wallet itself. The product worked. The wallet processed transactions, the KYC flow ran, and the engineering was solid. But the user base was stuck at around 5,000 active accounts, not because people didn't need a digital wallet, but because the experience of getting one was exhausting.
+When I joined AevaPay as Product Lead, I owned strategy and roadmaps across card acceptance, POS, ride-hailing, and the wallet itself. The product worked. The wallet processed transactions, the KYC flow ran, and the engineering was solid. But the user base was stuck at around 5,000 active accounts, not because people didn't need a digital wallet, but because the experience of getting one was exhausting.
 
 The onboarding process asked too much, too early. Users hit friction at every step. Most people who started KYC never finished it. People who did complete onboarding often never made their first transaction.
 

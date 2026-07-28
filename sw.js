@@ -6,7 +6,7 @@
 
 // BUILD is auto-stamped by tools/build.mjs on every build so each deploy
 // invalidates stale caches for returning visitors.
-const BUILD         = 'bms4fs4rq';
+const BUILD         = 'bms4ic9uc';
 const CACHE_NAME    = 'portfolio-' + BUILD;
 const STATIC_CACHE  = 'portfolio-static-' + BUILD;
 const DYNAMIC_CACHE = 'portfolio-dynamic-' + BUILD;
@@ -204,7 +204,7 @@ function offlinePage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Offline · Ahmed Alfateh</title>
+  <title>Offline · Ahmed Elfateh</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {

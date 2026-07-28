@@ -1,6 +1,6 @@
 # Publishing & Operations Guide
 
-Ahmed Alfateh — personal portfolio. Static site, **no CMS, no build step to babysit**,
+Ahmed Elfateh — personal portfolio. Static site, **no CMS, no build step to babysit**,
 hosted on **Vercel**. You write, you commit, it deploys.
 
 ---
